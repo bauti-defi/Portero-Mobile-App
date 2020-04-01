@@ -4,7 +4,7 @@ import { Input, Text, Button, Divider } from 'react-native-elements';
 import React from 'react';
 
 
-function LoginScreen(){
+function LoginScreen({navigation}){
 
     return (
         <View>
@@ -20,6 +20,7 @@ function LoginScreen(){
           />
           <Input
           placeholder=' Contrasena'
+          secureTextEntry={true}
           leftIcon={
             <Icon
               name='lock'
@@ -35,6 +36,7 @@ function LoginScreen(){
           <Button
           title='Registrar'
           type='clear'
+          onPress={() => navigation.navigate('register')}
           />
         </View>
     );
