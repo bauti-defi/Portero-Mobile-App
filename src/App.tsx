@@ -1,21 +1,11 @@
+import 'react-native-gesture-handler';
 import React from 'react';
-import {
-  SafeAreaView,
-} from 'react-native';
-import LoginScreen from './login.screen';
-import AppHeader from './header';
+import AppNavigator from './navigator';
 
-
-declare var global: {HermesInternal: null | {}};
 
 const App = () => {
   return (
-    <>
-      <SafeAreaView>
-        <AppHeader/>
-        <LoginScreen/>
-      </SafeAreaView>
-    </>
+      <AppNavigator/>
   );
 };
 
