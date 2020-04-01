@@ -10,7 +10,7 @@ const Stack = createStackNavigator();
 function RegistrtionScreen(){
 
     return (
-        <Stack.Navigator initialRouteName='name'>
+        <Stack.Navigator initialRouteName='name' screenOptions={{headerLeft: null}}>
             <Stack.Screen name='name' component={NameInput} options={{title:'Nombre'}}/>
             <Stack.Screen name='dni' component={DocumentationInput} options={{title:'Documentacion'}}/>
             <Stack.Screen name='account' component={EmailInput} options={{title: 'Cuenta'}} />
