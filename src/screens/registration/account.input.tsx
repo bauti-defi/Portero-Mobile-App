@@ -34,7 +34,7 @@ function AccountInput({route, navigation}){
                 ...payload,
                 email, 
                 password,
-                device_id: DeviceInfo.getDeviceId()
+                device_id: DeviceInfo.getMacAddressSync()+DeviceInfo.getUniqueId()
             }
             delete body.user_type
             console.log(`http://192.168.0.88:3500/${payload.user_type}/register`)
