@@ -3,6 +3,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input, Text, Button, Divider } from 'react-native-elements';
 import React from 'react';
 
+const axios = require('axios').default;
 
 function LoginScreen({navigation}){
 

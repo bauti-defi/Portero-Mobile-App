@@ -3,7 +3,6 @@ import React, {useState} from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input, Text, Button, Divider } from 'react-native-elements'
 import {Validator} from "class-validator";
-import DeviceInfo from 'react-native-device-info';
  
 
 const validator = new Validator();
@@ -33,11 +32,9 @@ function AccountInput({route, navigation}){
             let body = {
                 ...payload,
                 email, 
-                password,
-                device_id: DeviceInfo.getMacAddressSync()+DeviceInfo.getUniqueId()
+                password
             }
             delete body.user_type
-            console.log(`http://192.168.0.88:3500/${payload.user_type}/register`)
             axios({
                 method: 'post',
                 url: `http://192.168.0.88:3500/${payload.user_type}/register`,
