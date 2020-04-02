@@ -3,8 +3,12 @@ import React, {useState} from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Input, Text, Button, Divider } from 'react-native-elements'
 import {Validator} from "class-validator";
+import DeviceInfo from 'react-native-device-info';
+ 
 
 const validator = new Validator();
+
+const axios = require('axios').default;
 
 function AccountInput({route, navigation}){
 
@@ -15,8 +19,10 @@ function AccountInput({route, navigation}){
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
     const [passwordMessage, setPasswordMessage] = useState('')
+    const [isLoading, setLoading] = useState(false)
      
     function next(){
+        setLoading(true)
         if(!validator.isEmail(email)){
             setEmailMessage('Email Invalido')
         }else if(validator.isEmpty(password)){
@@ -24,12 +30,21 @@ function AccountInput({route, navigation}){
         }else if(password !== confirmPassword){
             setPasswordMessage('Contrasenas distintas')
         }else{
-            navigation.navigate('login', {payload: {
+            let body = {
                 ...payload,
                 email, 
-                password
-            }})
+                password,
+                device_id: DeviceInfo.getDeviceId()
+            }
+            delete body.user_type
+            console.log(`http://192.168.0.88:3500/${payload.user_type}/register`)
+            axios({
+                method: 'post',
+                url: `http://192.168.0.88:3500/${payload.user_type}/register`,
+                data: body
+            }).then(response => navigation.navigate('login'))
         }
+        setLoading(false)
     }
 
     return (
@@ -75,6 +90,7 @@ function AccountInput({route, navigation}){
             type='outline'
             title='Registrar'
             onPress={next}
+            loading={isLoading}
             />
         </View>
     );

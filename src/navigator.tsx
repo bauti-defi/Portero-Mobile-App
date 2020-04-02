@@ -10,7 +10,7 @@ const Stack = createStackNavigator();
 function AppNavigator() {
     return (
         <NavigationContainer>
-            <Stack.Navigator initialRouteName="login" style={styles.container}>
+            <Stack.Navigator initialRouteName="login">
                 <Stack.Screen
                     name="login"
                     component={LoginScreen}
@@ -36,12 +36,11 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     title: {
-        marginTop: 1
+        marginTop: 1,
         paddingVertical: 8,
         borderWidth: 4,
         borderColor: '#20232a',
         borderRadius: 6,
-        backgroundColor: '',
         color: '#20232a',
         textAlign: 'center',
         fontSize: 30,
