@@ -19,7 +19,7 @@ function LoginScreen({navigation}){
       }else{
         axios({
           method: 'post',
-          url: `http://192.168.0.88:3500/propietario/login`,
+          url: `http://192.168.0.88:3500/auth/login`,
           data: {email, password}
         })
       }
