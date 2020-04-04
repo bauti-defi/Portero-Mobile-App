@@ -1,9 +1,11 @@
-import {createStore, combineReducers} from 'redux'
-import rootReducer from './root.reducer'
-import { TypedUseSelectorHook, useSelector } from 'react-redux'
+import {createStore, combineReducers, Reducer} from 'redux'
+import useReducer from './user.reducer'
 
-const reducers = combineReducers({
-    rootReducer
+
+const rootReducer = combineReducers({
+    user: useReducer
 })
 
-export const store = createStore(reducers)
+export type RootState = ReturnType<typeof rootReducer>
+
+export const store = createStore(rootReducer)
