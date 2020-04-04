@@ -7,10 +7,6 @@ import RNPickerSelect from 'react-native-picker-select';
 
 const validator = new Validator();
 
-function userTypeText(){
-    return <Text> Seleccione el tipo de usuario </Text>
-}
-
 function NameInput({navigation}){
 
     const [first_name, setFirstName] = useState('')
@@ -24,7 +20,7 @@ function NameInput({navigation}){
             setFirstNameMessage('Nombre Vacio')
         }else if(validator.isEmpty(last_name)){
             setLastNameMessage('Apellido Vacio')
-        } else if (!validator.isNumber(user_type)){
+        } else if (validator.isEmpty(user_type)){
         }else{
             navigation.navigate('dni', {payload:{
                 first_name,
@@ -38,36 +34,38 @@ function NameInput({navigation}){
 
         <View>
             <Input 
-            placeholder=' Nombre Completo'
-            onChangeText={setFirstName}
-            errorMessage={firstNameMessage}
+                placeholder=' Nombre Completo'
+                onChangeText={setFirstName}
+                errorMessage={firstNameMessage}
             />
             <Input 
-            placeholder=' Apellido'
-            onChangeText={setLastName}
-            errorMessage={lastNameMessage}
+                placeholder=' Apellido'
+                onChangeText={setLastName}
+                errorMessage={lastNameMessage}
             />
             <RNPickerSelect 
-            useNativeAndroidPickerStyle = {true}
-            onValueChange = {setUserType}
-            items={[
-                { label: 'Propietario', value: 1},
-                { label: 'Trabajador', value: 2 },
-            ]}
-            placeholder= {
-                {label: "Ingrese el tipo de usuario"}
-            }
-        />
-            <Button 
-            type='outline'
-            icon={
-                <Icon
-                name='arrow-right'
-                size={24}
-                color='black'
+                useNativeAndroidPickerStyle = {true}
+                onValueChange = {setUserType}
+                items={[
+                    { label: 'Propietario', value: 'propietario'},
+                    { label: 'Trabajador', value: 'trabajador' },
+                ]}
+                placeholder= {
+                    {
+                        label: "Ingrese el tipo de usuario"
+                    }
+                }
             />
-            }
-            onPress={next}
+            <Button 
+                type='outline'
+                icon={
+                    <Icon
+                    name='arrow-right'
+                    size={24}
+                    color='black'
+                />
+                }
+                onPress={next}
             />
         </View>
     );

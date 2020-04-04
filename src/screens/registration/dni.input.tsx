@@ -11,8 +11,8 @@ function DocumentationInput({route, navigation}){
 
     const {payload} = route.params
 
-    const [doc, setDoc] = useState('')
-    const [docType, setDocType] = useState()
+    const [doc_id, setDoc] = useState('')
+    const [doc_type, setDocType] = useState()
     const [selectedItems, setSelectedItems] = useState([])
     const [message, setMessage] = useState('')
 
@@ -24,13 +24,13 @@ function DocumentationInput({route, navigation}){
     }
 
     function next(){
-        if(validator.isEmpty(doc) || !validator.isDefined(docType)){
+        if(validator.isEmpty(doc_id) || !validator.isDefined(doc_type)){
             setMessage('Documento Vacio')
         }else{
             navigation.navigate('account', {payload: {
                 ...payload,
-                doc,
-                docType
+                doc_id,
+                doc_type
             }})
         }
     }
