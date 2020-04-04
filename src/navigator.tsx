@@ -9,15 +9,14 @@ import HomeScreen from './screens/home.screen';
 import { getToken, hasToken } from './jwt.service';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { Action } from './storage/dispatch.actions';
-import {createSelector} from 'reselect'
-import { useRootSelector } from './storage/root.reducer';
+import { useUserSelector } from './storage/user.reducer';
 
 const Stack = createStackNavigator();
 
 function AppNavigator() {
 
     const [loading, setLoading] = useState(true)
-    const token = useRootSelector(state => state.rootReducer.token)
+    const token = useUserSelector(state => state.user.token)
     const dispatch = useDispatch()
 
     useEffect(() =>  {
@@ -34,7 +33,6 @@ function AppNavigator() {
   }
 
   const initialRoute = token ? 'home': 'login'
-  console.log(token)
 
     return (
         <NavigationContainer>

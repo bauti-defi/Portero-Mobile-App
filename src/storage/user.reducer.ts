@@ -1,19 +1,20 @@
 import { Reducer} from "redux";
 import { Action } from "./dispatch.actions";
 import { TypedUseSelectorHook, useSelector } from "react-redux";
+import { RootState } from "./app.store";
 
 
-interface RootState{
+export interface UserState{
     token: string;
 }
 
-const initialState:RootState = {
+const initialState:UserState = {
     token: null
 }
 
-export const useRootSelector: TypedUseSelectorHook<RootState> = useSelector
+export const useUserSelector: TypedUseSelectorHook<RootState & UserState> = useSelector
 
-const rootReducer:Reducer = (state = initialState, action) => {
+const userReducer:Reducer = (state = initialState, action) => {
     switch(action.type){
         case Action.STORE_TOKEN: 
             return {...state, token: action.token};
@@ -24,4 +25,4 @@ const rootReducer:Reducer = (state = initialState, action) => {
     }
 }
 
-export default rootReducer;
+export default userReducer;
