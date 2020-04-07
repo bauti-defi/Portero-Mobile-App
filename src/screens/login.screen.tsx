@@ -28,9 +28,9 @@ function LoginScreen({navigation}){
           data: {email, password}
         })
         .then(response => response.data)
-        .then(token => {
-          dispatch({type: Action.STORE_TOKEN, token})
-          saveToken(token)
+        .then(cookie => {
+          dispatch({type: Action.STORE_COOKIE, cookie})
+          saveToken(cookie.token)
         })
       }
     }
@@ -40,6 +40,7 @@ function LoginScreen({navigation}){
           <Input
           placeholder=' Email'
           onChangeText={setEmail}
+          autoCapitalize='none'
           leftIcon={
             <Icon
               name='envelope'
@@ -50,6 +51,7 @@ function LoginScreen({navigation}){
           />
           <Input
           placeholder=' Contrasena'
+          autoCapitalize='none'
           secureTextEntry={true}
           onChangeText={setPassword}
           errorMessage={message}

@@ -16,7 +16,7 @@ function DocumentationInput({route, navigation}){
     const [selectedItems, setSelectedItems] = useState([])
     const [message, setMessage] = useState('')
 
-    function selectionChange(selection:[]){
+    function selectionChange(selection:any[]){
         if(!!selection){ //is defined
             setSelectedItems(selection)
             setDocType(selection[0])
@@ -49,6 +49,7 @@ function DocumentationInput({route, navigation}){
             />
             <Input 
             placeholder=' Numero de Documento'
+            autoCapitalize='none'
             onChangeText={setDoc}
             disabled={selectedItems.length==0}
             errorMessage={message}

@@ -22,7 +22,7 @@ function AppNavigator() {
     useEffect(() =>  {
         getToken().then(response => {
             if(response){
-                dispatch({type: Action.STORE_TOKEN, token: response.password})
+                dispatch({type: Action.STORE_TOKEN, token: response})
             }
         })
         setLoading(false)

@@ -48,6 +48,7 @@ function AccountInput({route, navigation}){
         <View>
             <Input
             placeholder=' Email'
+            autoCapitalize='none'
             onChangeText={setEmail}
             errorMessage={emailMessage}
             leftIcon={
@@ -60,6 +61,7 @@ function AccountInput({route, navigation}){
           />
           <Input
             placeholder=' Contrasena'
+            autoCapitalize='none'
             onChangeText={setPassword}
             secureTextEntry={true}
             leftIcon={
@@ -72,6 +74,7 @@ function AccountInput({route, navigation}){
           />
           <Input
             placeholder=' Repetir Contrasena'
+            autoCapitalize='none'
             secureTextEntry={true}
             onChangeText={setConfirmPassword}
             errorMessage={passwordMessage}

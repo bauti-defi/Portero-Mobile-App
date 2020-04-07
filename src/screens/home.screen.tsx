@@ -13,7 +13,7 @@ function HomeScreen({navigation}){
 
     async function logOut(){
         await deleteToken()
-        dispatch({type: Action.DELETE_TOKEN})
+        dispatch({type: Action.DELETE_COOKIE})
     }
     
 

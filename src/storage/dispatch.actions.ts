@@ -1,4 +1,5 @@
 export enum Action{
-    STORE_TOKEN,
-    DELETE_TOKEN
+    STORE_COOKIE,
+    DELETE_COOKIE,
+    STORE_TOKEN
 }

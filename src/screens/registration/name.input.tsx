@@ -35,11 +35,13 @@ function NameInput({navigation}){
         <View>
             <Input 
                 placeholder=' Nombre Completo'
+                autoCapitalize='words'
                 onChangeText={setFirstName}
                 errorMessage={firstNameMessage}
             />
             <Input 
                 placeholder=' Apellido'
+                autoCapitalize='words'
                 onChangeText={setLastName}
                 errorMessage={lastNameMessage}
             />
