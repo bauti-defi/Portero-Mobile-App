@@ -1,8 +1,18 @@
 import React from 'react';
+import {RNCamera} from 'react-native-camera';
+import {Button} from 'react-native-elements';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 
-function QRScannerScreen() {
-  return <QRCodeScanner onRead={onRead} />;
+function QRScannerScreen({navigation}) {
+  return (
+    <QRCodeScanner
+      onRead={onRead}
+      flashMode={RNCamera.Constants.FlashMode.torch}
+      bottomContent={
+        <Button type="clear" title="Cerrar" onPress={navigation.goBack} />
+      }
+    />
+  );
 }
 
 const onRead = (event) => {
