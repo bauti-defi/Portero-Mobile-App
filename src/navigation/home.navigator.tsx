@@ -1,26 +1,25 @@
-import React, {useEffect} from 'react';
-import {deleteToken} from '.././jwt.service';
-import {useDispatch} from 'react-redux';
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
-  DrawerItemList,
   DrawerItem,
+  DrawerItemList,
 } from '@react-navigation/drawer';
+import React from 'react';
+import {useDispatch} from 'react-redux';
+import {deleteToken} from '.././jwt.service';
+import InviteNavigator from '../screens/invite.screen';
+import LotesNavigator from '../screens/lotes.screen';
 import {Action} from '../storage/dispatch.actions';
-import MisLotesScreen from '../screens/mis.lotes.screen';
-import HomeScreen from '../screens/home.screen';
 
 const Drawer = createDrawerNavigator();
 
-function HomeNavigator({navigation}) {
+function HomeNavigator() {
   return (
-    <Drawer.Navigator 
+    <Drawer.Navigator
       drawerContent={(props) => <DrawerContent {...props} />}
-      initialRouteName="home"
-      >
-      <Drawer.Screen name="Home" component={HomeScreen} />
-      <Drawer.Screen name="Mis Lotes" component={MisLotesScreen} />
+      initialRouteName="Invitaciones">
+      <Drawer.Screen name="Invitaciones" component={InviteNavigator} />
+      <Drawer.Screen name="Lotes" component={LotesNavigator} />
     </Drawer.Navigator>
   );
 }
@@ -36,7 +35,7 @@ function DrawerContent(props) {
   return (
     <DrawerContentScrollView {...props}>
       <DrawerItemList {...props} />
-      <DrawerItem label="Salir" onPress={logOut} />
+      <DrawerItem label="Salir" inactiveTintColor="red" onPress={logOut} />
     </DrawerContentScrollView>
   );
 }
