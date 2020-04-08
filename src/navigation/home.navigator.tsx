@@ -1,13 +1,28 @@
 import React, { useEffect } from 'react';
 import { deleteToken } from '.././jwt.service';
 import { useDispatch } from 'react-redux';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem } from '@react-navigation/drawer';
 import { Action } from '../storage/dispatch.actions'
 import InviteScreen from '../screens/invite.screen';
 
 const Drawer = createDrawerNavigator();
 
 function HomeNavigator({navigation}){
+
+    
+
+    return (
+        <Drawer.Navigator 
+        drawerContent={props => <DrawerContent {...props}/>}
+        initialRouteName='invitation'
+        >
+            <Drawer.Screen name='invitation' component={InviteScreen} />
+        </Drawer.Navigator>
+    );
+}
+
+
+function DrawerContent(props){
 
     const dispatch = useDispatch()
 
@@ -18,9 +33,13 @@ function HomeNavigator({navigation}){
     
 
     return (
-        <Drawer.Navigator initialRouteName='invitation'>
-            <Drawer.Screen name='invitation' component={InviteScreen} />
-        </Drawer.Navigator>
+        <DrawerContentScrollView {...props}>
+            <DrawerItemList {...props} />
+            <DrawerItem 
+            label='Salir'
+            onPress={logOut}
+            />
+        </DrawerContentScrollView>
     );
 }
 
