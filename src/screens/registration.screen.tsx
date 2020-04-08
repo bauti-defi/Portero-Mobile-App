@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
-import NameInput from '../components/name.input';
-import DocumentationInput from '../components/dni.input';
+import React from 'react';
 import AccountInput from '../components/account.input';
+import DocumentationInput from '../components/dni.input';
+import NameInput from '../components/name.input';
 
 const Stack = createStackNavigator();
 

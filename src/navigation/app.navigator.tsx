@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import SplashScreen from '../screens/splash.screen';
-import {getToken} from '../jwt.service';
+import React, {useEffect, useState} from 'react';
 import {useDispatch} from 'react-redux';
+import {getToken} from '../jwt.service';
+import SplashScreen from '../screens/splash.screen';
 import {Action} from '../storage/dispatch.actions';
 import {useUserSelector} from '../storage/user.reducer';
 import HomeNavigator from './home.navigator';
