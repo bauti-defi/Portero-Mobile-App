@@ -1,17 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-import LoginScreen from '../screens/login.screen';
-import RegistrtionScreen from '../screens/registration/registration.screen';
-import {StyleSheet, View} from 'react-native';
 import SplashScreen from '../screens/splash.screen';
-import {getToken, hasToken} from '../jwt.service';
-import {useDispatch, useSelector, shallowEqual} from 'react-redux';
+import {getToken} from '../jwt.service';
+import {useDispatch} from 'react-redux';
 import {Action} from '../storage/dispatch.actions';
 import {useUserSelector} from '../storage/user.reducer';
 import HomeNavigator from './home.navigator';
-
-const Stack = createStackNavigator();
+import LoginNavigator from './login.navigator';
 
 function AppNavigator() {
   const [loading, setLoading] = useState(true);
@@ -31,55 +26,11 @@ function AppNavigator() {
     return <SplashScreen />;
   }
 
-  const initialRoute = token ? 'home' : 'login';
-
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName={initialRoute}>
-        {token ? (
-          <Stack.Screen
-            name="home"
-            component={HomeNavigator}
-            options={{title: 'IngresoFacil'
-        }}
-          />
-        ) : (
-          <>
-            <Stack.Screen
-              name="login"
-              component={LoginScreen}
-              options={{title: 'Ingresar'}}
-            />
-            <Stack.Screen
-              name="register"
-              component={RegistrtionScreen}
-              options={{title: 'Registrar'}}
-            />
-          </>
-        )}
-      </Stack.Navigator>
+      {token ? <HomeNavigator /> : <LoginNavigator />}
     </NavigationContainer>
   );
 }
 
 export default AppNavigator;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 24,
-    backgroundColor: '#eaea',
-    fontWeight: 'bold',
-  },
-  title: {
-    marginTop: 1,
-    paddingVertical: 8,
-    borderWidth: 4,
-    borderColor: '#20232a',
-    borderRadius: 6,
-    color: '#20232a',
-    textAlign: 'center',
-    fontSize: 30,
-    fontWeight: 'bold',
-  },
-});
