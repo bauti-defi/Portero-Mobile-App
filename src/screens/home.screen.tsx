@@ -1,31 +1,15 @@
-import React, { useEffect } from 'react';
-import { Text, Button } from "react-native-elements";
-import { View } from "react-native";
-import { deleteToken } from '.././jwt.service';
-import { useDispatch } from 'react-redux';
-import { Action } from '../storage/dispatch.actions'
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import InviteScreen from './invite.screen';
+import React from 'react';
 
+const Tab = createBottomTabNavigator();
 
-function HomeScreen({navigation}){
-
-    const dispatch = useDispatch()
-
-
-    async function logOut(){
-        await deleteToken()
-        dispatch({type: Action.DELETE_TOKEN})
-    }
-    
-
-    return (
-        <View>
-            <Text>Logged in</Text>
-            <Button 
-                title='Log out'
-                onPress={logOut}
-            />
-        </View>
-    );
+function HomeScreen() {
+  return (
+    <Tab.Navigator initialRouteName="Invitaciones">
+      <Tab.Screen name="Invitaciones" component={InviteScreen} />
+    </Tab.Navigator>
+  );
 }
 
 export default HomeScreen;

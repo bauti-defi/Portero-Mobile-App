@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { View } from "react-native";
 import { Text } from "react-native-elements";
-import { hasToken } from '.././jwt.service';
+import { hasToken } from '../jwt.service';
 
 
-function LandingScreen(){
+function SplashScreen(){
 
     return (
         <View>
@@ -13,4 +13,4 @@ function LandingScreen(){
     );
 } 
 
-export default LandingScreen;
+export default SplashScreen;
