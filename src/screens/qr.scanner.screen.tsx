@@ -1,5 +1,6 @@
 import React from 'react';
 import {RNCamera} from 'react-native-camera';
+import DeviceInfo from 'react-native-device-info';
 import {Button} from 'react-native-elements';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 
@@ -16,7 +17,9 @@ function QRScannerScreen({navigation}) {
 }
 
 const onRead = (event) => {
-  console.log(event.data);
+  const url: string = `http://192.168.0.88:3500/${
+    event.data
+  }&device=${DeviceInfo.getMacAddressSync()}`;
 };
 
 export default QRScannerScreen;
