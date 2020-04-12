@@ -1,8 +1,8 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
-import AccountInput from '../components/account.input';
-import DocumentationInput from '../components/dni.input';
-import NameInput from '../components/name.input';
+import AccountInput from './account.input';
+import DocumentationInput from './dni.input';
+import NameInput from './name.input';
 
 const Stack = createStackNavigator();
 
@@ -30,10 +30,10 @@ function RegistrtionScreen() {
   );
 }
 
-export const register = (payload) => {
+export const register = (payload, user_type: string) => {
   return axios({
     method: 'post',
-    url: `http://192.168.0.88:3500/${payload.user_type}/register`,
+    url: `http://192.168.0.88:3500/${user_type}/register`,
     data: payload,
   });
 };

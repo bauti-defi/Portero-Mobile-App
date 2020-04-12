@@ -1,9 +1,9 @@
-import {View} from 'react-native';
-import React, {useState} from 'react';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import {Input, Button} from 'react-native-elements';
 import {Validator} from 'class-validator';
-import {register} from '../screens/registration.screen';
+import React, {useState} from 'react';
+import {View} from 'react-native';
+import {Button, Input} from 'react-native-elements';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import {register} from './registration.screen';
 
 const validator = new Validator();
 
@@ -32,7 +32,7 @@ function AccountInput({route, navigation}) {
         password,
       };
       delete body.user_type;
-      register(body).then(navigation.navigate('login'));
+      register(body, payload.user_type).then(navigation.navigate('login'));
     }
   }
 
