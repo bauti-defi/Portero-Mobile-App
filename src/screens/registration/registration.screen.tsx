@@ -33,7 +33,7 @@ function RegistrtionScreen() {
 export const register = (payload, user_type: string) => {
   return axios({
     method: 'post',
-    url: `http://192.168.0.88:3500/${user_type}/register`,
+    url: `http://192.168.0.101:3500/${user_type}/register`,
     data: payload,
   });
 };
