@@ -4,12 +4,12 @@ import {ListItem} from 'react-native-elements';
 import {FlatList} from 'react-native-gesture-handler';
 import {getAllLotes} from '../requests/lotes.request';
 
-const keyExtractor = (item, index) => item.id;
+const keyExtractor = (lote, index) => lote.id;
 
 const renderItem = ({item}) => (
   <ListItem
     title={item.nickname}
-    subtitle={item.street}
+    subtitle={`${item.street} ${item.num}, ${item.code}`}
     bottomDivider
     // chevron
   />
@@ -21,7 +21,7 @@ function LotesScreen() {
   useEffect(() => {
     async function fetchData() {
       const lotes = await getAllLotes().then((response) => response.data);
-      setLotes(lotes);
+      setLotes([mockLote]);
     }
 
     fetchData();
@@ -29,14 +29,26 @@ function LotesScreen() {
 
   return (
     <SafeAreaView>
-      <Text>List of lotes goes here</Text>
-      <FlatList
-        keyExtractor={keyExtractor}
-        data={lotes}
-        renderItem={renderItem}
-      />
+      {lotes.length === 0 ? (
+        <Text>No Tenes Lotes</Text>
+      ) : (
+        <FlatList
+          keyExtractor={keyExtractor}
+          data={lotes}
+          renderItem={renderItem}
+        />
+      )}
     </SafeAreaView>
   );
 }
+
+const mockLote = {
+  id: '1',
+  nickname: 'Casa de Mama',
+  street: 'La Alameda',
+  num: 11,
+  name: 'Lote 11',
+  code: 1607,
+};
 
 export default LotesScreen;
