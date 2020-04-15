@@ -6,8 +6,6 @@ import NameInput from './name.input';
 
 const Stack = createStackNavigator();
 
-const axios = require('axios').default;
-
 function RegistrtionScreen() {
   return (
     <Stack.Navigator initialRouteName="name" screenOptions={{headerLeft: null}}>
@@ -29,13 +27,5 @@ function RegistrtionScreen() {
     </Stack.Navigator>
   );
 }
-
-export const register = (payload, user_type: string) => {
-  return axios({
-    method: 'post',
-    url: `http://192.168.0.101:3500/${user_type}/register`,
-    data: payload,
-  });
-};
 
 export default RegistrtionScreen;

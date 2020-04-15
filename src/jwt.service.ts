@@ -1,12 +1,33 @@
-import DeviceInfo from "react-native-device-info";
-import * as Keychain from "react-native-keychain";
+import axios from 'axios';
+import DeviceInfo from 'react-native-device-info';
+import * as Keychain from 'react-native-keychain';
 
-const SERVER = 'APP'
+const SERVER = 'APP';
 
-export const getToken =  async ():Promise<Keychain.UserCredentials | false> => await Keychain.getInternetCredentials(SERVER)
+let token = undefined;
 
-export const saveToken = async (token:string) => await Keychain.setInternetCredentials(SERVER, DeviceInfo.getUniqueId(), token)
+export const getToken = async (): Promise<Keychain.UserCredentials | false> => {
+  if (!token) {
+    token = await Keychain.getInternetCredentials(SERVER);
+  }
+  return token;
+};
 
-export const hasToken = async (): Promise<boolean> => await Keychain.hasInternetCredentials(SERVER) === false ? false : true
+export const saveToken = async (newToken: string) => {
+  token = newToken;
+  axios.defaults.headers['Authorization'] = newToken;
+  await Keychain.setInternetCredentials(
+    SERVER,
+    DeviceInfo.getUniqueId(),
+    token,
+  );
+};
 
-export const deleteToken = async (): Promise<void> => await Keychain.resetInternetCredentials(SERVER)
+export const hasToken = async (): Promise<boolean> =>
+  (await Keychain.hasInternetCredentials(SERVER)) === false ? false : true;
+
+export const deleteToken = async (): Promise<void> => {
+  await Keychain.resetInternetCredentials(SERVER);
+  token = undefined;
+  axios.defaults.headers['Authorization'] = null;
+};

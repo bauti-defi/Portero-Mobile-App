@@ -6,11 +6,10 @@ import {Button, Input} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useDispatch} from 'react-redux';
 import {saveToken} from '.././jwt.service';
+import {login} from '../requests/login.request';
 import {Action} from '../storage/dispatch.actions';
 
 const validator = new Validator();
-
-const axios = require('axios').default;
 
 function LoginScreen({navigation}) {
   const [email, setEmail] = useState('');
@@ -23,11 +22,7 @@ function LoginScreen({navigation}) {
     if (!validator.isEmail(email) || validator.isEmpty(password)) {
       setMessage('Email o Contrasena invalidad');
     } else {
-      axios({
-        method: 'post',
-        url: `http://192.168.0.101:3500/auth/login`,
-        data: {email, password, mid: DeviceInfo.getMacAddressSync()},
-      })
+      login(email, password, DeviceInfo.getMacAddressSync())
         .then((response) => response.data)
         .then((cookie) => {
           dispatch({type: Action.STORE_COOKIE, cookie});

@@ -1,64 +1,31 @@
-import {createStackNavigator} from '@react-navigation/stack';
 import React, {useEffect, useState} from 'react';
 import {SafeAreaView, Text} from 'react-native';
-import DrawerButton from '../components/drawer.button';
 import {ListItem} from 'react-native-elements';
 import {FlatList} from 'react-native-gesture-handler';
-const axios = require('axios').default;
-
-const Stack = createStackNavigator();
-
-function LotesNavigator({navigation}) {
-  return (
-    <Stack.Navigator
-      initialRouteName="Lotes"
-      screenOptions={{
-        headerLeft: (props) => <DrawerButton navigation={navigation} />,
-      }}>
-      <Stack.Screen name="Lotes" component={LotesScreen} />
-    </Stack.Navigator>
-  );
-}
-
-async function GetLotes() {
-  return await axios({
-    method: 'get',
-    url: 'http://192.168.0.101:3500/lotes/propietario/all',
-  }).then((response) => response.data);
-}
-
-const list = [
-  {
-    name: 'Amy Farha',
-    avatar_url:
-      'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg',
-    subtitle: 'Vice President',
-  },
-  {
-    name: 'Chris Jackson',
-    avatar_url:
-      'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-    subtitle: 'Vice Chairman',
-  },
-];
+import {getAllLotes} from '../requests/lotes.request';
 
 const keyExtractor = (item, index) => item.id;
 
 const renderItem = ({item}) => (
   <ListItem
-    title={item.street}
-    subtitle={item.nickname}
+    title={item.nickname}
+    subtitle={item.street}
     bottomDivider
     // chevron
   />
 );
 
- function LotesScreen() {
+function LotesScreen() {
   const [lotes, setLotes] = useState([]);
 
-  useEffect (() => {
-    setLotes(GetLotes())
-  });
+  useEffect(() => {
+    async function fetchData() {
+      const lotes = await getAllLotes().then((response) => response.data);
+      setLotes(lotes);
+    }
+
+    fetchData();
+  }, []);
 
   return (
     <SafeAreaView>
@@ -72,4 +39,4 @@ const renderItem = ({item}) => (
   );
 }
 
-export default LotesNavigator;
+export default LotesScreen;
