@@ -2,14 +2,14 @@ import React from 'react';
 import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-function CreateInviteButton({navigation}) {
+function CreateButton(props) {
   return (
     <Button
       type="clear"
       icon={<Icon name="edit" size={24} color="black" />}
-      onPress={() => navigation.navigate('Crear Invitacion')}
+      onPress={props.onPress}
     />
   );
 }
 
-export default CreateInviteButton;
+export default CreateButton;

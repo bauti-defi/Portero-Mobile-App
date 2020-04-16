@@ -2,7 +2,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
 import {SafeAreaView} from 'react-native';
 import {Text} from 'react-native-elements';
-import CreateInviteButton from '../components/create.invite.button';
+import CreateButton from '../components/create.button';
 import DrawerButton from '../components/drawer.button';
 
 const Stack = createStackNavigator();
@@ -16,7 +16,9 @@ function InviteNavigator({navigation}) {
         options={{
           headerLeft: (props) => <DrawerButton navigation={navigation} />,
           headerRight: (props) => (
-            <CreateInviteButton navigation={navigation} />
+            <CreateButton
+              onPress={() => navigation.navigate('Crear Invitacion')}
+            />
           ),
         }}
       />
