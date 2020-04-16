@@ -16,7 +16,7 @@ export const getToken = async (): Promise<Keychain.UserCredentials | false> => {
 export const saveToken = async (newToken: string) => {
   token = newToken;
   axios.defaults.headers['Authorization'] = newToken;
-  await Keychain.setInternetCredentials(
+  return await Keychain.setInternetCredentials(
     SERVER,
     DeviceInfo.getUniqueId(),
     token,
