@@ -4,7 +4,7 @@ import {ListItem} from 'react-native-elements';
 import {FlatList} from 'react-native-gesture-handler';
 import {getAllLotes} from '../../requests/lotes.request';
 
-const keyExtractor = (lote, index) => lote.id;
+const keyExtractor = (lote, index) => lote.lote_id;
 
 const renderItem = ({item}) => (
   <ListItem

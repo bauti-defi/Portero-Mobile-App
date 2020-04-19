@@ -1,4 +1,3 @@
-import axios from 'axios';
 import DeviceInfo from 'react-native-device-info';
 import * as Keychain from 'react-native-keychain';
 
@@ -8,14 +7,15 @@ let token = undefined;
 
 export const getToken = async (): Promise<Keychain.UserCredentials | false> => {
   if (!token) {
-    token = await Keychain.getInternetCredentials(SERVER);
+    token = await Keychain.getInternetCredentials(SERVER).then(
+      (state) => (state as Keychain.UserCredentials).password,
+    );
   }
   return token;
 };
 
 export const saveToken = async (newToken: string) => {
   token = newToken;
-  axios.defaults.headers['Authorization'] = newToken;
   return await Keychain.setInternetCredentials(
     SERVER,
     DeviceInfo.getUniqueId(),
@@ -29,5 +29,4 @@ export const hasToken = async (): Promise<boolean> =>
 export const deleteToken = async (): Promise<void> => {
   await Keychain.resetInternetCredentials(SERVER);
   token = undefined;
-  axios.defaults.headers['Authorization'] = null;
 };
