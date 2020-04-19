@@ -1,7 +1,6 @@
 import axios from 'axios';
 import {TypedUseSelectorHook, useSelector} from 'react-redux';
 import {Reducer} from 'redux';
-import {RootState} from './app.store';
 import {Action} from './dispatch.actions';
 
 export interface UserState {
@@ -20,9 +19,7 @@ const initialState: UserState = {
   type: null,
 };
 
-export const useUserSelector: TypedUseSelectorHook<
-  RootState & UserState
-> = useSelector;
+export const useUserSelector: TypedUseSelectorHook<UserState> = useSelector;
 
 const userReducer: Reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -31,16 +28,10 @@ const userReducer: Reducer = (state = initialState, action) => {
       return {...state, token: action.token};
     case Action.STORE_COOKIE:
       return {...state, ...action.cookie};
+    case Action.LOG_OUT:
     case Action.DELETE_COOKIE:
       axios.defaults.headers.common['Authorization'] = '';
-      return {
-        ...state,
-        token: null,
-        acc_id: null,
-        email: null,
-        session_id: null,
-        type: null,
-      };
+      return {};
     default:
       return state;
   }

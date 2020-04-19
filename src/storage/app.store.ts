@@ -1,11 +1,12 @@
-import {createStore, combineReducers, Reducer} from 'redux'
-import useReducer from './user.reducer'
-
+import {combineReducers, createStore} from 'redux';
+import loteReducer from './lotes.reducer';
+import userReducer from './user.reducer';
 
 const rootReducer = combineReducers({
-    user: useReducer
-})
+  user: userReducer,
+  lote: loteReducer,
+});
 
-export type RootState = ReturnType<typeof rootReducer>
+export type RootState = ReturnType<typeof rootReducer>;
 
-export const store = createStore(rootReducer)
+export const store = createStore(rootReducer);
