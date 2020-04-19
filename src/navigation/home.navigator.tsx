@@ -29,7 +29,7 @@ function DrawerContent(props) {
 
   async function logOut() {
     await deleteToken();
-    dispatch({type: Action.DELETE_COOKIE});
+    dispatch({type: Action.LOG_OUT});
   }
 
   return (

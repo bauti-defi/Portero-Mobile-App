@@ -38,17 +38,14 @@ function LotesScreen() {
 
   return (
     <SafeAreaView>
-      {lotes.length === 0 ? (
-        <Text>No Tenes Lotes</Text>
-      ) : (
-        <FlatList
-          keyExtractor={keyExtractor}
-          data={lotes}
-          onRefresh={fetchLotes}
-          refreshing={loading}
-          renderItem={renderItem}
-        />
-      )}
+      <FlatList
+        keyExtractor={keyExtractor}
+        data={lotes}
+        onRefresh={fetchLotes}
+        refreshing={loading}
+        renderItem={renderItem}
+        ListEmptyComponent={<Text>No Tenes Lotes</Text>}
+      />
     </SafeAreaView>
   );
 }
