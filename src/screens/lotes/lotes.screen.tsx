@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, Text} from 'react-native';
+import {SafeAreaView} from 'react-native';
 import {ListItem} from 'react-native-elements';
 import {FlatList} from 'react-native-gesture-handler';
 import {useDispatch} from 'react-redux';
 import {getAllLotes} from '../../requests/lotes.request';
 import {Action} from '../../storage/dispatch.actions';
 import {Lote, useLoteSelector} from '../../storage/lotes.reducer';
+import LotesLoading from './lotes.loading';
 
 const keyExtractor = (lote, index) => lote.lote_id;
 
@@ -44,7 +45,7 @@ function LotesScreen() {
         onRefresh={fetchLotes}
         refreshing={loading}
         renderItem={renderItem}
-        ListEmptyComponent={<Text>No Tenes Lotes</Text>}
+        ListEmptyComponent={LotesLoading}
       />
     </SafeAreaView>
   );

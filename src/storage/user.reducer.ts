@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {TypedUseSelectorHook, useSelector} from 'react-redux';
 import {Reducer} from 'redux';
+import {deleteToken} from '.././jwt.service';
 import {Action} from './dispatch.actions';
 
 export interface UserState {
@@ -29,7 +30,7 @@ const userReducer: Reducer = (state = initialState, action) => {
     case Action.STORE_COOKIE:
       return {...state, ...action.cookie};
     case Action.LOG_OUT:
-    case Action.DELETE_COOKIE:
+      deleteToken();
       axios.defaults.headers.common['Authorization'] = '';
       return {};
     default:

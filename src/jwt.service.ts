@@ -26,7 +26,7 @@ export const saveToken = async (newToken: string) => {
 export const hasToken = async (): Promise<boolean> =>
   (await Keychain.hasInternetCredentials(SERVER)) === false ? false : true;
 
-export const deleteToken = async (): Promise<void> => {
-  await Keychain.resetInternetCredentials(SERVER);
+export const deleteToken = () => {
+  Keychain.resetInternetCredentials(SERVER);
   token = undefined;
 };
