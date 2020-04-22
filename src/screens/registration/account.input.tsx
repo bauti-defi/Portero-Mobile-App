@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import {View} from 'react-native';
 import {Button, Input} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {register} from './registration.screen';
+import {register} from '../../requests/register.request';
 
 const validator = new Validator();
 
@@ -17,7 +17,7 @@ function AccountInput({route, navigation}) {
   const [passwordMessage, setPasswordMessage] = useState('');
   const [isLoading, setLoading] = useState(false);
 
-  function onRegister() {
+  async function onRegister() {
     setLoading(true);
     if (!validator.isEmail(email)) {
       setEmailMessage('Email Invalido');
@@ -32,7 +32,9 @@ function AccountInput({route, navigation}) {
         password,
       };
       delete body.user_type;
-      register(body, payload.user_type).then(navigation.navigate('login'));
+      await register(body, payload.user_type).then(
+        navigation.navigate('login'),
+      );
     }
   }
 
@@ -40,6 +42,7 @@ function AccountInput({route, navigation}) {
     <View>
       <Input
         placeholder=" Email"
+        keyboardType="email-address"
         autoCapitalize="none"
         onChangeText={setEmail}
         errorMessage={emailMessage}

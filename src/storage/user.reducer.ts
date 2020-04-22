@@ -1,7 +1,7 @@
+import axios from 'axios';
 import {Reducer} from 'redux';
+import {deleteToken} from '.././jwt.service';
 import {Action} from './dispatch.actions';
-import {TypedUseSelectorHook, useSelector} from 'react-redux';
-import {RootState} from './app.store';
 
 export interface UserState {
   token: string;
@@ -19,25 +19,18 @@ const initialState: UserState = {
   type: null,
 };
 
-export const useUserSelector: TypedUseSelectorHook<
-  RootState & UserState
-> = useSelector;
-
 const userReducer: Reducer = (state = initialState, action) => {
   switch (action.type) {
     case Action.STORE_TOKEN:
-        return {...state, token: action.token}
+      axios.defaults.headers.common['Authorization'] = action.token;
+      return {...state, token: action.token};
     case Action.STORE_COOKIE:
+      axios.defaults.headers.common['Authorization'] = action.cookie.token;
       return {...state, ...action.cookie};
-    case Action.DELETE_COOKIE:
-      return {
-        ...state,
-        token: null,
-        acc_id: null,
-        email: null,
-        session_id: null,
-        type: null,
-      };
+    case Action.LOG_OUT:
+      deleteToken();
+      axios.defaults.headers.common['Authorization'] = '';
+      return {};
     default:
       return state;
   }
