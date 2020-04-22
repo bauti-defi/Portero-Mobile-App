@@ -1,6 +1,4 @@
-import {TypedUseSelectorHook} from 'react-redux';
 import {Reducer} from 'redux';
-import {useRootSelector} from './app.store';
 import {Action} from './dispatch.actions';
 
 export interface LoteState {
@@ -17,9 +15,6 @@ export type Lote = {
   lote_name: string;
   nickname: string;
 };
-
-export const useLoteSelector: TypedUseSelectorHook<LoteState> = (selector) =>
-  useRootSelector((state) => selector(state.lote));
 
 const initialState: LoteState = {
   lotes: [],

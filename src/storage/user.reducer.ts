@@ -1,8 +1,6 @@
 import axios from 'axios';
-import {TypedUseSelectorHook} from 'react-redux';
 import {Reducer} from 'redux';
 import {deleteToken} from '.././jwt.service';
-import {useRootSelector} from './app.store';
 import {Action} from './dispatch.actions';
 
 export interface UserState {
@@ -20,9 +18,6 @@ const initialState: UserState = {
   session_id: null,
   type: null,
 };
-
-export const useUserSelector: TypedUseSelectorHook<UserState> = (selector) =>
-  useRootSelector((state) => selector(state.user));
 
 const userReducer: Reducer = (state = initialState, action) => {
   switch (action.type) {
