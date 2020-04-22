@@ -13,12 +13,23 @@ function AppNavigator() {
   const token = useUserSelector((state) => state.token);
   const dispatch = useDispatch();
 
+  async function fetchToken() {
+    console.log('fetching token...');
+    const token: string | false = await getToken();
+    if (token) {
+      console.log(`found token: ${token}`);
+      dispatch({type: Action.STORE_TOKEN, token});
+    }
+  }
+
   useEffect(() => {
-    getToken().then((response) => {
-      if (response) {
-        dispatch({type: Action.STORE_TOKEN, token: response});
-      }
-    });
+    async function fetch() {
+      await fetchToken();
+    }
+
+    if (!token) {
+      fetch();
+    }
     setLoading(false);
   });
 

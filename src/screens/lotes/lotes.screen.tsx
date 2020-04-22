@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView} from 'react-native';
+import {FlatList, SafeAreaView} from 'react-native';
 import {ListItem} from 'react-native-elements';
-import {FlatList} from 'react-native-gesture-handler';
 import {useDispatch} from 'react-redux';
 import {getAllLotes} from '../../requests/lotes.request';
 import {useLoteSelector} from '../../storage/app.selectors';
@@ -19,23 +18,22 @@ const renderItem = ({item}) => (
   />
 );
 
-function LotesScreen() {
+function LotesScreen({navigation}) {
   const lotes: Lote[] = useLoteSelector((state) => state.lotes);
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
 
-  async function fetchLotes() {
-    const ourLotes = await getAllLotes();
-    dispatch({type: Action.SAVE_LOTES, lotes: ourLotes});
-    setLoading(false);
+  function loadLotes() {
+    console.log('Loading lotes...');
+    setLoading(true);
+    getAllLotes().then((ourLotes) => {
+      dispatch({type: Action.SAVE_LOTES, lotes: ourLotes || []});
+      setLoading(false);
+    });
   }
 
   useEffect(() => {
-    async function fetch() {
-      await fetchLotes();
-    }
-
-    fetch();
+    loadLotes();
   }, []);
 
   return (
@@ -43,9 +41,10 @@ function LotesScreen() {
       <FlatList
         keyExtractor={keyExtractor}
         data={lotes}
-        onRefresh={fetchLotes}
-        refreshing={loading}
+        extraData={lotes}
+        onRefresh={loadLotes}
         renderItem={renderItem}
+        refreshing={loading}
         ListEmptyComponent={LotesLoading(loading)}
       />
     </SafeAreaView>

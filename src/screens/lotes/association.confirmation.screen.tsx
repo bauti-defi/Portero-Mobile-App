@@ -8,20 +8,16 @@ function ConfirmationScreen({navigation, route}) {
   const [associated, setAssociated] = useState(false);
 
   useEffect(() => {
-    async function send() {
-      await associatePropietarioToLote(route.params)
-        .then((response) => response.data)
-        .then((associated) => {
-          setAssociated(associated);
-          setLoading(false);
-        })
-        .catch((error) => {
-          setAssociated(false);
-          setLoading(false);
-        });
-    }
-
-    send();
+    associatePropietarioToLote(route.params)
+      .then((response) => response.data)
+      .then((associated) => {
+        setAssociated(associated);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setAssociated(false);
+        setLoading(false);
+      });
   }, []);
 
   return (

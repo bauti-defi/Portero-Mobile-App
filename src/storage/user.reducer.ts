@@ -25,6 +25,7 @@ const userReducer: Reducer = (state = initialState, action) => {
       axios.defaults.headers.common['Authorization'] = action.token;
       return {...state, token: action.token};
     case Action.STORE_COOKIE:
+      axios.defaults.headers.common['Authorization'] = action.cookie.token;
       return {...state, ...action.cookie};
     case Action.LOG_OUT:
       deleteToken();
