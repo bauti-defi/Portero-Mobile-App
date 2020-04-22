@@ -42,6 +42,7 @@ function AccountInput({route, navigation}) {
     <View>
       <Input
         placeholder=" Email"
+        keyboardType="email-address"
         autoCapitalize="none"
         onChangeText={setEmail}
         errorMessage={emailMessage}

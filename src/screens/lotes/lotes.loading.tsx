@@ -1,18 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {ActivityIndicator, StyleSheet, View} from 'react-native';
 import {Text} from 'react-native-elements';
 
-const LotesLoading = () => {
-  const [loading, setLoading] = useState(true);
+export type props = {loading: boolean};
 
-  useEffect(() => {
-    if (loading) {
-      setTimeout(() => setLoading(false), 10000);
-    }
-  });
-
+const LotesLoading = (props) => {
   return (
-    <View style={styles.container}>{loading ? loader() : emptyList()}</View>
+    <View style={styles.container}>
+      {props.loading ? loader() : emptyList()}
+    </View>
   );
 };
 

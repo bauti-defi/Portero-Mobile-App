@@ -1,4 +1,3 @@
-import DeviceInfo from 'react-native-device-info';
 import * as Keychain from 'react-native-keychain';
 
 const SERVER = 'APP';
@@ -14,13 +13,13 @@ export const getToken = async (): Promise<Keychain.UserCredentials | false> => {
   return token;
 };
 
-export const saveToken = async (newToken: string) => {
+export const saveToken = async (user: string, newToken: string) => {
   token = newToken;
   return await Keychain.setInternetCredentials(
     SERVER,
-    DeviceInfo.getUniqueId(),
+    user,
     token,
-  );
+  ).catch((error) => console.log(error));
 };
 
 export const hasToken = async (): Promise<boolean> =>

@@ -10,7 +10,7 @@ import LoginNavigator from './login.navigator';
 
 function AppNavigator() {
   const [loading, setLoading] = useState(true);
-  const token = useUserSelector((state) => state.user.token);
+  const token = useUserSelector((state) => state.token);
   const dispatch = useDispatch();
 
   useEffect(() => {

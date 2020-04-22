@@ -19,7 +19,7 @@ const renderItem = ({item}) => (
 );
 
 function LotesScreen() {
-  const lotes: Lote[] = useLoteSelector((state) => state.lote.lotes);
+  const lotes: Lote[] = useLoteSelector((state) => state.lotes);
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
 
@@ -45,7 +45,7 @@ function LotesScreen() {
         onRefresh={fetchLotes}
         refreshing={loading}
         renderItem={renderItem}
-        ListEmptyComponent={LotesLoading}
+        ListEmptyComponent={LotesLoading(loading)}
       />
     </SafeAreaView>
   );

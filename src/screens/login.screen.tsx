@@ -26,8 +26,9 @@ function LoginScreen({navigation}) {
         .then((response) => response.data)
         .then((cookie) => {
           dispatch({type: Action.STORE_COOKIE, cookie});
-          saveToken(cookie.token);
-        });
+          saveToken(email, cookie.token);
+        })
+        .catch((error) => setMessage(error));
     }
   }
 
@@ -35,6 +36,7 @@ function LoginScreen({navigation}) {
     <View>
       <Input
         placeholder=" Email"
+        keyboardType="email-address"
         onChangeText={setEmail}
         autoCapitalize="none"
         leftIcon={<Icon name="envelope" size={24} color="black" />}
