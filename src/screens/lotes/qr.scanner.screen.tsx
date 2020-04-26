@@ -5,7 +5,7 @@ import QRCodeScanner from 'react-native-qrcode-scanner';
 function QRScannerScreen({navigation, route}) {
   function onRead(event) {
     let response = JSON.parse(event.data);
-    navigation.navigate('Confirmation', {
+    navigation.navigate('Feedback', {
       nickname: route.params,
       invite: response.invite,
       id: response.id,

@@ -5,7 +5,7 @@ import {useDispatch} from 'react-redux';
 import {associatePropietarioToLote} from '../../requests/lotes.request';
 import {LoteAction} from '../../storage/lotes.reducer';
 
-function ConfirmationScreen({navigation, route}) {
+function FeedbackScreen({navigation, route}) {
   const [loading, setLoading] = useState(true);
   const [associated, setAssociated] = useState(undefined);
   const dispatch = useDispatch();
@@ -50,4 +50,4 @@ function AssociationOutcome(props) {
   );
 }
 
-export default ConfirmationScreen;
+export default FeedbackScreen;

@@ -2,7 +2,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
 import AddButton from '../components/add.button';
 import DrawerButton from '../components/drawer.button';
-import ConfirmationScreen from '../screens/lotes/association.confirmation.screen';
+import FeedbackScreen from '../screens/lotes/association.feedback.screen';
 import LoteAssociationScreen from '../screens/lotes/lote.association.screen';
 import LotesScreen from '../screens/lotes/lotes.screen';
 import QRScannerScreen from '../screens/lotes/qr.scanner.screen';
@@ -29,8 +29,8 @@ function LotesNavigator({route, navigation}) {
         options={{title: 'Escanear QR'}}
       />
       <Stack.Screen
-        name="Confirmation"
-        component={ConfirmationScreen}
+        name="Feedback"
+        component={FeedbackScreen}
         options={{title: '', headerLeft: null}}
       />
     </Stack.Navigator>
