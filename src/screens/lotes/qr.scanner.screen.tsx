@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button} from 'react-native-elements';
+import {Button, Text} from 'react-native-elements';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 
 function QRScannerScreen({navigation, route}) {
@@ -15,12 +15,19 @@ function QRScannerScreen({navigation, route}) {
   return (
     <QRCodeScanner
       onRead={onRead}
+      topContent={topConent()}
       //flashMode={RNCamera.Constants.FlashMode.torch}
-      bottomContent={
-        <Button type="clear" title="Cerrar" onPress={navigation.goBack} />
-      }
+      bottomContent={bottomContent(navigation)}
     />
   );
 }
+
+const topConent = () => (
+  <Text>Este QR esta emitido por la Guardia del Barrio</Text>
+);
+
+const bottomContent = (navigation) => (
+  <Button type="clear" title="Cerrar" onPress={navigation.goBack} />
+);
 
 export default QRScannerScreen;
