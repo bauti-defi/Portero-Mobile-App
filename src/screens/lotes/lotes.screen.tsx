@@ -42,8 +42,6 @@ function LotesScreen() {
     setLoading(false);
   }, [loading]);
 
-  console.log(loading);
-
   return (
     <SafeAreaView>
       <FlatList

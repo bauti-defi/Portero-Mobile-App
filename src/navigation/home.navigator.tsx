@@ -1,44 +1,24 @@
-import {
-  createDrawerNavigator,
-  DrawerContentScrollView,
-  DrawerItem,
-  DrawerItemList,
-} from '@react-navigation/drawer';
-import React from 'react';
-import {useDispatch} from 'react-redux';
-import {deleteToken} from '.././jwt.service';
-import LotesNavigator from '../navigation/lotes.navigator';
-import InviteNavigator from '../screens/invite.screen';
-import {UserAction} from '../storage/user.reducer';
-
-const Drawer = createDrawerNavigator();
+import {useUserSelector} from 'src/storage/app.selectors';
+import PropietarioNavigator from './propietario.navigator';
 
 function HomeNavigator() {
-  return (
-    <Drawer.Navigator
-      lazy={true}
-      drawerContent={(props) => <DrawerContent {...props} />}
-      initialRouteName="Invitaciones">
-      <Drawer.Screen name="Invitaciones" component={InviteNavigator} />
-      <Drawer.Screen name="Lotes" component={LotesNavigator} />
-    </Drawer.Navigator>
-  );
+  const accountType: number = useUserSelector((state) => state.type);
+
+  return getNavigator(accountType);
 }
 
-function DrawerContent(props) {
-  const dispatch = useDispatch();
-
-  async function logOut() {
-    await deleteToken();
-    dispatch({type: UserAction.LOG_OUT});
+const getNavigator = (type: number) => {
+  switch (type) {
+    case Type.PROPIETARIO:
+      return <PropietarioNavigator />;
+    default:
+      throw Error('Invalid account type.');
   }
+};
 
-  return (
-    <DrawerContentScrollView {...props}>
-      <DrawerItemList {...props} />
-      <DrawerItem label="Salir" inactiveTintColor="red" onPress={logOut} />
-    </DrawerContentScrollView>
-  );
+enum Type {
+  PROPIETARIO = 1,
+  TRABAJADOR = 2,
 }
 
 export default HomeNavigator;
