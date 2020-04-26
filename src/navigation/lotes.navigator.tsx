@@ -31,7 +31,7 @@ function LotesNavigator({route, navigation}) {
       <Stack.Screen
         name="Confirmation"
         component={ConfirmationScreen}
-        options={{title: ''}}
+        options={{title: '', headerLeft: null}}
       />
     </Stack.Navigator>
   );
