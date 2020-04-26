@@ -1,12 +1,10 @@
-import React, {useEffect, useState} from 'react';
-import {FlatList, SafeAreaView} from 'react-native';
-import {ListItem} from 'react-native-elements';
+import React, {useEffect} from 'react';
+import {FlatList, SafeAreaView, View} from 'react-native';
+import {ListItem, Text} from 'react-native-elements';
 import {useDispatch} from 'react-redux';
 import {getAllLotes} from '../../requests/lotes.request';
 import {useLoteSelector} from '../../storage/app.selectors';
-import {Action} from '../../storage/dispatch.actions';
-import {Lote} from '../../storage/lotes.reducer';
-import LotesLoading from './lotes.loading';
+import {Lote, LoteAction} from '../../storage/lotes.reducer';
 
 const keyExtractor = (lote, index) => lote.lote_id;
 
@@ -18,23 +16,33 @@ const renderItem = ({item}) => (
   />
 );
 
-function LotesScreen({navigation}) {
+function LotesScreen() {
   const lotes: Lote[] = useLoteSelector((state) => state.lotes);
-  const [loading, setLoading] = useState(true);
+  const loading: boolean = useLoteSelector((state) => state.loading);
   const dispatch = useDispatch();
 
-  function loadLotes() {
+  const setLoading = (loading: boolean) =>
+    dispatch({type: LoteAction.LOADING, loading});
+
+  const setLotes = (lotes: Lote[]) => dispatch({type: LoteAction.SAVE, lotes});
+
+  const loadLotes = () => {
     console.log('Loading lotes...');
-    setLoading(true);
     getAllLotes().then((ourLotes) => {
-      dispatch({type: Action.SAVE_LOTES, lotes: ourLotes || []});
-      setLoading(false);
+      setLotes(ourLotes || []);
     });
-  }
+  };
+
+  const refresh = () => setLoading(true);
 
   useEffect(() => {
-    loadLotes();
-  }, []);
+    if (loading) {
+      loadLotes();
+    }
+    setLoading(false);
+  }, [loading]);
+
+  console.log(loading);
 
   return (
     <SafeAreaView>
@@ -42,13 +50,21 @@ function LotesScreen({navigation}) {
         keyExtractor={keyExtractor}
         data={lotes}
         extraData={lotes}
-        onRefresh={loadLotes}
+        onRefresh={refresh}
         renderItem={renderItem}
         refreshing={loading}
-        ListEmptyComponent={LotesLoading(loading)}
+        ListEmptyComponent={EmptyLoteList}
       />
     </SafeAreaView>
   );
 }
+
+const EmptyLoteList = () => {
+  return (
+    <View>
+      <Text h4>No tenes lotes!</Text>
+    </View>
+  );
+};
 
 export default LotesScreen;

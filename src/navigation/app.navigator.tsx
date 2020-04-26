@@ -4,7 +4,7 @@ import {useDispatch} from 'react-redux';
 import {getToken} from '../jwt.service';
 import SplashScreen from '../screens/splash.screen';
 import {useUserSelector} from '../storage/app.selectors';
-import {Action} from '../storage/dispatch.actions';
+import {UserAction} from '../storage/user.reducer';
 import HomeNavigator from './home.navigator';
 import LoginNavigator from './login.navigator';
 
@@ -18,7 +18,7 @@ function AppNavigator() {
     const token: string | false = await getToken();
     if (token) {
       console.log(`found token: ${token}`);
-      dispatch({type: Action.STORE_TOKEN, token});
+      dispatch({type: UserAction.STORE_TOKEN, token});
     }
   }
 

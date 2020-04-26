@@ -9,13 +9,14 @@ import {useDispatch} from 'react-redux';
 import {deleteToken} from '.././jwt.service';
 import LotesNavigator from '../navigation/lotes.navigator';
 import InviteNavigator from '../screens/invite.screen';
-import {Action} from '../storage/dispatch.actions';
+import {UserAction} from '../storage/user.reducer';
 
 const Drawer = createDrawerNavigator();
 
 function HomeNavigator() {
   return (
     <Drawer.Navigator
+      lazy={true}
       drawerContent={(props) => <DrawerContent {...props} />}
       initialRouteName="Invitaciones">
       <Drawer.Screen name="Invitaciones" component={InviteNavigator} />
@@ -29,7 +30,7 @@ function DrawerContent(props) {
 
   async function logOut() {
     await deleteToken();
-    dispatch({type: Action.LOG_OUT});
+    dispatch({type: UserAction.LOG_OUT});
   }
 
   return (

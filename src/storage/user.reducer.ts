@@ -1,7 +1,6 @@
 import axios from 'axios';
 import {Reducer} from 'redux';
 import {deleteToken} from '.././jwt.service';
-import {Action} from './dispatch.actions';
 
 export interface UserState {
   token: string;
@@ -21,19 +20,25 @@ const initialState: UserState = {
 
 const userReducer: Reducer = (state = initialState, action) => {
   switch (action.type) {
-    case Action.STORE_TOKEN:
+    case UserAction.STORE_TOKEN:
       axios.defaults.headers.common['Authorization'] = action.token;
       return {...state, token: action.token};
-    case Action.STORE_COOKIE:
+    case UserAction.STORE_COOKIE:
       axios.defaults.headers.common['Authorization'] = action.cookie.token;
       return {...state, ...action.cookie};
-    case Action.LOG_OUT:
+    case UserAction.LOG_OUT:
       deleteToken();
       axios.defaults.headers.common['Authorization'] = '';
-      return {};
+      return initialState;
     default:
       return state;
   }
 };
+
+export enum UserAction {
+  STORE_TOKEN = 'store_token',
+  STORE_COOKIE = 'store_cookie',
+  LOG_OUT = 'log_out',
+}
 
 export default userReducer;

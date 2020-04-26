@@ -7,7 +7,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {useDispatch} from 'react-redux';
 import {saveToken} from '.././jwt.service';
 import {login} from '../requests/login.request';
-import {Action} from '../storage/dispatch.actions';
+import {UserAction} from '../storage/user.reducer';
 
 const validator = new Validator();
 
@@ -25,7 +25,7 @@ function LoginScreen({navigation}) {
       login(email, password, DeviceInfo.getMacAddressSync())
         .then((response) => response.data)
         .then((cookie) => {
-          dispatch({type: Action.STORE_COOKIE, cookie});
+          dispatch({type: UserAction.STORE_COOKIE, cookie});
           saveToken(email, cookie.token);
         })
         .catch((error) => setMessage(error));

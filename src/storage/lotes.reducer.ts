@@ -1,8 +1,9 @@
 import {Reducer} from 'redux';
-import {Action} from './dispatch.actions';
+import {UserAction} from './user.reducer';
 
 export interface LoteState {
   lotes: Lote[];
+  loading: boolean;
 }
 
 export type Lote = {
@@ -18,18 +19,27 @@ export type Lote = {
 
 const initialState: LoteState = {
   lotes: [],
+  loading: true,
 };
 
 const loteReducer: Reducer = (state = initialState, action) => {
   switch (action.type) {
-    case Action.SAVE_LOTES:
+    case LoteAction.SAVE:
       return {...state, lotes: action.lotes};
-    case Action.CLEAR_LOTES:
-    case Action.LOG_OUT:
-      return {};
+    case LoteAction.LOADING:
+      return {...state, loading: action.loading};
+    case LoteAction.CLEAR:
+    case UserAction.LOG_OUT:
+      return initialState;
     default:
       return state;
   }
 };
+
+export enum LoteAction {
+  SAVE = 'save_lotes',
+  CLEAR = 'clear_lotes',
+  LOADING = 'loading_lotes',
+}
 
 export default loteReducer;

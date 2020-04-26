@@ -1,29 +1,35 @@
 import React, {useEffect, useState} from 'react';
 import {ActivityIndicator, SafeAreaView, Text, View} from 'react-native';
 import {Button} from 'react-native-elements';
+import {useDispatch} from 'react-redux';
 import {associatePropietarioToLote} from '../../requests/lotes.request';
+import {LoteAction} from '../../storage/lotes.reducer';
 
 function ConfirmationScreen({navigation, route}) {
   const [loading, setLoading] = useState(true);
-  const [associated, setAssociated] = useState(false);
+  const [associated, setAssociated] = useState(undefined);
+  const dispatch = useDispatch();
+
+  const reloadLotes = (loading: boolean) =>
+    dispatch({type: LoteAction.LOADING, loading});
 
   useEffect(() => {
     associatePropietarioToLote(route.params)
       .then((response) => response.data)
       .then((associated) => {
         setAssociated(associated);
-        setLoading(false);
       })
       .catch((error) => {
         setAssociated(false);
-        setLoading(false);
       });
+
+    reloadLotes(true);
   }, []);
 
   return (
     <SafeAreaView>
-      {loading ? (
-        <ActivityIndicator size="large" animating={loading} />
+      {typeof associated == 'undefined' ? (
+        <ActivityIndicator size="large" animating={true} />
       ) : (
         <AssociationOutcome
           success={associated}
