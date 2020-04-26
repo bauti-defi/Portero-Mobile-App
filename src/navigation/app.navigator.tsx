@@ -18,7 +18,7 @@ function AppNavigator() {
     getCookie()
       .then((cookie) => {
         if (cookie) {
-          console.debug(`Found cookie!`);
+          console.debug('Found cookie!');
           dispatch({type: UserAction.STORE_COOKIE, cookie});
         }
         setLoading(false);
