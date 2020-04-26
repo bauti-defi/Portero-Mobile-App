@@ -5,8 +5,8 @@ import DeviceInfo from 'react-native-device-info';
 import {Button, Input} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useDispatch} from 'react-redux';
-import {saveToken} from '.././jwt.service';
 import {login} from '../requests/login.request';
+import {saveCookie} from '../secure.storage';
 import {UserAction} from '../storage/user.reducer';
 
 const validator = new Validator();
@@ -26,7 +26,7 @@ function LoginScreen({navigation}) {
         .then((response) => response.data)
         .then((cookie) => {
           dispatch({type: UserAction.STORE_COOKIE, cookie});
-          saveToken(email, cookie.token);
+          saveCookie(email, cookie);
         })
         .catch((error) => setMessage(error));
     }

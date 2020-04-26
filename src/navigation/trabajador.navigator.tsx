@@ -6,24 +6,18 @@ import {
 } from '@react-navigation/drawer';
 import React from 'react';
 import {useDispatch} from 'react-redux';
-import LotesNavigator from '../navigation/lotes.navigator';
-import InviteNavigator from '../screens/invite.screen';
 import {deleteCookie} from '../secure.storage';
 import {UserAction} from '../storage/user.reducer';
 
 const Drawer = createDrawerNavigator();
 
-function PropietarioNavigator() {
+const TrabajadorNavigator = () => {
   return (
-    <Drawer.Navigator
-      lazy={true}
-      drawerContent={(props) => <DrawerContent {...props} />}
-      initialRouteName="Invitaciones">
-      <Drawer.Screen name="Invitaciones" component={InviteNavigator} />
-      <Drawer.Screen name="Lotes" component={LotesNavigator} />
+    <Drawer.Navigator lazy={true} drawerContent={DrawerContent}>
+      <Drawer.Screen name="Root" component={null} />
     </Drawer.Navigator>
   );
-}
+};
 
 function DrawerContent(props) {
   const dispatch = useDispatch();
@@ -41,4 +35,4 @@ function DrawerContent(props) {
   );
 }
 
-export default PropietarioNavigator;
+export default TrabajadorNavigator;

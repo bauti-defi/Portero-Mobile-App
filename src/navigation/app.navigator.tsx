@@ -1,8 +1,8 @@
 import {NavigationContainer} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import {useDispatch} from 'react-redux';
-import {getToken} from '../jwt.service';
 import SplashScreen from '../screens/splash.screen';
+import {getCookie} from '../secure.storage';
 import {useUserSelector} from '../storage/app.selectors';
 import {UserAction} from '../storage/user.reducer';
 import HomeNavigator from './home.navigator';
@@ -10,28 +10,21 @@ import LoginNavigator from './login.navigator';
 
 function AppNavigator() {
   const [loading, setLoading] = useState(true);
-  const token = useUserSelector((state) => state.token);
+  const cookie = useUserSelector((state) => state.cookie);
   const dispatch = useDispatch();
 
-  async function fetchToken() {
-    console.log('fetching token...');
-    const token: string | false = await getToken();
-    if (token) {
-      console.log(`found token: ${token}`);
-      dispatch({type: UserAction.STORE_TOKEN, token});
-    }
-  }
-
   useEffect(() => {
-    async function fetch() {
-      await fetchToken();
-    }
-
-    if (!token) {
-      fetch();
-    }
-    setLoading(false);
-  });
+    console.debug('Fetching cookie from storage...');
+    getCookie()
+      .then((cookie) => {
+        if (cookie) {
+          console.debug(`Found cookie!`);
+          dispatch({type: UserAction.STORE_COOKIE, cookie});
+        }
+        setLoading(false);
+      })
+      .catch((error) => setLoading(false));
+  }, []);
 
   if (loading) {
     return <SplashScreen />;
@@ -39,7 +32,7 @@ function AppNavigator() {
 
   return (
     <NavigationContainer>
-      {token ? <HomeNavigator /> : <LoginNavigator />}
+      {cookie.token ? <HomeNavigator /> : <LoginNavigator />}
     </NavigationContainer>
   );
 }
