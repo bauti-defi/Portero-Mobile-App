@@ -31,10 +31,9 @@ function AccountInput({route, navigation}) {
         email,
         password,
       };
-      delete body.user_type;
-      await register(body, payload.user_type).then(
-        navigation.navigate('login'),
-      );
+      await register(body)
+        .then(navigation.navigate('login'))
+        .catch((error) => console.log(`Login error: ${error}`));
     }
   }
 

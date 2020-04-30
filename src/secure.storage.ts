@@ -1,7 +1,7 @@
 import * as Keychain from 'react-native-keychain';
 import {Cookie} from './storage/user.reducer';
 
-const SERVER_COOKIE = 'api/v1/cookie';
+const SERVER_COOKIE = 'api/v2/cookie';
 
 export const getCookie = (): Promise<Cookie | false> => {
   return Keychain.getInternetCredentials(SERVER_COOKIE)

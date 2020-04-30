@@ -30,7 +30,7 @@ function NameInput({navigation}) {
         payload: {
           first_name,
           last_name,
-          date: date.toISOString(),
+          birth_date: date.toISOString(),
         },
       });
     }
