@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {ActivityIndicator, SafeAreaView, View} from 'react-native';
 import {Button, Text} from 'react-native-elements';
 import {useDispatch} from 'react-redux';
-import {associatePropietarioToLote} from '../../requests/lotes.request';
+import {registerPropietario} from '../../requests/lotes.request';
 import {LoteAction} from '../../storage/lotes.reducer';
 
 function FeedbackScreen({navigation, route}) {
@@ -14,12 +14,13 @@ function FeedbackScreen({navigation, route}) {
     dispatch({type: LoteAction.LOADING, loading});
 
   useEffect(() => {
-    associatePropietarioToLote(route.params)
+    registerPropietario(route.params)
       .then((response) => response.data)
       .then((associated) => {
         setAssociated(associated);
       })
       .catch((error) => {
+        console.debug(error);
         setAssociated(false);
       });
 

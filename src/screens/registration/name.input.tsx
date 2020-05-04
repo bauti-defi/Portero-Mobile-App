@@ -7,7 +7,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 const validator = new Validator();
 
-const year = new Date().getFullYear();
+const today = new Date();
 
 function NameInput({navigation}) {
   const [first_name, setFirstName] = useState('');
@@ -15,7 +15,7 @@ function NameInput({navigation}) {
   const [last_name, setLastName] = useState('');
   const [lastNameMessage, setLastNameMessage] = useState('');
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(today);
   const [dateStyle, setDateStyle] = useState({});
 
   function next() {
@@ -23,7 +23,7 @@ function NameInput({navigation}) {
       setFirstNameMessage('Nombre Vacio');
     } else if (validator.isEmpty(last_name)) {
       setLastNameMessage('Apellido Vacio');
-    } else if (!validDate()) {
+    } else if (!validDate(date)) {
       setDateStyle({color: 'red'});
     } else {
       navigation.navigate('dni', {
@@ -37,17 +37,20 @@ function NameInput({navigation}) {
   }
 
   const datePickerEvent = (e, date) => {
-    setShowDatePicker(false);
-    if (e.type === 'set') {
-      setDate(date);
+    setDate(date);
+    if (date && validDate(date)) {
       setDateStyle({});
+    } else {
+      setDateStyle({color: 'red'});
     }
+    setShowDatePicker(false);
   };
 
-  const validDate = () => year - date.getFullYear() >= 6;
+  const validDate = (date: Date) =>
+    today.getFullYear() - date.getFullYear() >= 6;
 
   const dateButtonTitle = () =>
-    validDate() ? date.toDateString() : 'Fecha de Nacimiento';
+    date !== today ? date.toDateString() : 'Fecha de Nacimiento';
 
   return (
     <View>

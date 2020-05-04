@@ -10,7 +10,7 @@ const keyExtractor = (lote, index) => lote.lote_id;
 
 const renderItem = ({item}) => (
   <ListItem
-    title={`${item.nickname} en ${item.barrio_name}`}
+    title={`${item.lote_nickname} en ${item.barrio_name}`}
     subtitle={`${item.lote_street} ${item.lote_num}, ${item.lote_code}`}
     bottomDivider
   />

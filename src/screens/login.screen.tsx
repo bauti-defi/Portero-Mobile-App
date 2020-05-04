@@ -23,7 +23,10 @@ function LoginScreen({navigation}) {
       setMessage('Email o Contrasena invalidad');
     } else {
       login(email, password, DeviceInfo.getMacAddressSync())
-        .then((response) => response.data)
+        .then((response) => {
+          console.log(response.data);
+          return response.data;
+        })
         .then((cookie) => {
           dispatch({type: UserAction.STORE_COOKIE, cookie});
           saveCookie(email, cookie);

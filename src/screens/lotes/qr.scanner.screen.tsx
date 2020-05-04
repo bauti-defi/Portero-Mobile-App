@@ -7,7 +7,7 @@ function QRScannerScreen({navigation, route}) {
     let response = JSON.parse(event.data);
     navigation.navigate('Feedback', {
       nickname: route.params,
-      invite: response.invite,
+      message: response.message,
       id: response.id,
     });
   }
