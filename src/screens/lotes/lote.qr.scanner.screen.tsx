@@ -2,7 +2,7 @@ import React from 'react';
 import {Button, Text} from 'react-native-elements';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 
-function QRScannerScreen({navigation, route}) {
+function LoteQRScannerScreen({navigation, route}) {
   function onRead(event) {
     let response = JSON.parse(event.data);
     navigation.navigate('Feedback', {
@@ -30,4 +30,4 @@ const bottomContent = (navigation) => (
   <Button type="clear" title="Cerrar" onPress={navigation.goBack} />
 );
 
-export default QRScannerScreen;
+export default LoteQRScannerScreen;

@@ -6,24 +6,32 @@ import {
 } from '@react-navigation/drawer';
 import React from 'react';
 import {useDispatch} from 'react-redux';
+import InviteNavigator from '../screens/invite.screen';
+import QRScannerScreen from '../screens/qr.scanner.screen';
 import {deleteCookie} from '../secure.storage';
 import {UserAction} from '../storage/user.reducer';
+import LotesNavigator from './lotes.navigator';
 
 const Drawer = createDrawerNavigator();
 
-const TrabajadorNavigator = () => {
+function UserNavigator() {
   return (
-    <Drawer.Navigator lazy={true} drawerContent={DrawerContent}>
-      <Drawer.Screen name="Root" component={null} />
+    <Drawer.Navigator
+      lazy={true}
+      drawerContent={(props) => <DrawerContent {...props} />}
+      initialRouteName="Invitaciones">
+      <Drawer.Screen name="Invitaciones" component={InviteNavigator} />
+      <Drawer.Screen name="Lotes" component={LotesNavigator} />
+      <Drawer.Screen name="Escanear QR" component={QRScannerScreen} />
     </Drawer.Navigator>
   );
-};
+}
 
 function DrawerContent(props) {
   const dispatch = useDispatch();
 
-  async function logOut() {
-    await deleteCookie();
+  function logOut() {
+    deleteCookie();
     dispatch({type: UserAction.LOG_OUT});
   }
 
@@ -35,4 +43,4 @@ function DrawerContent(props) {
   );
 }
 
-export default TrabajadorNavigator;
+export default UserNavigator;

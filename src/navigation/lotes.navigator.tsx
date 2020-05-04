@@ -4,8 +4,8 @@ import AddButton from '../components/add.button';
 import DrawerButton from '../components/drawer.button';
 import FeedbackScreen from '../screens/lotes/association.feedback.screen';
 import LoteAssociationScreen from '../screens/lotes/lote.association.screen';
+import LoteQRScannerScreen from '../screens/lotes/lote.qr.scanner.screen';
 import LotesScreen from '../screens/lotes/lotes.screen';
-import QRScannerScreen from '../screens/lotes/qr.scanner.screen';
 
 const Stack = createStackNavigator();
 
@@ -25,7 +25,7 @@ function LotesNavigator({route, navigation}) {
       <Stack.Screen name="Associar" component={LoteAssociationScreen} />
       <Stack.Screen
         name="Lote QR Scanner"
-        component={QRScannerScreen}
+        component={LoteQRScannerScreen}
         options={{title: 'Escanear QR'}}
       />
       <Stack.Screen
