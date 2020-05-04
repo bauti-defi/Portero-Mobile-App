@@ -6,7 +6,6 @@ import {registerPropietario} from '../../requests/lotes.request';
 import {LoteAction} from '../../storage/lotes.reducer';
 
 function FeedbackScreen({navigation, route}) {
-  const [loading, setLoading] = useState(true);
   const [associated, setAssociated] = useState(undefined);
   const dispatch = useDispatch();
 
