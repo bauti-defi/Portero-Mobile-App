@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 const validator = new Validator();
 
-const LoteFormScreen = ({navigation, route}) => {
+const PropietarioFormScreen = ({navigation, route}) => {
   const [nickname, setNickname] = useState('');
   const [message, setMessage] = useState('');
 
@@ -13,7 +13,7 @@ const LoteFormScreen = ({navigation, route}) => {
     if (validator.isEmpty(nickname)) {
       setMessage('Sobrenombre invalido!');
     } else {
-      navigation.navigate('Add Lote Feedback', {
+      navigation.navigate('Propietario Registration Feedback', {
         nickname,
         ...route.params,
       });
@@ -37,4 +37,4 @@ const LoteFormScreen = ({navigation, route}) => {
   );
 };
 
-export default LoteFormScreen;
+export default PropietarioFormScreen;

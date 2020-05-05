@@ -2,24 +2,29 @@ import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
 import {Button} from 'react-native-elements';
 import QRCodeScanner from 'react-native-qrcode-scanner';
-import FeedbackScreen from '../screens/lotes/add.lote.feedback.screen';
-import LoteFormScreen from '../screens/lotes/lote.form.screen';
+import GuardiaRegistrationFeedbackScreen from 'src/screens/guarida/guardia.registration.feedback.screen';
+import PropietarionRegistrationFeedbackScreen from '../screens/propietario/prop.registration.feedback.screen';
+import PropietarioFormScreen from '../screens/propietario/propietario.form.screen';
 
 const Stack = createStackNavigator();
 
-const QRScannerNavigator = ({navigation}) => {
+const QRScannerNavigator = () => {
   return (
     <Stack.Navigator initialRouteName="Scanner">
       <Stack.Screen name="Escanear QR" component={ScannerScreen} />
       <Stack.Screen
-        name="prop/to/lote"
-        component={LoteFormScreen}
-        options={{title: 'Lote'}}
+        name="propietario/register"
+        component={PropietarioFormScreen}
+        options={{title: 'Propietario'}}
       />
       <Stack.Screen
-        name="Add Lote Feedback"
-        component={FeedbackScreen}
+        name="Propietario Registration Feedback"
+        component={PropietarionRegistrationFeedbackScreen}
         options={{title: '', headerLeft: null}}
+      />
+      <Stack.Screen
+        name="guardia/registration"
+        component={GuardiaRegistrationFeedbackScreen}
       />
     </Stack.Navigator>
   );

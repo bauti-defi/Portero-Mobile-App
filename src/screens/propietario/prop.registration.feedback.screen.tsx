@@ -5,8 +5,8 @@ import {useDispatch} from 'react-redux';
 import {registerPropietario} from '../../requests/lotes.request';
 import {LoteAction} from '../../storage/lotes.reducer';
 
-const FeedbackScreen = ({navigation, route}) => {
-  const [associated, setAssociated] = useState(undefined);
+const PropietarionRegistrationFeedbackScreen = ({navigation, route}) => {
+  const [registered, setRegistered] = useState(undefined);
   const dispatch = useDispatch();
 
   const reloadLotes = (loading: boolean) =>
@@ -15,12 +15,12 @@ const FeedbackScreen = ({navigation, route}) => {
   useEffect(() => {
     registerPropietario(route.params)
       .then((response) => response.data)
-      .then((associated) => {
-        setAssociated(associated);
+      .then((success) => {
+        setRegistered(success);
       })
       .catch((error) => {
         console.debug(error);
-        setAssociated(false);
+        setRegistered(false);
       });
 
     reloadLotes(true);
@@ -28,11 +28,11 @@ const FeedbackScreen = ({navigation, route}) => {
 
   return (
     <SafeAreaView>
-      {typeof associated == 'undefined' ? (
+      {typeof registered == 'undefined' ? (
         <ActivityIndicator size="large" animating={true} />
       ) : (
-        <AssociationOutcome
-          success={associated}
+        <RegistrationOutcome
+          success={registered}
           onPress={() => {
             navigation.popToTop();
             navigation.jumpTo('Lotes');
@@ -43,7 +43,7 @@ const FeedbackScreen = ({navigation, route}) => {
   );
 };
 
-function AssociationOutcome(props) {
+const RegistrationOutcome = (props) => {
   let message = props.success ? 'Associación exitosa!' : 'No se pudo associar';
   return (
     <View>
@@ -51,6 +51,6 @@ function AssociationOutcome(props) {
       <Button type="clear" title="Ok" onPress={props.onPress} />
     </View>
   );
-}
+};
 
-export default FeedbackScreen;
+export default PropietarionRegistrationFeedbackScreen;
