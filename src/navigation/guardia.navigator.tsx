@@ -1,38 +1,16 @@
-import {
-  createDrawerNavigator,
-  DrawerContentScrollView,
-  DrawerItem,
-  DrawerItemList,
-} from '@react-navigation/drawer';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 import React from 'react';
-import {useDispatch} from 'react-redux';
-import {deleteCookie} from '../secure.storage';
-import {UserAction} from '../storage/user.reducer';
+import DrawerContent from '../components/home.drawer.content';
 
 const Drawer = createDrawerNavigator();
 
 const GuardiaNavigator = () => {
   return (
-    <Drawer.Navigator lazy={true} drawerContent={DrawerContent}>
+    <Drawer.Navigator
+      lazy={true}
+      drawerContent={(props) => <DrawerContent {...props} />}>
       <Drawer.Screen name="Root" component={null} />
     </Drawer.Navigator>
   );
 };
-
-function DrawerContent(props) {
-  const dispatch = useDispatch();
-
-  async function logOut() {
-    await deleteCookie();
-    dispatch({type: UserAction.LOG_OUT});
-  }
-
-  return (
-    <DrawerContentScrollView {...props}>
-      <DrawerItemList {...props} />
-      <DrawerItem label="Salir" inactiveTintColor="red" onPress={logOut} />
-    </DrawerContentScrollView>
-  );
-}
-
 export default GuardiaNavigator;
