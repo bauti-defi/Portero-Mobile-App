@@ -14,18 +14,18 @@ const QRScannerNavigator = ({navigation}) => {
       <Stack.Screen
         name="prop/to/lote"
         component={LoteFormScreen}
-        options={{title: 'Informacion'}}
+        options={{title: 'Lote'}}
       />
       <Stack.Screen
         name="Add Lote Feedback"
         component={FeedbackScreen}
-        options={{title: 'Lote'}}
+        options={{title: '', headerLeft: null}}
       />
     </Stack.Navigator>
   );
 };
 
-const ScannerScreen = ({navigation, route}) => {
+const ScannerScreen = ({navigation}) => {
   const onRead = (event) => {
     let qrData = JSON.parse(event.data);
     navigation.navigate(qrData.path, {
@@ -35,11 +35,7 @@ const ScannerScreen = ({navigation, route}) => {
   };
 
   return (
-    <QRCodeScanner
-      onRead={onRead}
-      //flashMode={RNCamera.Constants.FlashMode.torch}
-      bottomContent={bottomContent(navigation)}
-    />
+    <QRCodeScanner onRead={onRead} bottomContent={bottomContent(navigation)} />
   );
 };
 
