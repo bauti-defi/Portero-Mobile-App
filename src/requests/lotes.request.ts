@@ -6,4 +6,4 @@ export const getAllLotes = () =>
 export const registerPropietario = (register: RegisterDTO) =>
   axios.post('/propietario/register', register);
 
-type RegisterDTO = {invite: string; nickname: string; id: string};
+type RegisterDTO = {message: string; nickname: string; id: string};

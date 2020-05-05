@@ -5,7 +5,7 @@ import {useDispatch} from 'react-redux';
 import {registerPropietario} from '../../requests/lotes.request';
 import {LoteAction} from '../../storage/lotes.reducer';
 
-function FeedbackScreen({navigation, route}) {
+const FeedbackScreen = ({navigation, route}) => {
   const [associated, setAssociated] = useState(undefined);
   const dispatch = useDispatch();
 
@@ -33,12 +33,15 @@ function FeedbackScreen({navigation, route}) {
       ) : (
         <AssociationOutcome
           success={associated}
-          onPress={navigation.popToTop}
+          onPress={() => {
+            navigation.popToTop();
+            navigation.jumpTo('Lotes');
+          }}
         />
       )}
     </SafeAreaView>
   );
-}
+};
 
 function AssociationOutcome(props) {
   let message = props.success ? 'Associación exitosa!' : 'No se pudo associar';
