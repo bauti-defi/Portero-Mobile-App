@@ -2,9 +2,9 @@ import React, {useEffect, useState} from 'react';
 import {ActivityIndicator, SafeAreaView, View} from 'react-native';
 import {Button, Text} from 'react-native-elements';
 import {useDispatch} from 'react-redux';
-import {registerGuardia} from 'src/requests/guardia.requests';
-import {deleteCookie} from 'src/secure.storage';
-import {UserAction} from 'src/storage/user.reducer';
+import {registerGuardia} from '../../requests/guardia.requests';
+import {deleteCookie} from '../../secure.storage';
+import {UserAction} from '../../storage/user.reducer';
 
 const GuardiaRegistrationFeedbackScreen = ({navigation, route}) => {
   const [registered, setRegistered] = useState(undefined);

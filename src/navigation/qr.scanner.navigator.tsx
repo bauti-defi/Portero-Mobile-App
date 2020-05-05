@@ -2,7 +2,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
 import {Button} from 'react-native-elements';
 import QRCodeScanner from 'react-native-qrcode-scanner';
-import GuardiaRegistrationFeedbackScreen from 'src/screens/guarida/guardia.registration.feedback.screen';
+import GuardiaRegistrationFeedbackScreen from '../screens/guarida/guardia.registration.feedback.screen';
 import PropietarionRegistrationFeedbackScreen from '../screens/propietario/prop.registration.feedback.screen';
 import PropietarioFormScreen from '../screens/propietario/propietario.form.screen';
 
