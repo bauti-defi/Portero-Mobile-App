@@ -1,7 +1,7 @@
 import RNDateTimePicker from '@react-native-community/datetimepicker';
 import {Validator} from 'class-validator';
 import React, {useState} from 'react';
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {Button, Input} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -18,7 +18,7 @@ function NameInput({navigation}) {
   const [date, setDate] = useState(today);
   const [dateStyle, setDateStyle] = useState({});
 
-  function next() {
+  const next = () => {
     if (validator.isEmpty(first_name)) {
       setFirstNameMessage('Nombre Vacio');
     } else if (validator.isEmpty(last_name)) {
@@ -26,7 +26,7 @@ function NameInput({navigation}) {
     } else if (!validDate(date)) {
       setDateStyle({color: 'red'});
     } else {
-      navigation.navigate('dni', {
+      navigation.push('dni', {
         payload: {
           first_name,
           last_name,
@@ -34,7 +34,7 @@ function NameInput({navigation}) {
         },
       });
     }
-  }
+  };
 
   const datePickerEvent = (e, date) => {
     setDate(date);
@@ -53,7 +53,7 @@ function NameInput({navigation}) {
     date !== today ? date.toDateString() : 'Fecha de Nacimiento';
 
   return (
-    <View>
+    <View style={styles.container}>
       <Input
         placeholder=" Nombre Completo"
         autoCapitalize="words"
@@ -90,5 +90,22 @@ function NameInput({navigation}) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flexGrow: 1,
+    padding: 10,
+    justifyContent: 'space-around',
+  },
+  buttonContainer: {
+    margin: 25,
+    justifyContent: 'center',
+    flexDirection: 'row',
+  },
+  inputContainer: {
+    padding: 15,
+    justifyContent: 'space-around',
+  },
+});
 
 export default NameInput;

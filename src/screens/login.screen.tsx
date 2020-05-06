@@ -1,6 +1,6 @@
 import {Validator} from 'class-validator';
 import React, {useState} from 'react';
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import DeviceInfo from 'react-native-device-info';
 import {Button, Input} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -36,30 +36,52 @@ function LoginScreen({navigation}) {
   }
 
   return (
-    <View>
-      <Input
-        placeholder=" Email"
-        keyboardType="email-address"
-        onChangeText={setEmail}
-        autoCapitalize="none"
-        leftIcon={<Icon name="envelope" size={24} color="black" />}
-      />
-      <Input
-        placeholder=" Contrasena"
-        autoCapitalize="none"
-        secureTextEntry={true}
-        onChangeText={setPassword}
-        errorMessage={message}
-        leftIcon={<Icon name="lock" size={24} color="black" />}
-      />
-      <Button title="Ingresar" type="clear" onPress={logIn} />
-      <Button
-        title="Registrar"
-        type="clear"
-        onPress={() => navigation.navigate('register')}
-      />
+    <View style={styles.container}>
+      <View style={styles.inputContainer}>
+        <Input
+          placeholder=" Email"
+          keyboardType="email-address"
+          onChangeText={setEmail}
+          autoCapitalize="none"
+          leftIcon={<Icon name="envelope" size={24} color="black" />}
+        />
+        <Input
+          placeholder=" Contrasena"
+          autoCapitalize="none"
+          secureTextEntry={true}
+          onChangeText={setPassword}
+          errorMessage={message}
+          leftIcon={<Icon name="lock" size={24} color="black" />}
+        />
+      </View>
+      <View style={styles.buttonContainer}>
+        <Button title="Ingresar" type="clear" onPress={logIn} />
+        <Button
+          title="Registrar"
+          type="clear"
+          onPress={() => navigation.navigate('register')}
+        />
+      </View>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flexGrow: 1,
+    padding: 10,
+    justifyContent: 'space-around',
+  },
+  buttonContainer: {
+    margin: 25,
+    justifyContent: 'center',
+    flexDirection: 'row',
+  },
+  inputContainer: {
+    backgroundColor: '#DEDEDE',
+    padding: 15,
+    justifyContent: 'space-around',
+  },
+});
 
 export default LoginScreen;

@@ -2,6 +2,7 @@ import React, {useEffect} from 'react';
 import {FlatList, SafeAreaView, View} from 'react-native';
 import {ListItem, Text} from 'react-native-elements';
 import {useDispatch} from 'react-redux';
+import EmptyList from '../../components/empty.list';
 import {getAllLotes} from '../../requests/lotes.request';
 import {useLoteSelector} from '../../storage/app.selectors';
 import {Lote, LoteAction} from '../../storage/lotes.reducer';
@@ -47,11 +48,14 @@ function LotesScreen() {
       <FlatList
         keyExtractor={keyExtractor}
         data={lotes}
+        contentContainerStyle={{
+          flexGrow: 1,
+        }}
         extraData={lotes}
         onRefresh={refresh}
         renderItem={renderItem}
         refreshing={loading}
-        ListEmptyComponent={EmptyLoteList}
+        ListEmptyComponent={EmptyList}
       />
     </SafeAreaView>
   );

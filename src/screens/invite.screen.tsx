@@ -4,6 +4,7 @@ import {SafeAreaView} from 'react-native';
 import {Text} from 'react-native-elements';
 import CreateButton from '../components/create.button';
 import DrawerButton from '../components/drawer.button';
+import EmptyList from '../components/empty.list';
 
 const Stack = createStackNavigator();
 
@@ -29,8 +30,8 @@ function InviteNavigator({navigation}) {
 
 function InviteScreen() {
   return (
-    <SafeAreaView>
-      <Text>Invite Screen</Text>
+    <SafeAreaView style={{flexGrow: 1}}>
+      <EmptyList />
     </SafeAreaView>
   );
 }
