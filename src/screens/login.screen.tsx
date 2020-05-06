@@ -44,6 +44,7 @@ function LoginScreen({navigation}) {
           onChangeText={setEmail}
           autoCapitalize="none"
           leftIcon={<Icon name="envelope" size={24} color="black" />}
+          containerStyle={styles.input}
         />
         <Input
           placeholder=" Contrasena"
@@ -52,6 +53,7 @@ function LoginScreen({navigation}) {
           onChangeText={setPassword}
           errorMessage={message}
           leftIcon={<Icon name="lock" size={24} color="black" />}
+          containerStyle={styles.input}
         />
       </View>
       <View style={styles.buttonContainer}>
@@ -77,8 +79,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
   },
+  input: {
+    paddingBottom: 30,
+  },
   inputContainer: {
-    backgroundColor: '#DEDEDE',
     padding: 15,
     justifyContent: 'space-around',
   },

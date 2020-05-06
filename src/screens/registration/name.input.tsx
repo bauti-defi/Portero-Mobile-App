@@ -54,18 +54,22 @@ function NameInput({navigation}) {
 
   return (
     <View style={styles.container}>
-      <Input
-        placeholder=" Nombre Completo"
-        autoCapitalize="words"
-        onChangeText={setFirstName}
-        errorMessage={firstNameMessage}
-      />
-      <Input
-        placeholder=" Apellido"
-        autoCapitalize="words"
-        onChangeText={setLastName}
-        errorMessage={lastNameMessage}
-      />
+      <View>
+        <Input
+          placeholder=" Nombre Completo"
+          autoCapitalize="words"
+          onChangeText={setFirstName}
+          errorMessage={firstNameMessage}
+          containerStyle={styles.input}
+        />
+        <Input
+          placeholder=" Apellido"
+          autoCapitalize="words"
+          onChangeText={setLastName}
+          errorMessage={lastNameMessage}
+          containerStyle={styles.input}
+        />
+      </View>
       {showDatePicker ? (
         <RNDateTimePicker
           value={date}
@@ -97,14 +101,8 @@ const styles = StyleSheet.create({
     padding: 10,
     justifyContent: 'space-around',
   },
-  buttonContainer: {
-    margin: 25,
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
-  inputContainer: {
-    padding: 15,
-    justifyContent: 'space-around',
+  input: {
+    paddingBottom: 30,
   },
 });
 
