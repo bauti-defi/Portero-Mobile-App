@@ -8,7 +8,7 @@ const Stack = createStackNavigator();
 
 function RegistrtionScreen() {
   return (
-    <Stack.Navigator initialRouteName="name" screenOptions={{headerLeft: null}}>
+    <Stack.Navigator initialRouteName="name" headerMode={'none'}>
       <Stack.Screen
         name="name"
         component={NameInput}

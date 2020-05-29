@@ -1,61 +1,91 @@
+import RNDateTimePicker from '@react-native-community/datetimepicker';
 import {Validator} from 'class-validator';
 import React, {useState} from 'react';
-import {View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {Button, Input} from 'react-native-elements';
-import RNPickerSelect from 'react-native-picker-select';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const validator = new Validator();
+
+const today = new Date();
 
 function NameInput({navigation}) {
   const [first_name, setFirstName] = useState('');
   const [firstNameMessage, setFirstNameMessage] = useState('');
   const [last_name, setLastName] = useState('');
   const [lastNameMessage, setLastNameMessage] = useState('');
-  const [user_type, setUserType] = useState();
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [date, setDate] = useState(today);
+  const [dateStyle, setDateStyle] = useState({});
 
-  function next() {
+  const next = () => {
     if (validator.isEmpty(first_name)) {
       setFirstNameMessage('Nombre Vacio');
     } else if (validator.isEmpty(last_name)) {
       setLastNameMessage('Apellido Vacio');
-    } else if (validator.isEmpty(user_type)) {
+    } else if (!validDate(date)) {
+      setDateStyle({color: 'red'});
     } else {
-      navigation.navigate('dni', {
+      navigation.push('dni', {
         payload: {
           first_name,
           last_name,
-          user_type,
+          birth_date: date.toISOString(),
         },
       });
     }
-  }
+  };
+
+  const datePickerEvent = (e, date) => {
+    setDate(date);
+    if (date && validDate(date)) {
+      setDateStyle({});
+    } else {
+      setDateStyle({color: 'red'});
+    }
+    setShowDatePicker(false);
+  };
+
+  const validDate = (date: Date) =>
+    today.getFullYear() - date.getFullYear() >= 6;
+
+  const dateButtonTitle = () =>
+    date !== today ? date.toDateString() : 'Fecha de Nacimiento';
 
   return (
-    <View>
-      <Input
-        placeholder=" Nombre Completo"
-        autoCapitalize="words"
-        onChangeText={setFirstName}
-        errorMessage={firstNameMessage}
-      />
-      <Input
-        placeholder=" Apellido"
-        autoCapitalize="words"
-        onChangeText={setLastName}
-        errorMessage={lastNameMessage}
-      />
-      <RNPickerSelect
-        useNativeAndroidPickerStyle={true}
-        onValueChange={setUserType}
-        items={[
-          {label: 'Propietario', value: 'propietario'},
-          {label: 'Trabajador', value: 'trabajador'},
-        ]}
-        placeholder={{
-          label: 'Ingrese el tipo de usuario',
-        }}
-      />
+    <View style={styles.container}>
+      <View>
+        <Input
+          placeholder=" Nombre Completo"
+          autoCapitalize="words"
+          onChangeText={setFirstName}
+          errorMessage={firstNameMessage}
+          containerStyle={styles.input}
+        />
+        <Input
+          placeholder=" Apellido"
+          autoCapitalize="words"
+          onChangeText={setLastName}
+          errorMessage={lastNameMessage}
+          containerStyle={styles.input}
+        />
+      </View>
+      {showDatePicker ? (
+        <RNDateTimePicker
+          value={date}
+          mode="date"
+          display="spinner"
+          onChange={datePickerEvent}
+        />
+      ) : (
+        <Button
+          type="outline"
+          titleStyle={dateStyle}
+          title={dateButtonTitle()}
+          onPress={(e) => setShowDatePicker(true)}
+        />
+      )}
+
       <Button
         type="outline"
         icon={<Icon name="arrow-right" size={24} color="black" />}
@@ -64,5 +94,16 @@ function NameInput({navigation}) {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flexGrow: 1,
+    padding: 10,
+    justifyContent: 'space-around',
+  },
+  input: {
+    paddingBottom: 30,
+  },
+});
 
 export default NameInput;

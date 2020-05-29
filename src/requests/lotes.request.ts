@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-export const getAllLotes = async () =>
-  await axios.get('/lote/propietario/all').then((response) => response.data);
+export const getAllLotes = () =>
+  axios.get('/propietario/lotes/all').then((response) => response.data);
 
-export const associatePropietarioToLote = async (associarDTO: AssociarDTO) =>
-  await axios.post('/lote/associate', associarDTO);
+export const registerPropietario = (register: RegisterDTO) =>
+  axios.post('/propietario/register', register);
 
-type AssociarDTO = {invite: string; nickname: string; id: string};
+type RegisterDTO = {message: string; nickname: string; id: string};

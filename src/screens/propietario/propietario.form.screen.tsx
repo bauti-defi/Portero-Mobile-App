@@ -5,15 +5,18 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 const validator = new Validator();
 
-function LoteAssociationScreen({route, navigation}) {
+const PropietarioFormScreen = ({navigation, route}) => {
   const [nickname, setNickname] = useState('');
   const [message, setMessage] = useState('');
 
-  function scanQR() {
+  function next() {
     if (validator.isEmpty(nickname)) {
       setMessage('Sobrenombre invalido!');
     } else {
-      navigation.navigate('Lote QR Scanner', nickname);
+      navigation.navigate('Propietario Registration Feedback', {
+        nickname,
+        ...route.params,
+      });
     }
   }
 
@@ -27,11 +30,11 @@ function LoteAssociationScreen({route, navigation}) {
       />
       <Button
         type="outline"
-        onPress={scanQR}
-        icon={<Icon name="qrcode" size={24} color="black" />}
+        onPress={next}
+        icon={<Icon name="arrow-right" size={24} color="black" />}
       />
     </React.Fragment>
   );
-}
+};
 
-export default LoteAssociationScreen;
+export default PropietarioFormScreen;

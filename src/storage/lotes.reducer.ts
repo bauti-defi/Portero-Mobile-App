@@ -14,7 +14,7 @@ export type Lote = {
   lote_id: string;
   lote_street: string;
   lote_name: string;
-  nickname: string;
+  lote_nickname: string;
 };
 
 const initialState: LoteState = {
