@@ -1,14 +1,13 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
-import {SafeAreaView} from 'react-native';
-import {Text} from 'react-native-elements';
 import CreateButton from '../components/create.button';
 import DrawerButton from '../components/drawer.button';
-import EmptyList from '../components/empty.list';
+import CreateInviteScreen from '../screens/invites/invite.form.screen';
+import InviteScreen from '../screens/invites/invite.screen';
 
 const Stack = createStackNavigator();
 
-function InviteNavigator({navigation}) {
+const InviteNavigator = ({navigation}) => {
   return (
     <Stack.Navigator initialRouteName="Invitaciones">
       <Stack.Screen
@@ -26,22 +25,6 @@ function InviteNavigator({navigation}) {
       <Stack.Screen name="Crear Invitacion" component={CreateInviteScreen} />
     </Stack.Navigator>
   );
-}
-
-function InviteScreen() {
-  return (
-    <SafeAreaView style={{flexGrow: 1}}>
-      <EmptyList />
-    </SafeAreaView>
-  );
-}
-
-function CreateInviteScreen() {
-  return (
-    <SafeAreaView>
-      <Text>Create Invite screen</Text>
-    </SafeAreaView>
-  );
-}
+};
 
 export default InviteNavigator;

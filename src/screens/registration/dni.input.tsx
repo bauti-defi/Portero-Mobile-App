@@ -1,9 +1,9 @@
-import {View} from 'react-native';
-import React, {useState} from 'react';
-import Icon from 'react-native-vector-icons/FontAwesome';
-import {Input, Text, Button, Divider} from 'react-native-elements';
-import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 import {Validator} from 'class-validator';
+import React, {useState} from 'react';
+import {View} from 'react-native';
+import {Button, Input} from 'react-native-elements';
+import SectionedMultiSelect from 'react-native-sectioned-multi-select';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const validator = new Validator();
 

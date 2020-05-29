@@ -1,7 +1,7 @@
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import React from 'react';
 import DrawerContent from '../components/home.drawer.content';
-import InviteNavigator from '../screens/invite.screen';
+import InviteNavigator from './invite.navigator';
 import LotesNavigator from './lotes.navigator';
 import QRScannerNavigator from './qr.scanner.navigator';
 
