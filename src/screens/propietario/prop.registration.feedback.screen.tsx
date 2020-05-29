@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, SafeAreaView, View} from 'react-native';
+import {ActivityIndicator, SafeAreaView, StyleSheet, View} from 'react-native';
 import {Button, Text} from 'react-native-elements';
 import {useDispatch} from 'react-redux';
 import {registerPropietario} from '../../requests/lotes.request';
@@ -46,11 +46,19 @@ const PropietarionRegistrationFeedbackScreen = ({navigation, route}) => {
 const RegistrationOutcome = (props) => {
   let message = props.success ? 'Associación exitosa!' : 'No se pudo associar';
   return (
-    <View>
+    <View style={styles.container}>
       <Text h4>{message}</Text>
       <Button type="clear" title="Ok" onPress={props.onPress} />
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+});
 
 export default PropietarionRegistrationFeedbackScreen;

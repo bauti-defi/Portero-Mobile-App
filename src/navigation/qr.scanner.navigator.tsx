@@ -23,8 +23,9 @@ const QRScannerNavigator = () => {
         options={{title: '', headerLeft: null}}
       />
       <Stack.Screen
-        name="guardia/registration"
+        name="guardia/register"
         component={GuardiaRegistrationFeedbackScreen}
+        options={{title: '', headerLeft: null}}
       />
     </Stack.Navigator>
   );

@@ -17,8 +17,7 @@ function AccountInput({route, navigation}) {
   const [passwordMessage, setPasswordMessage] = useState('');
   const [isLoading, setLoading] = useState(false);
 
-  async function onRegister() {
-    setLoading(true);
+  function onRegister() {
     if (!validator.isEmail(email)) {
       setEmailMessage('Email Invalido');
     } else if (validator.isEmpty(password)) {
@@ -26,14 +25,21 @@ function AccountInput({route, navigation}) {
     } else if (password !== confirmPassword) {
       setPasswordMessage('Contrasenas distintas');
     } else {
+      setLoading(true);
       let body = {
         ...payload,
         email,
         password,
       };
-      await register(body)
-        .then(navigation.navigate('login'))
-        .catch((error) => console.log(`Login error: ${error}`));
+      register(body)
+        .then(() => {
+          setLoading(false);
+          navigation.navigate('login');
+        })
+        .catch((error) => {
+          setLoading(false);
+          console.log(`Login error: ${error}`);
+        });
     }
   }
 
