@@ -3,17 +3,22 @@ import React, {useState} from 'react';
 import {SafeAreaView, StyleSheet, View} from 'react-native';
 import {Button, Input} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import EmptyList from '../../components/empty.list';
 import {createInvite} from '../../requests/invite.requests';
+import {useLoteSelector} from '../../storage/app.selectors';
+import {Lote} from '../../storage/lotes.reducer';
 
 const validator = new Validator();
 
 const CreateInviteScreen = () => {
+  const [lote_id] = useState('');
   const [doc_id, setDoc] = useState('');
   const [docMessage, setDocMessage] = useState('');
   const [first_name, setFirstName] = useState('');
   const [firstNameMessage, setFirstNameMessage] = useState('');
   const [last_name, setLastName] = useState('');
   const [lastNameMessage, setLastNameMessage] = useState('');
+  const lotes: Lote[] = useLoteSelector((state) => state.lotes);
 
   const create = () => {
     if (validator.isEmpty(first_name)) {
@@ -23,9 +28,15 @@ const CreateInviteScreen = () => {
     } else if (validator.isEmpty(doc_id)) {
       setDocMessage('Documento Vacio');
     } else {
-      createInvite();
+      createInvite({doc_id, first_name, last_name, lote_id});
     }
   };
+
+  console.log(lotes);
+
+  if (lotes.length == 0) {
+    return <EmptyList text="No tenes Lotes" />;
+  }
 
   return (
     <SafeAreaView style={styles.container}>
