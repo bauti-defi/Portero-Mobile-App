@@ -6,7 +6,7 @@ interface Props {
   text?: string;
 }
 
-const EmptyList = (props: Props) => {
+const EmptyPlaceholder = (props: Props) => {
   return (
     <View style={styles.container}>
       <Text h4 style={styles.contents}>
@@ -29,4 +29,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EmptyList;
+export default EmptyPlaceholder;

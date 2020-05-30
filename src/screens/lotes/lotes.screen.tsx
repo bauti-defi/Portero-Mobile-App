@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {FlatList, SafeAreaView, View} from 'react-native';
 import {ListItem, Text} from 'react-native-elements';
 import {useDispatch} from 'react-redux';
-import EmptyList from '../../components/empty.list';
+import EmptyPlaceholder from '../../components/empty.placeholder';
 import {getAllLotes} from '../../requests/lotes.request';
 import {useLoteSelector} from '../../storage/app.selectors';
 import {Lote, LoteAction} from '../../storage/lotes.reducer';
@@ -55,7 +55,7 @@ function LotesScreen() {
         onRefresh={refresh}
         renderItem={renderItem}
         refreshing={loading}
-        ListEmptyComponent={EmptyList}
+        ListEmptyComponent={EmptyPlaceholder}
       />
     </SafeAreaView>
   );

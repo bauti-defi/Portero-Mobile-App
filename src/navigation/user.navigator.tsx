@@ -12,7 +12,7 @@ function UserNavigator() {
     <Drawer.Navigator
       lazy={true}
       drawerContent={(props) => <DrawerContent {...props} />}
-      initialRouteName="Invitaciones">
+      initialRouteName="Lotes">
       <Drawer.Screen name="Invitaciones" component={InviteNavigator} />
       <Drawer.Screen name="Lotes" component={LotesNavigator} />
       <Drawer.Screen name="Escanear QR" component={QRScannerNavigator} />

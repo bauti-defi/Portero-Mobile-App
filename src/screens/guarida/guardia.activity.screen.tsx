@@ -1,11 +1,11 @@
 import React from 'react';
 import {SafeAreaView} from 'react-native';
-import EmptyList from '../../components/empty.list';
+import EmptyPlaceholder from '../../components/empty.placeholder';
 
 const GuardiaActivityScreen = () => {
   return (
     <SafeAreaView style={{flexGrow: 1}}>
-      <EmptyList />
+      <EmptyPlaceholder />
     </SafeAreaView>
   );
 };
