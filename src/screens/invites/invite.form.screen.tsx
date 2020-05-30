@@ -5,14 +5,13 @@ import {Button, Input} from 'react-native-elements';
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import EmptyPlaceholder from '../../components/empty.placeholder';
-import {createInvite} from '../../requests/invite.requests';
 import {useLoteSelector} from '../../storage/app.selectors';
 import {Lote} from '../../storage/lotes.reducer';
 
 const validator = new Validator();
 
-const CreateInviteScreen = () => {
-  const [lote_id, setLoteId] = useState(undefined);
+const CreateInviteScreen = ({navigation}) => {
+  const [selectedItems, setSelectedItems] = useState([]);
   const [doc_id, setDoc] = useState('');
   const [docMessage, setDocMessage] = useState('');
   const [first_name, setFirstName] = useState('');
@@ -28,8 +27,13 @@ const CreateInviteScreen = () => {
       setLastNameMessage('Apellido Vacio');
     } else if (validator.isEmpty(doc_id)) {
       setDocMessage('Documento Vacio');
-    } else if (validator.isDefined(lote_id)) {
-      createInvite({doc_id, first_name, last_name, lote_id});
+    } else if (!!selectedItems && selectedItems.length > 0) {
+      navigation.navigate('Creation Feedback', {
+        doc_id,
+        first_name,
+        last_name,
+        lote_id: selectedItems[0],
+      });
     }
   };
 
@@ -37,7 +41,11 @@ const CreateInviteScreen = () => {
     return <EmptyPlaceholder text="No tenes Lotes" />;
   }
 
-  const onSelectedLoteChange = (lote) => setLoteId(lote);
+  const onSelectedLoteChange = (selection) => {
+    if (!!selection) {
+      setSelectedItems(selection);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -68,10 +76,12 @@ const CreateInviteScreen = () => {
           uniqueKey="id"
           subKey="lotes"
           selectText="Lote"
+          single={true}
+          expandDropDowns={true}
           showDropDowns={true}
           readOnlyHeadings={true}
           onSelectedItemsChange={onSelectedLoteChange}
-          selectedItems={lote_id}
+          selectedItems={selectedItems}
         />
       </View>
       <Button
