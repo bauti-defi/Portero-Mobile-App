@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {ActivityIndicator, SafeAreaView, View} from 'react-native';
 import {Button, Text} from 'react-native-elements';
+import Share from 'react-native-share';
 import {createInvite} from '../../requests/invite.requests';
 
 const InviteFeedbackScreen = ({navigation, route}) => {
   const [loading, setLoading] = useState(true);
-  const [success, setSuccess] = useState(false);
   const [invite, setInvite] = useState(null);
 
   useEffect(() => {
@@ -13,7 +13,6 @@ const InviteFeedbackScreen = ({navigation, route}) => {
       .then((response) => response.data)
       .then((data) => {
         setLoading(false);
-        setSuccess(true);
         setInvite(data);
       })
       .catch((error) => {
@@ -24,27 +23,47 @@ const InviteFeedbackScreen = ({navigation, route}) => {
 
   const next = () => navigation.popToTop();
 
+  const share = () => {
+    Share.open(shareOptions(invite));
+  };
+
   return (
     <SafeAreaView>
-      {loading ? (
-        <ActivityIndicator size="large" animating={true} />
-      ) : (
-        <RegistrationOutcome success={success} onPress={next} />
-      )}
+      {loading && <ActivityIndicator size="large" animating={true} />}
+      {!loading &&
+        (invite ? (
+          <ShareInviteScreen onShare={share} />
+        ) : (
+          <FailureScreen onOk={next} />
+        ))}
     </SafeAreaView>
   );
 };
 
-const RegistrationOutcome = (props) => {
-  let message = props.success
-    ? 'Invitacion otorgada!'
-    : 'Ocurrio un error inesperado. Intente nuevamente.';
+const ShareInviteScreen = (props) => {
   return (
     <View>
-      <Text h4>{message}</Text>
-      <Button type="clear" title="Ok" onPress={props.onPress} />
+      <Text h4>Invitacion otorgada!</Text>
+      <Button type="clear" title="Compartir" onPress={props.onShare} />
     </View>
   );
+};
+
+const FailureScreen = (props) => {
+  return (
+    <View>
+      <Text h4>Ocurrio un error inesperado. Intente nuevamente</Text>
+      <Button type="clear" title="Ok" onPress={props.onOk} />
+    </View>
+  );
+};
+
+const shareOptions = (invite) => {
+  return {
+    title: 'Compartir',
+    message: 'Hola, aqui esta tu invitacion!',
+    url: JSON.stringify(invite),
+  };
 };
 
 export default InviteFeedbackScreen;
