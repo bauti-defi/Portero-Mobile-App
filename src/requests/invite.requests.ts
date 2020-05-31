@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const createInvite = (inviteDTO: InviteDTO) =>
-  axios.post('/message/create/invite', inviteDTO);
+  axios.post('/invite/create', inviteDTO);
 
 type InviteDTO = {
   doc_id: string;

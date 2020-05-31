@@ -24,7 +24,9 @@ const InviteFeedbackScreen = ({navigation, route}) => {
   const next = () => navigation.popToTop();
 
   const share = () => {
-    Share.open(shareOptions(invite));
+    Share.open(shareOptions(invite))
+      .then(next)
+      .catch((error) => console.log(`Failed to share QR url: ${error}`));
   };
 
   return (
@@ -60,10 +62,12 @@ const FailureScreen = (props) => {
 
 const shareOptions = (invite) => {
   return {
-    title: 'Compartir',
-    message: 'Hola, aqui esta tu invitacion!',
-    url: JSON.stringify(invite),
+    title: 'Compartir Invitacion',
+    url: inviteToURL(invite),
   };
 };
+
+const inviteToURL = (invite) =>
+  `192.168.0.88:3000/qr?id=${invite.id}&message=${invite.message}`;
 
 export default InviteFeedbackScreen;
