@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
-import {FlatList, SafeAreaView, View} from 'react-native';
-import {ListItem, Text} from 'react-native-elements';
+import {FlatList, SafeAreaView} from 'react-native';
+import {ListItem} from 'react-native-elements';
 import {useDispatch} from 'react-redux';
 import EmptyPlaceholder from '../../components/empty.placeholder';
 import {getAllLotes} from '../../requests/lotes.request';
@@ -40,7 +40,6 @@ function LotesScreen() {
     if (loading) {
       loadLotes();
     }
-    setLoading(false);
   }, [loading]);
 
   return (
@@ -60,13 +59,5 @@ function LotesScreen() {
     </SafeAreaView>
   );
 }
-
-const EmptyLoteList = () => {
-  return (
-    <View>
-      <Text h4>No tenes lotes!</Text>
-    </View>
-  );
-};
 
 export default LotesScreen;

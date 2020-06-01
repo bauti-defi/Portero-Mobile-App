@@ -25,7 +25,7 @@ const initialState: LoteState = {
 const loteReducer: Reducer = (state = initialState, action) => {
   switch (action.type) {
     case LoteAction.SAVE:
-      return {...state, lotes: action.lotes};
+      return {...state, lotes: action.lotes, loading: false};
     case LoteAction.LOADING:
       return {...state, loading: action.loading};
     case LoteAction.CLEAR:

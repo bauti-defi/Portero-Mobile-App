@@ -17,13 +17,13 @@ const PropietarionRegistrationFeedbackScreen = ({navigation, route}) => {
       .then((response) => response.data)
       .then((success) => {
         setRegistered(success);
+        reloadLotes(true);
       })
       .catch((error) => {
         console.debug(error);
         setRegistered(false);
+        reloadLotes(true);
       });
-
-    reloadLotes(true);
   }, []);
 
   return (
@@ -33,10 +33,7 @@ const PropietarionRegistrationFeedbackScreen = ({navigation, route}) => {
       ) : (
         <RegistrationOutcome
           success={registered}
-          onPress={() => {
-            navigation.popToTop();
-            navigation.jumpTo('Lotes');
-          }}
+          onPress={() => navigation.jumpTo('Lotes')}
         />
       )}
     </SafeAreaView>

@@ -31,13 +31,13 @@ const InviteFeedbackScreen = ({navigation, route}) => {
 
   return (
     <SafeAreaView>
-      {loading && <ActivityIndicator size="large" animating={true} />}
-      {!loading &&
-        (invite ? (
-          <ShareInviteScreen onShare={share} />
-        ) : (
-          <FailureScreen onOk={next} />
-        ))}
+      {loading ? (
+        <ActivityIndicator size="large" animating={true} />
+      ) : invite ? (
+        <ShareInviteScreen onShare={share} />
+      ) : (
+        <FailureScreen onOk={next} />
+      )}
     </SafeAreaView>
   );
 };
@@ -68,6 +68,6 @@ const shareOptions = (invite) => {
 };
 
 const inviteToURL = (invite) =>
-  `192.168.0.88:3000/qr?id=${invite.id}&message=${invite.message}`;
+  `192.168.0.88:3000/qr?i=${invite.id}&m=${invite.message}`;
 
 export default InviteFeedbackScreen;

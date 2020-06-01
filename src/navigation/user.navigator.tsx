@@ -15,7 +15,11 @@ function UserNavigator() {
       initialRouteName="Lotes">
       <Drawer.Screen name="Invitaciones" component={InviteNavigator} />
       <Drawer.Screen name="Lotes" component={LotesNavigator} />
-      <Drawer.Screen name="Escanear QR" component={QRScannerNavigator} />
+      <Drawer.Screen
+        name="Escanear QR"
+        component={QRScannerNavigator}
+        options={{unmountOnBlur: true}}
+      />
     </Drawer.Navigator>
   );
 }
