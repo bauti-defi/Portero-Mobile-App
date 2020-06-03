@@ -6,6 +6,9 @@ export const createInvite = (inviteDTO: InviteDTO) =>
 export const validateInvite = (validate: ValidateDTO) =>
   axios.post('/invite/validate', validate);
 
+export const allowVisita = (inviteId: string) =>
+  axios.post('/invite/allow', null, {params: {id: inviteId}});
+
 type ValidateDTO = {message: string; id: string};
 
 type InviteDTO = {
