@@ -39,7 +39,7 @@ const InviteValidationScreen = ({navigation, route}) => {
 const InvalidInviteScreen = ({onOk}) => {
   return (
     <View>
-      <Text h4>INVITACION INVALIDA!</Text>
+      <Text h4>Invitacion Invalida!</Text>
       <Button type="clear" title="Ok" onPress={onOk} />
     </View>
   );

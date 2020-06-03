@@ -1,11 +1,13 @@
 import React, {useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {ActivityIndicator, StyleSheet, View} from 'react-native';
 import {Button, Text} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {allowVisita} from '../../requests/invite.requests';
 
 const InviteDetailsScreen = ({invite, onOk}) => {
+  const [canEnter, setCanEnter] = useState(false);
   const [decided, setDecided] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const {
     i_id,
@@ -21,7 +23,20 @@ const InviteDetailsScreen = ({invite, onOk}) => {
   } = invite;
 
   const onAllow = () => {
-    allowVisita(i_id).then((response) => response.data);
+    setLoading(true);
+    allowVisita(i_id)
+      .then((response) => response.data)
+      .then((allowed) => {
+        setCanEnter(allowed);
+        setLoading(false);
+        setDecided(true);
+      })
+      .catch((error) => {
+        console.log(`Error allowing visita\n${error}`);
+        setCanEnter(false);
+        setLoading(false);
+        setDecided(true);
+      });
   };
 
   return (
@@ -30,7 +45,7 @@ const InviteDetailsScreen = ({invite, onOk}) => {
         <Text h1>
           {g_fn} {g_ln}
         </Text>
-        <Text h4 style={{color: 'red'}}>
+        <Text h4 style={styles.dniText}>
           {g_doc}
         </Text>
       </View>
@@ -47,7 +62,29 @@ const InviteDetailsScreen = ({invite, onOk}) => {
           {p_fn} {p_ln}
         </Text>
       </View>
-      {decided ? null : <ButtonView onAllow={onAllow} onOk={onOk} />}
+      {loading ? (
+        <ActivityIndicator size={100} animating={true} style={styles.loader} />
+      ) : decided ? (
+        <ResponseText canEnter={canEnter} onOk={onOk} />
+      ) : (
+        <ButtonView onAllow={onAllow} onOk={onOk} />
+      )}
+    </View>
+  );
+};
+
+const ResponseText = ({canEnter, onOk}) => {
+  return (
+    <View style={styles.responseFooter}>
+      <Text h2 style={{color: canEnter ? 'green' : 'red'}}>
+        {canEnter ? 'Visita Autorizada' : 'Visita Rechazada'}
+      </Text>
+      <Button
+        title="Ok"
+        type="clear"
+        onPress={onOk}
+        titleStyle={{fontSize: 20}}
+      />
     </View>
   );
 };
@@ -67,7 +104,7 @@ const ButtonView = ({onAllow, onOk}) => {
           onPress={onAllow}
         />
       </View>
-      <View style={styles.dniTextContainer}>
+      <View style={styles.buttonViewFooter}>
         <Text h2 style={styles.dniText}>
           Verifique DNI
         </Text>
@@ -82,13 +119,17 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     flexDirection: 'column',
   },
-  dniTextContainer: {
+  responseFooter: {
+    padding: 25,
+    justifyContent: 'space-evenly',
+    flexDirection: 'column',
+  },
+  buttonViewFooter: {
     margin: 30,
     justifyContent: 'center',
     flexDirection: 'row',
   },
   dniText: {
-    opacity: 0.6,
     color: 'red',
   },
   infoChild: {
@@ -97,6 +138,11 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     padding: 20,
+    justifyContent: 'space-around',
+    flexDirection: 'row',
+  },
+  loader: {
+    padding: 60,
     justifyContent: 'space-around',
     flexDirection: 'row',
   },
