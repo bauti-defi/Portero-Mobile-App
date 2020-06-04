@@ -2,11 +2,15 @@ import React from 'react';
 import {Dimensions, StyleSheet, View} from 'react-native';
 import {Text} from 'react-native-elements';
 
-const EmptyList = () => {
+interface Props {
+  text?: string;
+}
+
+const EmptyPlaceholder = (props: Props) => {
   return (
     <View style={styles.container}>
       <Text h4 style={styles.contents}>
-        Vacio
+        {props.text ? props.text : 'Vacio'}
       </Text>
     </View>
   );
@@ -25,4 +29,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EmptyList;
+export default EmptyPlaceholder;

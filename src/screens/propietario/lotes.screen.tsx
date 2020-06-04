@@ -1,8 +1,8 @@
 import React, {useEffect} from 'react';
-import {FlatList, SafeAreaView, View} from 'react-native';
-import {ListItem, Text} from 'react-native-elements';
+import {FlatList, SafeAreaView} from 'react-native';
+import {ListItem} from 'react-native-elements';
 import {useDispatch} from 'react-redux';
-import EmptyList from '../../components/empty.list';
+import EmptyPlaceholder from '../../components/empty.placeholder';
 import {getAllLotes} from '../../requests/lotes.request';
 import {useLoteSelector} from '../../storage/app.selectors';
 import {Lote, LoteAction} from '../../storage/lotes.reducer';
@@ -13,6 +13,8 @@ const renderItem = ({item}) => (
   <ListItem
     title={`${item.lote_nickname} en ${item.barrio_name}`}
     subtitle={`${item.lote_street} ${item.lote_num}, ${item.lote_code}`}
+    subtitleStyle={{fontSize: 15, opacity: 0.7}}
+    titleStyle={{fontSize: 20, paddingBottom: 5}}
     bottomDivider
   />
 );
@@ -40,7 +42,6 @@ function LotesScreen() {
     if (loading) {
       loadLotes();
     }
-    setLoading(false);
   }, [loading]);
 
   return (
@@ -55,18 +56,10 @@ function LotesScreen() {
         onRefresh={refresh}
         renderItem={renderItem}
         refreshing={loading}
-        ListEmptyComponent={EmptyList}
+        ListEmptyComponent={EmptyPlaceholder}
       />
     </SafeAreaView>
   );
 }
-
-const EmptyLoteList = () => {
-  return (
-    <View>
-      <Text h4>No tenes lotes!</Text>
-    </View>
-  );
-};
 
 export default LotesScreen;

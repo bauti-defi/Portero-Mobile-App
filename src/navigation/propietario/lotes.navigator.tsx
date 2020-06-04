@@ -1,7 +1,7 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
-import DrawerButton from '../components/drawer.button';
-import LotesScreen from '../screens/lotes/lotes.screen';
+import DrawerButton from '../../components/drawer.button';
+import LotesScreen from '../../screens/propietario/lotes.screen';
 
 const Stack = createStackNavigator();
 

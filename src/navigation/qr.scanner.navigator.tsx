@@ -2,7 +2,8 @@ import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
 import {Button} from 'react-native-elements';
 import QRCodeScanner from 'react-native-qrcode-scanner';
-import GuardiaRegistrationFeedbackScreen from '../screens/guarida/guardia.registration.feedback.screen';
+import GuardiaRegistrationFeedbackScreen from '../screens/guardia/guardia.registration.feedback.screen';
+import InviteValidationScreen from '../screens/guardia/invite.validation.screen';
 import PropietarionRegistrationFeedbackScreen from '../screens/propietario/prop.registration.feedback.screen';
 import PropietarioFormScreen from '../screens/propietario/propietario.form.screen';
 
@@ -15,7 +16,7 @@ const QRScannerNavigator = () => {
       <Stack.Screen
         name="propietario/register"
         component={PropietarioFormScreen}
-        options={{title: 'Propietario'}}
+        options={{title: 'Propietario', headerLeft: null}}
       />
       <Stack.Screen
         name="Propietario Registration Feedback"
@@ -26,6 +27,11 @@ const QRScannerNavigator = () => {
         name="guardia/register"
         component={GuardiaRegistrationFeedbackScreen}
         options={{title: '', headerLeft: null}}
+      />
+      <Stack.Screen
+        name="invite"
+        component={InviteValidationScreen}
+        options={{title: 'Visita', headerLeft: null}}
       />
     </Stack.Navigator>
   );
@@ -45,8 +51,8 @@ const ScannerScreen = ({navigation}) => {
   );
 };
 
-const bottomContent = (navigation) => (
-  <Button type="clear" title="Cerrar" onPress={navigation.goBack} />
+const bottomContent = ({goBack}) => (
+  <Button type="clear" title="Cerrar" onPress={goBack} />
 );
 
 export default QRScannerNavigator;

@@ -3,7 +3,7 @@ import React from 'react';
 import 'react-native-gesture-handler';
 import {Provider} from 'react-redux';
 import * as AppConfig from './app.config.json';
-import AppNavigator from './navigation/app.navigator';
+import AppNavigator from './navigation/user/app.navigator';
 import {store} from './storage/app.store';
 
 axios.defaults.baseURL = AppConfig.host[AppConfig.mode];

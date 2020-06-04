@@ -9,7 +9,7 @@ const validator = new Validator();
 
 const today = new Date();
 
-function NameInput({navigation}) {
+const NameInput = ({navigation}) => {
   const [first_name, setFirstName] = useState('');
   const [firstNameMessage, setFirstNameMessage] = useState('');
   const [last_name, setLastName] = useState('');
@@ -93,7 +93,7 @@ function NameInput({navigation}) {
       />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
