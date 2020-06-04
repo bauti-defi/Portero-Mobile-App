@@ -1,10 +1,10 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
-import CreateButton from '../components/create.button';
-import DrawerButton from '../components/drawer.button';
-import InviteFeedbackScreen from '../screens/invites/invite.feedback.screen';
-import CreateInviteScreen from '../screens/invites/invite.form.screen';
-import InviteScreen from '../screens/invites/invite.screen';
+import CreateButton from '../../components/create.button';
+import DrawerButton from '../../components/drawer.button';
+import InviteFeedbackScreen from '../../screens/propietario/invite.feedback.screen';
+import CreateInviteScreen from '../../screens/propietario/invite.form.screen';
+import InviteScreen from '../../screens/propietario/invite.screen';
 
 const Stack = createStackNavigator();
 

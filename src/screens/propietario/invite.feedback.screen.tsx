@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, SafeAreaView, View} from 'react-native';
+import {ActivityIndicator, SafeAreaView, StyleSheet, View} from 'react-native';
 import {Button, Text} from 'react-native-elements';
 import Share from 'react-native-share';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import {createInvite} from '../../requests/invite.requests';
 
 const InviteFeedbackScreen = ({navigation, route}) => {
@@ -30,7 +31,7 @@ const InviteFeedbackScreen = ({navigation, route}) => {
   };
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       {loading ? (
         <ActivityIndicator size="large" animating={true} />
       ) : invite ? (
@@ -45,8 +46,14 @@ const InviteFeedbackScreen = ({navigation, route}) => {
 const ShareInviteScreen = (props) => {
   return (
     <View>
-      <Text h4>Invitacion otorgada!</Text>
-      <Button type="clear" title="Compartir" onPress={props.onShare} />
+      <Text h3 style={styles.textContainer}>
+        Invitacion otorgada!
+      </Text>
+      <Button
+        type="clear"
+        icon={<Icon name="share-alt" size={60} color="black" />}
+        onPress={props.onShare}
+      />
     </View>
   );
 };
@@ -54,8 +61,15 @@ const ShareInviteScreen = (props) => {
 const FailureScreen = (props) => {
   return (
     <View>
-      <Text h4>Ocurrio un error inesperado. Intente nuevamente</Text>
-      <Button type="clear" title="Ok" onPress={props.onOk} />
+      <Text h4 style={styles.textContainer}>
+        Ocurrio un error inesperado. Intente nuevamente
+      </Text>
+      <Button
+        type="clear"
+        title="Ok"
+        onPress={props.onOk}
+        titleStyle={{fontSize: 25}}
+      />
     </View>
   );
 };
@@ -66,6 +80,19 @@ const shareOptions = (invite) => {
     url: inviteToURL(invite),
   };
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flexGrow: 1,
+    flexDirection: 'column',
+    marginTop: '50%',
+    alignItems: 'center',
+    padding: 15,
+  },
+  textContainer: {
+    marginBottom: 20,
+  },
+});
 
 const inviteToURL = (invite) =>
   `192.168.0.88:3000/qr?i=${invite.id}&m=${invite.message}`;

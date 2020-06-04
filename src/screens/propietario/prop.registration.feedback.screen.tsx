@@ -27,9 +27,9 @@ const PropietarionRegistrationFeedbackScreen = ({navigation, route}) => {
   }, []);
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       {typeof registered == 'undefined' ? (
-        <ActivityIndicator size="large" animating={true} />
+        <ActivityIndicator size={100} animating={true} />
       ) : (
         <RegistrationOutcome
           success={registered}
@@ -43,8 +43,8 @@ const PropietarionRegistrationFeedbackScreen = ({navigation, route}) => {
 const RegistrationOutcome = (props) => {
   let message = props.success ? 'Associación exitosa!' : 'No se pudo associar';
   return (
-    <View style={styles.container}>
-      <Text h4>{message}</Text>
+    <View>
+      <Text h3>{message}</Text>
       <Button type="clear" title="Ok" onPress={props.onPress} />
     </View>
   );
@@ -53,7 +53,8 @@ const RegistrationOutcome = (props) => {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    justifyContent: 'center',
+    flexDirection: 'column',
+    marginTop: '50%',
     alignItems: 'center',
   },
 });

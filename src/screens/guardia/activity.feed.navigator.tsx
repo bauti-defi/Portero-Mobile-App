@@ -1,7 +1,7 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
-import DrawerButton from '../components/drawer.button';
-import GuardiaActivityScreen from '../screens/guarida/guardia.activity.screen';
+import DrawerButton from '../../components/drawer.button';
+import GuardiaActivityScreen from './guardia.activity.screen';
 
 const Stack = createStackNavigator();
 

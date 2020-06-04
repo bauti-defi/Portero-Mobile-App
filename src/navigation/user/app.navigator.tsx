@@ -1,10 +1,10 @@
 import {NavigationContainer} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import {useDispatch} from 'react-redux';
-import SplashScreen from '../screens/splash.screen';
-import {getCookie} from '../secure.storage';
-import {useUserSelector} from '../storage/app.selectors';
-import {UserAction} from '../storage/user.reducer';
+import SplashScreen from '../../screens/user/splash.screen';
+import {getCookie} from '../../secure.storage';
+import {useUserSelector} from '../../storage/app.selectors';
+import {UserAction} from '../../storage/user.reducer';
 import HomeNavigator from './home.navigator';
 import LoginNavigator from './login.navigator';
 

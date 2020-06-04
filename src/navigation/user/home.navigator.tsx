@@ -1,7 +1,7 @@
 import React from 'react';
-import {useUserSelector} from '../storage/app.selectors';
-import GuardiaNavigator from './guardia.navigator';
-import UserNavigator from './user.navigator';
+import {useUserSelector} from '../../storage/app.selectors';
+import GuardiaNavigator from '../guardia/guardia.navigator';
+import PropietarioNavigator from '../propietario/propietario.navigator';
 
 function HomeNavigator() {
   const accountType: number = useUserSelector((state) => state.cookie.type);
@@ -11,8 +11,8 @@ function HomeNavigator() {
 
 const getNavigator = (type: number) => {
   switch (type) {
-    case Type.USER:
-      return <UserNavigator />;
+    case Type.PROPIETARIO:
+      return <PropietarioNavigator />;
     case Type.GUARDIA:
       return <GuardiaNavigator />;
     default:
@@ -21,7 +21,7 @@ const getNavigator = (type: number) => {
 };
 
 enum Type {
-  USER = 1,
+  PROPIETARIO = 1,
   GUARDIA = 2,
 }
 

@@ -3,7 +3,7 @@ import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Button, Input} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {register} from '../../requests/register.request';
+import {register} from '../../../requests/register.request';
 
 const validator = new Validator();
 

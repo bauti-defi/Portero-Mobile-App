@@ -1,8 +1,8 @@
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import React from 'react';
-import DrawerContent from '../components/home.drawer.content';
+import DrawerContent from '../../components/home.drawer.content';
+import QRScannerNavigator from '../qr.scanner.navigator';
 import ActivityFeedNavigator from './activity.feed.navigator';
-import QRScannerNavigator from './qr.scanner.navigator';
 
 const Drawer = createDrawerNavigator();
 

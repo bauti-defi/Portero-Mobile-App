@@ -1,5 +1,6 @@
 import {Validator} from 'class-validator';
 import React, {useState} from 'react';
+import {SafeAreaView, StyleSheet, View} from 'react-native';
 import {Button, Input} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -21,20 +22,33 @@ const PropietarioFormScreen = ({navigation, route}) => {
   }
 
   return (
-    <React.Fragment>
-      <Input
-        placeholder=" Sobrenombre de Lote"
-        autoCapitalize="words"
-        errorMessage={message}
-        onChangeText={setNickname}
-      />
+    <SafeAreaView style={styles.container}>
+      <View style={styles.inputContainer}>
+        <Input
+          placeholder=" Sobrenombre de Lote"
+          autoCapitalize="words"
+          errorMessage={message}
+          onChangeText={setNickname}
+        />
+      </View>
       <Button
         type="outline"
         onPress={next}
         icon={<Icon name="arrow-right" size={24} color="black" />}
       />
-    </React.Fragment>
+    </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flexGrow: 1,
+    padding: 10,
+    justifyContent: 'center',
+  },
+  inputContainer: {
+    paddingBottom: 40,
+  },
+});
 
 export default PropietarioFormScreen;
