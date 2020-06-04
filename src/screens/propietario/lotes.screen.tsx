@@ -13,6 +13,8 @@ const renderItem = ({item}) => (
   <ListItem
     title={`${item.lote_nickname} en ${item.barrio_name}`}
     subtitle={`${item.lote_street} ${item.lote_num}, ${item.lote_code}`}
+    subtitleStyle={{fontSize: 15, opacity: 0.7}}
+    titleStyle={{fontSize: 20, paddingBottom: 5}}
     bottomDivider
   />
 );

@@ -10,9 +10,9 @@ const GuardiaNavigator = () => {
   return (
     <Drawer.Navigator
       lazy={true}
-      initialRouteName="Activity Feed"
+      initialRouteName="Actividad"
       drawerContent={(props) => <DrawerContent {...props} />}>
-      <Drawer.Screen name="Activity Feed" component={ActivityFeedNavigator} />
+      <Drawer.Screen name="Actividad" component={ActivityFeedNavigator} />
       <Drawer.Screen
         name="Escanear QR"
         component={QRScannerNavigator}

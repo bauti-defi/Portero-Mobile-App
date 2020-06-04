@@ -12,7 +12,7 @@ function PropietarioNavigator() {
     <Drawer.Navigator
       lazy={true}
       drawerContent={(props) => <DrawerContent {...props} />}
-      initialRouteName="Lotes">
+      initialRouteName="Invitaciones">
       <Drawer.Screen name="Invitaciones" component={InviteNavigator} />
       <Drawer.Screen name="Lotes" component={LotesNavigator} />
       <Drawer.Screen
