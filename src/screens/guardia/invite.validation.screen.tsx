@@ -21,7 +21,7 @@ const InviteValidationScreen = ({navigation, route}) => {
       });
   }, []);
 
-  const close = () => navigation.jumpTo('Activity Feed');
+  const close = () => navigation.jumpTo('Actividad');
 
   return (
     <SafeAreaView>

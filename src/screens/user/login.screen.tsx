@@ -1,7 +1,6 @@
 import {Validator} from 'class-validator';
 import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import DeviceInfo from 'react-native-device-info';
 import {Button, Input} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useDispatch} from 'react-redux';
@@ -22,7 +21,7 @@ function LoginScreen({navigation}) {
     if (!validator.isEmail(email) || validator.isEmpty(password)) {
       setMessage('Email o Contrasena invalidad');
     } else {
-      login(email, password, DeviceInfo.getMacAddressSync())
+      login(email, password, email) //DeviceInfo.getMacAddressSync()
         .then((response) => response.data)
         .then((cookie) => {
           dispatch({type: UserAction.STORE_COOKIE, cookie});
