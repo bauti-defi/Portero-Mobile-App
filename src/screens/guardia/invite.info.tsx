@@ -2,7 +2,7 @@ import {useNavigation} from '@react-navigation/native';
 import React, {useContext, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Text} from 'react-native-elements';
-import {TouchableOpacity} from 'react-native-gesture-handler';
+import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const InviteContext = React.createContext(null);
@@ -29,17 +29,17 @@ const InviteInfo = ({invite, guests}) => {
   return (
     <InviteContext.Provider
       value={{approved, setApproved, rejected, setRejected}}>
-      <View>
+      <ScrollView style={styles.screenContainer}>
         <View style={styles.infoContainer}>
           <View style={styles.infoChild}>
-            <Text h2>Destino</Text>
+            <Text h1>Destino</Text>
             <Text h4>{l_name}</Text>
             <Text h4>
               {l_street} {l_num}, {l_code}
             </Text>
           </View>
           <View style={styles.infoChild}>
-            <Text h2>Propietario</Text>
+            <Text h1>Propietario</Text>
             <Text h4>
               {p_fn} {p_ln}
             </Text>
@@ -50,7 +50,7 @@ const InviteInfo = ({invite, guests}) => {
             return <GuestTile guest={guest} key={guest.g_id} />;
           })}
         </View>
-      </View>
+      </ScrollView>
     </InviteContext.Provider>
   );
 };
@@ -131,20 +131,26 @@ const RejectButton = ({onReject}) => {
 };
 
 const styles = StyleSheet.create({
+  screenContainer: {
+    height: '100%',
+  },
   infoContainer: {
-    margin: 20,
+    margin: 25,
+    flex: 1,
     justifyContent: 'space-evenly',
     flexDirection: 'column',
   },
   infoChild: {
-    padding: 10,
+    paddingBottom: 15,
     borderBottomWidth: 2,
   },
   listContainer: {
-    margin: 20,
+    margin: 10,
+    flex: 3,
   },
   guestTileContainer: {
     elevation: 3,
+    paddingTop: 5,
     borderRadius: 4,
     overflow: 'hidden',
     flexDirection: 'row',
