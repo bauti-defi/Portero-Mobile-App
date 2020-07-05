@@ -4,12 +4,14 @@ import {Button, Text} from 'react-native-elements';
 import {validateInvite} from '../../requests/invite.requests';
 import InviteInfo from './invite.info';
 
-const InviteInfoScreen = ({navigation, route}) => {
+const InviteValidationScreen = ({navigation, route}) => {
   const [loading, setLoading] = useState(true);
   const [invite, setInvite] = useState(null);
 
+  console.log(route);
+
   useEffect(() => {
-    validateInvite(route.params)
+    validateInvite(route.params.message, route.params.id)
       .then((response) => response.data)
       .then((invite) => {
         console.log(invite);
@@ -50,4 +52,4 @@ const InvalidInviteScreen = ({onOk}) => {
   );
 };
 
-export default InviteInfoScreen;
+export default InviteValidationScreen;

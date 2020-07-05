@@ -1,7 +1,7 @@
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import React from 'react';
 import DrawerContent from '../../components/home.drawer.content';
-import QRScannerNavigator from '../qr.scanner.navigator';
+import UserQRScannerNavigator from '../qr.scanner.navigator';
 import InviteNavigator from './invite.navigator';
 import LotesNavigator from './lotes.navigator';
 
@@ -17,7 +17,7 @@ function PropietarioNavigator() {
       <Drawer.Screen name="Lotes" component={LotesNavigator} />
       <Drawer.Screen
         name="Escanear QR"
-        component={QRScannerNavigator}
+        component={UserQRScannerNavigator}
         options={{unmountOnBlur: true}}
       />
     </Drawer.Navigator>

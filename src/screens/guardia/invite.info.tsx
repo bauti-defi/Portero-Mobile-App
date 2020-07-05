@@ -1,9 +1,12 @@
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {ListItem, Text} from 'react-native-elements';
 import {FlatList} from 'react-native-gesture-handler';
 
 const InviteInfo = ({invite, guests}) => {
+  const navigation = useNavigation();
+
   const {
     creation_date,
     enabled,
@@ -39,7 +42,7 @@ const InviteInfo = ({invite, guests}) => {
         <Text h2>Invitados</Text>
         <FlatList
           data={guests}
-          renderItem={renderGuest}
+          renderItem={(guest) => renderGuest(guest, navigation)}
           keyExtractor={keyExtractor}
         />
       </View>
@@ -64,11 +67,14 @@ const styles = StyleSheet.create({
 
 const keyExtractor = (guest, index) => guest.g_id;
 
-const renderGuest = ({item}) => {
+const renderGuest = ({item}, navigation) => {
+  const onPress = () => navigation.navigate('Guest Details', item);
+
   return (
     <ListItem
       title={item.g_fn + ' ' + item.g_ln}
-      subtitle={item.g_doc}
+      titleStyle={{fontSize: 20}}
+      onPress={onPress}
       bottomDivider
       chevron
     />
