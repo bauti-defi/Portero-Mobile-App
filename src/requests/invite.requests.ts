@@ -6,8 +6,14 @@ export const createInvite = (inviteDTO: InviteDTO) =>
 export const validateInvite = (message: string, id: string) =>
   axios.post('/invite/validate', {message, id});
 
-export const allowVisita = (inviteId: string) =>
-  axios.post('/invite/allow', null, {params: {id: inviteId}});
+export const inviteResponse = (
+  inviteId: string,
+  approved: [],
+  rejected: [],
+) => {
+  console.log({inviteId, approved, rejected});
+  axios.post('/invite/auth/guests', {inviteId, approved, rejected});
+};
 
 type InviteDTO = {
   doc_id: string;

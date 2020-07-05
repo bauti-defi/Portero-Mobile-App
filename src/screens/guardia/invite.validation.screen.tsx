@@ -8,8 +8,6 @@ const InviteValidationScreen = ({navigation, route}) => {
   const [loading, setLoading] = useState(true);
   const [invite, setInvite] = useState(null);
 
-  console.log(route);
-
   useEffect(() => {
     validateInvite(route.params.message, route.params.id)
       .then((response) => response.data)
@@ -30,17 +28,13 @@ const InviteValidationScreen = ({navigation, route}) => {
     <SafeAreaView>
       {loading ? (
         <ActivityIndicator size="large" animating={true} />
-      ) : invite && isInviteInfoValid(invite.info) ? (
+      ) : invite ? (
         <InviteInfo invite={invite.info} guests={invite.guests} />
       ) : (
         <InvalidInviteScreen onOk={close} />
       )}
     </SafeAreaView>
   );
-};
-
-const isInviteInfoValid = (info) => {
-  return info.enabled && new Date(info.exp) > new Date();
 };
 
 const InvalidInviteScreen = ({onOk}) => {
