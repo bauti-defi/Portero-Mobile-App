@@ -2,9 +2,9 @@ import React, {useEffect, useState} from 'react';
 import {ActivityIndicator, SafeAreaView, View} from 'react-native';
 import {Button, Text} from 'react-native-elements';
 import {validateInvite} from '../../requests/invite.requests';
-import InviteDetailsScreen from './invite.detail.screen';
+import InviteInfo from './invite.info';
 
-const InviteValidationScreen = ({navigation, route}) => {
+const InviteInfoScreen = ({navigation, route}) => {
   const [loading, setLoading] = useState(true);
   const [invite, setInvite] = useState(null);
 
@@ -12,6 +12,7 @@ const InviteValidationScreen = ({navigation, route}) => {
     validateInvite(route.params)
       .then((response) => response.data)
       .then((invite) => {
+        console.log(invite);
         setInvite(invite);
         setLoading(false);
       })
@@ -27,13 +28,17 @@ const InviteValidationScreen = ({navigation, route}) => {
     <SafeAreaView>
       {loading ? (
         <ActivityIndicator size="large" animating={true} />
-      ) : invite ? (
-        <InviteDetailsScreen invite={invite} onOk={close} />
+      ) : invite && isInviteInfoValid(invite.info) ? (
+        <InviteInfo invite={invite.info} guests={invite.guests} />
       ) : (
         <InvalidInviteScreen onOk={close} />
       )}
     </SafeAreaView>
   );
+};
+
+const isInviteInfoValid = (info) => {
+  return info.enabled && new Date(info.exp) > new Date();
 };
 
 const InvalidInviteScreen = ({onOk}) => {
@@ -45,4 +50,4 @@ const InvalidInviteScreen = ({onOk}) => {
   );
 };
 
-export default InviteValidationScreen;
+export default InviteInfoScreen;

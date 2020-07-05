@@ -21,7 +21,7 @@ function LoginScreen({navigation}) {
     if (!validator.isEmail(email) || validator.isEmpty(password)) {
       setMessage('Email o Contrasena invalidad');
     } else {
-      login(email, password, email) //DeviceInfo.getMacAddressSync()
+      login(email, password, email) //deviceId should be DeviceInfo.getMacAddressSync()
         .then((response) => response.data)
         .then((cookie) => {
           dispatch({type: UserAction.STORE_COOKIE, cookie});
