@@ -5,7 +5,8 @@ import {Text} from 'react-native-elements';
 import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {inviteResponse} from '../../requests/invite.requests';
-import GuestTile from './guest.tile';
+import GuestInsideTile from './guest.inside';
+import GuestPendingTile from './guest.pending.tile';
 
 export const InviteContext = React.createContext(null);
 
@@ -44,11 +45,20 @@ const InviteInfo = ({invite, guests}) => {
     navigation.navigate('Actividad');
   };
 
+  console.log(new Date(exp) < new Date());
+
   return (
     <InviteContext.Provider
-      value={{approved, setApproved, rejected, setRejected}}>
+      value={{
+        approved,
+        setApproved,
+        rejected,
+        setRejected,
+        expired: isExpired(exp),
+      }}>
       <ScrollView style={styles.screenContainer}>
         <View style={styles.infoContainer}>
+          <Warning exp={exp} />
           <Text h1>
             {p_fn} {p_ln}
           </Text>
@@ -58,12 +68,75 @@ const InviteInfo = ({invite, guests}) => {
         </View>
         <View style={styles.listContainer}>
           {guests.map((guest) => {
-            return <GuestTile guest={guest} key={guest.g_id} />;
+            if (isPending(guest)) {
+              return <GuestPendingTile guest={guest} key={guest.g_id} />;
+            } else if (isInside(guest)) {
+              return <GuestInsideTile guest={guest} key={guest.g_id} />;
+            }
+            return null;
           })}
         </View>
       </ScrollView>
     </InviteContext.Provider>
   );
+};
+
+const isExpired = (exp) => new Date(exp) < new Date(); //<
+
+const wasRejected = (guest) => guest.g_rejected != null;
+const hasExited = (guest) => guest.g_exited != null;
+
+const isInside = (guest) =>
+  guest.g_entered != null && !hasExited(guest) && !wasRejected(guest);
+
+const isPending = (guest) =>
+  !wasRejected(guest) && !isInside(guest) && !hasExited(guest);
+
+const MESES = [
+  'Enero',
+  'Febrero',
+  'Marzo',
+  'Abril',
+  'Mayo',
+  'Junio',
+  'Julio',
+  'Agosto',
+  'Septiembre',
+  'Octubre',
+  'Noviembre',
+  'Diciembre',
+];
+
+const DIAS = [
+  'Domingo',
+  'Lunes',
+  'Martes',
+  'Miercoles',
+  'Jueves',
+  'Viernes',
+  'Sabado',
+];
+
+const Warning = ({exp}) => {
+  if (isExpired(exp)) {
+    const options = {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    };
+    var date = new Date(exp);
+
+    var dateString = `${DIAS[date.getDay()]}, ${
+      MESES[date.getMonth()]
+    } ${date.getDate()}, ${date.getUTCHours()}:${date.getUTCMinutes()}`;
+    return (
+      <Text h3 style={{color: 'red'}}>
+        Vencio: {dateString}
+      </Text>
+    );
+  }
+  return null;
 };
 
 const SendInviteReponseButton = ({onSend}) => {

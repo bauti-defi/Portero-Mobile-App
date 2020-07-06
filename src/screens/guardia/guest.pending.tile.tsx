@@ -5,13 +5,12 @@ import {TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {InviteContext} from './invite.info';
 
-const GuestTile = ({guest}) => {
-  const {setApproved, setRejected, approved, rejected} = useContext(
+const GuestPendingTile = ({guest}) => {
+  const {setApproved, setRejected, approved, rejected, expired} = useContext(
     InviteContext,
   );
 
   const approve = () => setApproved([...approved, guest.g_id]);
-
   const reject = () => setRejected([...rejected, guest.g_id]);
 
   const reset = () => {
@@ -20,13 +19,24 @@ const GuestTile = ({guest}) => {
   };
 
   const isRejected = () => rejected.includes(guest.g_id);
-
   const isApproved = () => approved.includes(guest.g_id);
-
   const canReset = () => isRejected() || isApproved();
 
   const getTileColor = () =>
     isApproved() ? 'green' : isRejected() ? 'red' : null;
+
+  if (expired) {
+    return (
+      <View style={styles.guestTileContainer}>
+        <View style={styles.guestInfoContainer}>
+          <Text h2>
+            {guest.g_fn} {guest.g_ln}
+          </Text>
+          <Text h3>{guest.g_doc}</Text>
+        </View>
+      </View>
+    );
+  }
 
   return (
     <View
@@ -100,4 +110,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default GuestTile;
+export default GuestPendingTile;
