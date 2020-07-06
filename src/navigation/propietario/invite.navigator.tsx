@@ -1,6 +1,5 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
-import CreateButton from '../../components/create.button';
 import DrawerButton from '../../components/drawer.button';
 import InviteFeedbackScreen from '../../screens/propietario/invite.feedback.screen';
 import CreateInviteScreen from '../../screens/propietario/invite.form.screen';
@@ -15,12 +14,7 @@ const InviteNavigator = ({navigation}) => {
         name="Invitaciones"
         component={InviteScreen}
         options={{
-          headerLeft: (props) => <DrawerButton navigation={navigation} />,
-          headerRight: (props) => (
-            <CreateButton
-              onPress={() => navigation.navigate('Crear Invitacion')}
-            />
-          ),
+          headerLeft: (props) => <DrawerButton />,
         }}
       />
       <Stack.Screen name="Crear Invitacion" component={CreateInviteScreen} />

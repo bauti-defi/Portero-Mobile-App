@@ -1,17 +1,16 @@
 import {Validator} from 'class-validator';
-import React, {useState} from 'react';
+import React, {useLayoutEffect, useState} from 'react';
 import {SafeAreaView, StyleSheet, View} from 'react-native';
 import {Button, Input} from 'react-native-elements';
-import SectionedMultiSelect from 'react-native-sectioned-multi-select';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import EmptyPlaceholder from '../../components/empty.placeholder';
 import {useLoteSelector} from '../../storage/app.selectors';
 import {Lote} from '../../storage/lotes.reducer';
+import LoteSelector from './lote.selector';
 
 const validator = new Validator();
 
 const CreateInviteScreen = ({navigation}) => {
-  const [selectedItems, setSelectedItems] = useState([]);
+  const [selectedLote, setSelectedLote] = useState(null);
   const [doc_id, setDoc] = useState('');
   const [docMessage, setDocMessage] = useState('');
   const [first_name, setFirstName] = useState('');
@@ -20,6 +19,14 @@ const CreateInviteScreen = ({navigation}) => {
   const [lastNameMessage, setLastNameMessage] = useState('');
   const lotes: Lote[] = useLoteSelector((state) => state.lotes);
 
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: (props) => (
+        <LoteSelector lotes={lotes} setSelectedLote={setSelectedLote} />
+      ),
+    });
+  });
+
   const create = () => {
     if (validator.isEmpty(first_name)) {
       setFirstNameMessage('Nombre Vacio');
@@ -27,23 +34,13 @@ const CreateInviteScreen = ({navigation}) => {
       setLastNameMessage('Apellido Vacio');
     } else if (validator.isEmpty(doc_id)) {
       setDocMessage('Documento Vacio');
-    } else if (!!selectedItems && selectedItems.length > 0) {
+    } else if (!!selectedLote) {
       navigation.navigate('Creation Feedback', {
         doc_id,
         first_name,
         last_name,
-        lote_id: selectedItems[0],
+        lote_id: selectedLote,
       });
-    }
-  };
-
-  if (lotes.length == 0) {
-    return <EmptyPlaceholder text="No tenes Lotes" />;
-  }
-
-  const onSelectedLoteChange = (selection) => {
-    if (!!selection) {
-      setSelectedItems(selection);
     }
   };
 
@@ -71,18 +68,6 @@ const CreateInviteScreen = ({navigation}) => {
           errorMessage={docMessage}
           leftIcon={<Icon name="id-card" size={24} color="black" />}
         />
-        <SectionedMultiSelect
-          items={loteListItems(lotes)}
-          uniqueKey="id"
-          subKey="lotes"
-          selectText="Lote"
-          single={true}
-          expandDropDowns={true}
-          showDropDowns={true}
-          readOnlyHeadings={true}
-          onSelectedItemsChange={onSelectedLoteChange}
-          selectedItems={selectedItems}
-        />
       </View>
       <Button
         type="outline"
@@ -92,30 +77,6 @@ const CreateInviteScreen = ({navigation}) => {
     </SafeAreaView>
   );
 };
-
-const loteListItems = (lotes: Lote[]) => {
-  const barrios = [...new Set(lotes.map((lote) => lote.barrio_name))];
-  let items = barrios.map((barrio) => {
-    let lotesOfBarrio = lotes.filter((lote) => lote.barrio_name === barrio);
-    return {
-      name: barrio,
-      id: lotesOfBarrio[0].barrio_id,
-      lotes: lotesOfBarrio.map((lote) => {
-        return {name: lote.lote_nickname, id: lote.lote_id};
-      }),
-    };
-  });
-  return items;
-};
-
-const groupBy = (items, key) =>
-  items.reduce(
-    (result, item) => ({
-      ...result,
-      [item[key]]: [...(result[item[key]] || []), item],
-    }),
-    {},
-  );
 
 const styles = StyleSheet.create({
   container: {
