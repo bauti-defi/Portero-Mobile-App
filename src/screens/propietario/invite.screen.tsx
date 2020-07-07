@@ -20,7 +20,7 @@ const InviteScreen = () => {
         ),
       });
     }
-  }, []);
+  });
 
   return (
     <SafeAreaView style={{flexGrow: 1}}>
