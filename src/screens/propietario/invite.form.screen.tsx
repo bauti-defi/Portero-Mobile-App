@@ -1,130 +1,109 @@
-import {Validator} from 'class-validator';
-import React, {useState} from 'react';
+import React, {useLayoutEffect, useState} from 'react';
 import {SafeAreaView, StyleSheet, View} from 'react-native';
-import {Button, Input} from 'react-native-elements';
-import SectionedMultiSelect from 'react-native-sectioned-multi-select';
+import DatePicker from 'react-native-date-picker';
+import {Text} from 'react-native-elements';
+import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import EmptyPlaceholder from '../../components/empty.placeholder';
 import {useLoteSelector} from '../../storage/app.selectors';
 import {Lote} from '../../storage/lotes.reducer';
+import AddGuestCard from './add.guest';
+import GuestBubble from './guest.bubble';
+import LoteSelector from './lote.selector';
 
-const validator = new Validator();
+type Guest = {
+  first_name: string;
+  last_name: string;
+  doc_id: string;
+};
 
 const CreateInviteScreen = ({navigation}) => {
-  const [selectedItems, setSelectedItems] = useState([]);
-  const [doc_id, setDoc] = useState('');
-  const [docMessage, setDocMessage] = useState('');
-  const [first_name, setFirstName] = useState('');
-  const [firstNameMessage, setFirstNameMessage] = useState('');
-  const [last_name, setLastName] = useState('');
-  const [lastNameMessage, setLastNameMessage] = useState('');
+  const [selectedLote, setSelectedLote] = useState(null);
+  const [guests, setGuests] = useState([]);
+  const [expDate, setExpDate] = useState(new Date());
   const lotes: Lote[] = useLoteSelector((state) => state.lotes);
 
-  const create = () => {
-    if (validator.isEmpty(first_name)) {
-      setFirstNameMessage('Nombre Vacio');
-    } else if (validator.isEmpty(last_name)) {
-      setLastNameMessage('Apellido Vacio');
-    } else if (validator.isEmpty(doc_id)) {
-      setDocMessage('Documento Vacio');
-    } else if (!!selectedItems && selectedItems.length > 0) {
-      navigation.navigate('Creation Feedback', {
-        doc_id,
-        first_name,
-        last_name,
-        lote_id: selectedItems[0],
-      });
-    }
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: (props) => (
+        <LoteSelector lotes={lotes} setSelectedLote={setSelectedLote} />
+      ),
+      headerTitleContainerStyle: {
+        marginLeft: '15%',
+      },
+      headerRight: canSend()
+        ? (props) => <SendInviteButton onSend={send} />
+        : null,
+    });
+  });
+
+  const canSend = () => {
+    return expDate > new Date() && !!selectedLote && guests.length > 0;
   };
 
-  if (lotes.length == 0) {
-    return <EmptyPlaceholder text="No tenes Lotes" />;
-  }
+  const send = () => {
+    console.log('send invite');
+  };
 
-  const onSelectedLoteChange = (selection) => {
-    if (!!selection) {
-      setSelectedItems(selection);
-    }
+  const addGuest = (guest: Guest) => {
+    setGuests([...guests, guest]);
+  };
+
+  const removeGuest = (guest: Guest) => {
+    setGuests([
+      ...guests.filter(
+        (g) =>
+          g.first_name != guest.first_name &&
+          g.last_name != guest.last_name &&
+          g.doc_id != guest.doc_id,
+      ),
+    ]);
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      <View>
-        <Input
-          placeholder=" Nombre Completo"
-          autoCapitalize="words"
-          onChangeText={setFirstName}
-          errorMessage={firstNameMessage}
-          containerStyle={styles.input}
-        />
-        <Input
-          placeholder=" Apellido"
-          autoCapitalize="words"
-          onChangeText={setLastName}
-          errorMessage={lastNameMessage}
-          containerStyle={styles.input}
-        />
-        <Input
-          placeholder=" Numero de Documento"
-          autoCapitalize="none"
-          onChangeText={setDoc}
-          errorMessage={docMessage}
-          leftIcon={<Icon name="id-card" size={24} color="black" />}
-        />
-        <SectionedMultiSelect
-          items={loteListItems(lotes)}
-          uniqueKey="id"
-          subKey="lotes"
-          selectText="Lote"
-          single={true}
-          expandDropDowns={true}
-          showDropDowns={true}
-          readOnlyHeadings={true}
-          onSelectedItemsChange={onSelectedLoteChange}
-          selectedItems={selectedItems}
+      <View style={styles.dateContainer}>
+        <Text h3>Vence</Text>
+        <DatePicker
+          date={expDate}
+          minimumDate={new Date()}
+          mode="datetime"
+          locale={'es_AR'}
+          onDateChange={setExpDate}
         />
       </View>
-      <Button
-        type="outline"
-        icon={<Icon name="arrow-right" size={24} color="black" />}
-        onPress={create}
-      />
+      <View style={{flex: 1}}>
+        <ScrollView contentContainerStyle={styles.scrollContainer}>
+          <AddGuestCard onAddGuest={addGuest} />
+          {guests.map((guest, i) => (
+            <GuestBubble guest={guest} onRemove={removeGuest} key={i} />
+          ))}
+        </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };
 
-const loteListItems = (lotes: Lote[]) => {
-  const barrios = [...new Set(lotes.map((lote) => lote.barrio_name))];
-  let items = barrios.map((barrio) => {
-    let lotesOfBarrio = lotes.filter((lote) => lote.barrio_name === barrio);
-    return {
-      name: barrio,
-      id: lotesOfBarrio[0].barrio_id,
-      lotes: lotesOfBarrio.map((lote) => {
-        return {name: lote.lote_nickname, id: lote.lote_id};
-      }),
-    };
-  });
-  return items;
-};
-
-const groupBy = (items, key) =>
-  items.reduce(
-    (result, item) => ({
-      ...result,
-      [item[key]]: [...(result[item[key]] || []), item],
-    }),
-    {},
+const SendInviteButton = ({onSend}) => {
+  return (
+    <TouchableOpacity onPress={onSend} style={{paddingRight: 10}}>
+      <Icon name="paper-plane" size={30} color="black" />
+    </TouchableOpacity>
   );
+};
 
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    padding: 10,
-    justifyContent: 'space-around',
+    justifyContent: 'flex-start',
   },
-  input: {
-    paddingBottom: 30,
+  scrollContainer: {
+    flexGrow: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+  },
+  dateContainer: {
+    margin: 20,
+    alignItems: 'center',
   },
 });
 

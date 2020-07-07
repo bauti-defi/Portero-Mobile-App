@@ -12,7 +12,7 @@ function LotesNavigator({route, navigation}) {
         name="Lotes"
         component={LotesScreen}
         options={{
-          headerLeft: (props) => <DrawerButton navigation={navigation} />,
+          headerLeft: (props) => <DrawerButton />,
         }}
       />
     </Stack.Navigator>

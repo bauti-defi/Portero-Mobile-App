@@ -1,8 +1,8 @@
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import React from 'react';
 import DrawerContent from '../../components/home.drawer.content';
-import QRScannerNavigator from '../qr.scanner.navigator';
 import ActivityFeedNavigator from './activity.feed.navigator';
+import GuardiaQRScannerNavigator from './qr.scanner.navigator';
 
 const Drawer = createDrawerNavigator();
 
@@ -15,7 +15,7 @@ const GuardiaNavigator = () => {
       <Drawer.Screen name="Actividad" component={ActivityFeedNavigator} />
       <Drawer.Screen
         name="Escanear QR"
-        component={QRScannerNavigator}
+        component={GuardiaQRScannerNavigator}
         options={{unmountOnBlur: true}}
       />
     </Drawer.Navigator>
