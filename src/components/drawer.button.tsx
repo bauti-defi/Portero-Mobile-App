@@ -3,7 +3,7 @@ import React from 'react';
 import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-function DrawerButton() {
+const DrawerButton = () => {
   const navigation = useNavigation();
 
   return (
@@ -13,6 +13,6 @@ function DrawerButton() {
       onPress={navigation.openDrawer}
     />
   );
-}
+};
 
 export default DrawerButton;

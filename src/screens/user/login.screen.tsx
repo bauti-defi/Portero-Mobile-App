@@ -14,10 +14,15 @@ function LoginScreen({navigation}) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
+  const [inputFocusIndex, setInputFocusIndex] = useState(0);
+
+  const refContainer = [];
+
+  const focusInput = (index: number) => refContainer[index].focus();
 
   const dispatch = useDispatch();
 
-  function logIn() {
+  const logIn = () => {
     if (!validator.isEmail(email) || validator.isEmpty(password)) {
       setMessage('Email o Contrasena invalidad');
     } else {
@@ -32,7 +37,7 @@ function LoginScreen({navigation}) {
           setMessage(error);
         });
     }
-  }
+  };
 
   return (
     <View style={styles.container}>
@@ -41,9 +46,12 @@ function LoginScreen({navigation}) {
           placeholder=" Email"
           keyboardType="email-address"
           onChangeText={setEmail}
+          blurOnSubmit={false}
           autoCapitalize="none"
           leftIcon={<Icon name="envelope" size={24} color="black" />}
           containerStyle={styles.input}
+          onSubmitEditing={() => focusInput(1)}
+          ref={(input) => (refContainer[0] = input)}
         />
         <Input
           placeholder=" Contrasena"
@@ -51,8 +59,11 @@ function LoginScreen({navigation}) {
           secureTextEntry={true}
           onChangeText={setPassword}
           errorMessage={message}
+          blurOnSubmit={false}
           leftIcon={<Icon name="lock" size={24} color="black" />}
           containerStyle={styles.input}
+          onSubmitEditing={logIn}
+          ref={(input) => (refContainer[1] = input)}
         />
       </View>
       <View style={styles.buttonContainer}>

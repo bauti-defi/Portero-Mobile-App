@@ -1,4 +1,7 @@
 import {createStore} from 'redux';
-import rootReducer from './root.reducer';
+import {persistStore} from 'redux-persist';
+import persistedRootReducer from './root.reducer';
 
-export const store = createStore(rootReducer);
+export const store = createStore(persistedRootReducer);
+
+export const persistor = persistStore(store);
