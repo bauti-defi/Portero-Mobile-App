@@ -1,5 +1,5 @@
 import {Reducer} from 'redux';
-import {UserAction} from './user.reducer';
+import {LoteAction, UserAction} from './storage.actions';
 
 export interface LoteState {
   lotes: Lote[];
@@ -35,11 +35,5 @@ const loteReducer: Reducer = (state = initialState, action) => {
       return state;
   }
 };
-
-export enum LoteAction {
-  SAVE = 'save_lotes',
-  CLEAR = 'clear_lotes',
-  LOADING = 'loading_lotes',
-}
 
 export default loteReducer;

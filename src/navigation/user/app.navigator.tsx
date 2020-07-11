@@ -2,24 +2,29 @@ import {NavigationContainer} from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import SplashScreen from '../../screens/user/splash.screen';
-import {getCookie} from '../../secure.storage';
+import {getCredentials} from '../../secure.storage';
 import {useUserSelector} from '../../storage/app.selectors';
-import {UserAction} from '../../storage/user.reducer';
+import {APP_ACTION} from '../../storage/storage.actions';
 import HomeNavigator from './home.navigator';
 import LoginNavigator from './login.navigator';
 
 function AppNavigator() {
   const [loading, setLoading] = useState(true);
-  const cookie = useUserSelector((state) => state.cookie);
+  const email: string = useUserSelector((user) => user.email);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.debug('Fetching cookie from storage...');
-    getCookie()
-      .then((cookie) => {
-        if (cookie) {
-          console.debug('Found cookie!');
-          dispatch({type: UserAction.STORE_COOKIE, cookie});
+    console.debug('Fetching credentials from keychain...');
+    getCredentials()
+      .then((credentials) => {
+        if (!!credentials.password) {
+          console.debug(`Found credentials for: ${credentials.username}!`);
+          dispatch({
+            type: APP_ACTION.LOAD,
+            token: credentials.password,
+          });
+        } else {
+          console.debug(`No credentials found!`);
         }
         setLoading(false);
       })
@@ -32,7 +37,7 @@ function AppNavigator() {
 
   return (
     <NavigationContainer>
-      {cookie.token ? <HomeNavigator /> : <LoginNavigator />}
+      {email ? <HomeNavigator /> : <LoginNavigator />}
     </NavigationContainer>
   );
 }

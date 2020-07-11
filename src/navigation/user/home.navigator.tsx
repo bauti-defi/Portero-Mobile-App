@@ -4,7 +4,7 @@ import GuardiaNavigator from '../guardia/guardia.navigator';
 import PropietarioNavigator from '../propietario/propietario.navigator';
 
 function HomeNavigator() {
-  const accountType: number = useUserSelector((state) => state.cookie.type);
+  const accountType: number = useUserSelector((user) => user.acc_type);
 
   return getNavigator(accountType);
 }

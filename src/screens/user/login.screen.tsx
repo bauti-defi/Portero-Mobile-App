@@ -5,8 +5,8 @@ import {Button, Input} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useDispatch} from 'react-redux';
 import {login} from '../../requests/login.request';
-import {saveCookie} from '../../secure.storage';
-import {UserAction} from '../../storage/user.reducer';
+import {saveCredentials} from '../../secure.storage';
+import {UserAction} from '../../storage/storage.actions';
 
 const validator = new Validator();
 
@@ -14,7 +14,6 @@ function LoginScreen({navigation}) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
-  const [inputFocusIndex, setInputFocusIndex] = useState(0);
 
   const refContainer = [];
 
@@ -28,9 +27,9 @@ function LoginScreen({navigation}) {
     } else {
       login(email, password, email) //deviceId should be DeviceInfo.getMacAddressSync()
         .then((response) => response.data)
-        .then((cookie) => {
-          dispatch({type: UserAction.STORE_COOKIE, cookie});
-          saveCookie(email, cookie);
+        .then((data) => {
+          saveCredentials(data.email, data.token);
+          dispatch({type: UserAction.LOG_IN, data});
         })
         .catch((error) => {
           console.log(error);

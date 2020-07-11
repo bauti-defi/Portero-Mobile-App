@@ -1,44 +1,60 @@
-import axios from 'axios';
+import AsyncStorage from '@react-native-community/async-storage';
 import {Reducer} from 'redux';
-
-export type Cookie = {
-  token: string;
-  acc_id: string;
-  email: string;
-  session_id: string;
-  type: number;
-};
+import {createTransform, persistReducer} from 'redux-persist';
+import {APP_ACTION, UserAction} from './storage.actions';
 
 export interface UserState {
-  cookie: Cookie;
+  token: string;
+  email: string;
+  fn: string;
+  ln: string;
+  doc_id: string;
+  birth: Date;
+  acc_type: number;
 }
 
 const initialState: UserState = {
-  cookie: {
-    token: null,
-    acc_id: null,
-    email: null,
-    session_id: null,
-    type: null,
-  },
+  token: null,
+  email: null,
+  fn: null,
+  ln: null,
+  doc_id: null,
+  birth: null,
+  acc_type: null,
 };
 
-const userReducer: Reducer = (state = initialState, action) => {
+export const userReducer: Reducer = (state = initialState, action) => {
   switch (action.type) {
-    case UserAction.STORE_COOKIE:
-      axios.defaults.headers.common['Authorization'] = action.cookie.token;
-      return {...state, cookie: action.cookie};
+    case UserAction.LOG_IN:
+      return {...state, ...action.data};
+    case APP_ACTION.LOAD:
+      console.debug(state);
+      if (!!action.token) {
+        return {...state, token: action.token};
+      }
+      return initialState;
     case UserAction.LOG_OUT:
-      axios.defaults.headers.common['Authorization'] = '';
       return initialState;
     default:
       return state;
   }
 };
 
-export enum UserAction {
-  STORE_COOKIE = 'store_cookie',
-  LOG_OUT = 'log_out',
-}
+const TransientTokenTransform = createTransform(
+  (inboundState: UserState, key) => {
+    delete inboundState.token;
+    return {...inboundState};
+  },
+  null,
+  {whitelist: ['user']},
+);
 
-export default userReducer;
+const persistConfig = {
+  key: 'user',
+  storage: AsyncStorage,
+  transforms: [TransientTokenTransform],
+};
+
+const persistedUserReducer = persistReducer(persistConfig, userReducer);
+
+export default persistedUserReducer;
