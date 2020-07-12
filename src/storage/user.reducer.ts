@@ -1,10 +1,9 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import {Reducer} from 'redux';
-import {createTransform, persistReducer} from 'redux-persist';
-import {APP_ACTION, UserAction} from './storage.actions';
+import {persistReducer} from 'redux-persist';
+import {UserAction} from './storage.actions';
 
 export interface UserState {
-  token: string;
   email: string;
   fn: string;
   ln: string;
@@ -14,7 +13,6 @@ export interface UserState {
 }
 
 const initialState: UserState = {
-  token: null,
   email: null,
   fn: null,
   ln: null,
@@ -26,13 +24,7 @@ const initialState: UserState = {
 export const userReducer: Reducer = (state = initialState, action) => {
   switch (action.type) {
     case UserAction.LOG_IN:
-      return {...state, ...action.data};
-    case APP_ACTION.LOAD:
-      console.debug(state);
-      if (!!action.token) {
-        return {...state, token: action.token};
-      }
-      return initialState;
+      return {...state, ...action.data.user};
     case UserAction.LOG_OUT:
       return initialState;
     default:
@@ -40,19 +32,9 @@ export const userReducer: Reducer = (state = initialState, action) => {
   }
 };
 
-const TransientTokenTransform = createTransform(
-  (inboundState: UserState, key) => {
-    delete inboundState.token;
-    return {...inboundState};
-  },
-  null,
-  {whitelist: ['user']},
-);
-
 const persistConfig = {
   key: 'user',
   storage: AsyncStorage,
-  transforms: [TransientTokenTransform],
 };
 
 const persistedUserReducer = persistReducer(persistConfig, userReducer);

@@ -13,6 +13,7 @@ const validator = new Validator();
 function LoginScreen({navigation}) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
 
   const refContainer = [];
@@ -25,14 +26,15 @@ function LoginScreen({navigation}) {
     if (!validator.isEmail(email) || validator.isEmpty(password)) {
       setMessage('Email o Contrasena invalidad');
     } else {
+      setLoading(true);
       login(email, password, email) //deviceId should be DeviceInfo.getMacAddressSync()
         .then((response) => response.data)
         .then((data) => {
-          saveCredentials(data.email, data.token);
-          dispatch({type: UserAction.LOG_IN, data});
+          dispatch(saveUserToDevice(data));
         })
         .catch((error) => {
           console.log(error);
+          setLoading(false);
           setMessage(error);
         });
     }
@@ -66,7 +68,12 @@ function LoginScreen({navigation}) {
         />
       </View>
       <View style={styles.buttonContainer}>
-        <Button title="Ingresar" type="clear" onPress={logIn} />
+        <Button
+          title="Ingresar"
+          type="clear"
+          onPress={logIn}
+          loading={loading}
+        />
         <Button
           title="Registrar"
           type="clear"
@@ -76,6 +83,12 @@ function LoginScreen({navigation}) {
     </View>
   );
 }
+
+const saveUserToDevice = (data) => (dispatch) => {
+  return saveCredentials(data.user.email, data.token).then(() =>
+    dispatch({type: UserAction.LOG_IN, data}),
+  );
+};
 
 const styles = StyleSheet.create({
   container: {

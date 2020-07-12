@@ -8,7 +8,7 @@ export enum APP_ACTION {
 }
 
 export enum LoteAction {
-  SAVE = 'save_lotes',
+  FINISHED_LOADING = 'save_lotes',
   CLEAR = 'clear_lotes',
-  LOADING = 'loading_lotes',
+  START_LOADING = 'loading_lotes',
 }

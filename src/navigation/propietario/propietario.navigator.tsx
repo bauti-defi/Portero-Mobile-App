@@ -1,13 +1,24 @@
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import React from 'react';
+import React, {useEffect} from 'react';
+import {useDispatch} from 'react-redux';
 import DrawerContent from '../../components/home.drawer.content';
+import {getAllLotes} from '../../requests/lotes.request';
+import {useSessionSelector} from '../../storage/app.selectors';
+import {LoteAction} from '../../storage/storage.actions';
 import UserQRScannerNavigator from '../qr.scanner.navigator';
 import InviteNavigator from './invite.navigator';
 import LotesNavigator from './lotes.navigator';
 
 const Drawer = createDrawerNavigator();
 
-function PropietarioNavigator() {
+const PropietarioNavigator = () => {
+  const token: string = useSessionSelector((session) => session.token);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchData(token));
+  }, []);
+
   return (
     <Drawer.Navigator
       lazy={true}
@@ -22,6 +33,16 @@ function PropietarioNavigator() {
       />
     </Drawer.Navigator>
   );
-}
+};
+
+const fetchData = (token) => (dispatch) => {
+  console.debug('Loading propietario data');
+
+  dispatch({type: LoteAction.START_LOADING, loading: true});
+
+  return getAllLotes(token).then((allLotes) => {
+    dispatch({type: LoteAction.FINISHED_LOADING, lotes: allLotes || []});
+  });
+};
 
 export default PropietarioNavigator;

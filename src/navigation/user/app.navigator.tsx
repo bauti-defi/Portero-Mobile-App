@@ -3,14 +3,15 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import SplashScreen from '../../screens/user/splash.screen';
 import {getCredentials} from '../../secure.storage';
-import {useUserSelector} from '../../storage/app.selectors';
+import {useSessionSelector, useUserSelector} from '../../storage/app.selectors';
 import {APP_ACTION} from '../../storage/storage.actions';
 import HomeNavigator from './home.navigator';
 import LoginNavigator from './login.navigator';
 
 function AppNavigator() {
   const [loading, setLoading] = useState(true);
-  const email: string = useUserSelector((user) => user.email);
+  const token: string = useSessionSelector((session) => session.token);
+  const hasUser = useUserSelector((user) => !!user);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -37,7 +38,7 @@ function AppNavigator() {
 
   return (
     <NavigationContainer>
-      {email ? <HomeNavigator /> : <LoginNavigator />}
+      {token && hasUser ? <HomeNavigator /> : <LoginNavigator />}
     </NavigationContainer>
   );
 }

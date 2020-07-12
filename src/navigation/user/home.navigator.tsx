@@ -3,11 +3,16 @@ import {useUserSelector} from '../../storage/app.selectors';
 import GuardiaNavigator from '../guardia/guardia.navigator';
 import PropietarioNavigator from '../propietario/propietario.navigator';
 
-function HomeNavigator() {
+enum Type {
+  PROPIETARIO = 1,
+  GUARDIA = 2,
+}
+
+const HomeNavigator = () => {
   const accountType: number = useUserSelector((user) => user.acc_type);
 
   return getNavigator(accountType);
-}
+};
 
 const getNavigator = (type: number) => {
   switch (type) {
@@ -19,10 +24,5 @@ const getNavigator = (type: number) => {
       throw Error('Invalid account type.');
   }
 };
-
-enum Type {
-  PROPIETARIO = 1,
-  GUARDIA = 2,
-}
 
 export default HomeNavigator;
