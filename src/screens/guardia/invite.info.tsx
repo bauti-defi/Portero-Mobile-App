@@ -4,6 +4,7 @@ import {StyleSheet, View} from 'react-native';
 import {Text} from 'react-native-elements';
 import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {format} from '../../date.formatter';
 import {inviteResponse} from '../../requests/invite.requests';
 import GuestInsideTile from './guest.inside';
 import GuestPendingTile from './guest.pending.tile';
@@ -69,9 +70,9 @@ const InviteInfo = ({invite, guests}) => {
         <View style={styles.listContainer}>
           {guests.map((guest) => {
             if (isPending(guest)) {
-              return <GuestPendingTile guest={guest} key={guest.g_id} />;
+              return <GuestPendingTile guest={guest} key={guest.id} />;
             } else if (isInside(guest)) {
-              return <GuestInsideTile guest={guest} key={guest.g_id} />;
+              return <GuestInsideTile guest={guest} key={guest.id} />;
             }
             return null;
           })}
@@ -83,53 +84,18 @@ const InviteInfo = ({invite, guests}) => {
 
 const isExpired = (exp) => new Date(exp) < new Date(); //<
 
-const wasRejected = (guest) => guest.g_rejected != null;
-const hasExited = (guest) => guest.g_exited != null;
+const wasRejected = (guest) => guest.rejected != null;
+const hasExited = (guest) => guest.exited != null;
 
 const isInside = (guest) =>
-  guest.g_entered != null && !hasExited(guest) && !wasRejected(guest);
+  guest.entered != null && !hasExited(guest) && !wasRejected(guest);
 
 const isPending = (guest) =>
   !wasRejected(guest) && !isInside(guest) && !hasExited(guest);
 
-const MESES = [
-  'Enero',
-  'Febrero',
-  'Marzo',
-  'Abril',
-  'Mayo',
-  'Junio',
-  'Julio',
-  'Agosto',
-  'Septiembre',
-  'Octubre',
-  'Noviembre',
-  'Diciembre',
-];
-
-const DIAS = [
-  'Domingo',
-  'Lunes',
-  'Martes',
-  'Miercoles',
-  'Jueves',
-  'Viernes',
-  'Sabado',
-];
-
 const Warning = ({exp}) => {
   if (isExpired(exp)) {
-    const options = {
-      weekday: 'long',
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    };
-    var date = new Date(exp);
-
-    var dateString = `${DIAS[date.getDay()]}, ${
-      MESES[date.getMonth()]
-    } ${date.getDate()}, ${date.getUTCHours()}:${date.getUTCMinutes()}`;
+    var dateString = format(exp);
     return (
       <Text h3 style={{color: 'red'}}>
         Vencio: {dateString}

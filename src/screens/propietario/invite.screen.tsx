@@ -1,13 +1,18 @@
 import {useNavigation} from '@react-navigation/native';
 import React, {useLayoutEffect} from 'react';
-import {SafeAreaView} from 'react-native';
+import {FlatList, SafeAreaView} from 'react-native';
+import {ListItem} from 'react-native-elements';
 import CreateButton from '../../components/create.button';
 import EmptyPlaceholder from '../../components/empty.placeholder';
-import {useLoteSelector} from '../../storage/app.selectors';
+import {format} from '../../date.formatter';
+import {useInviteSelector, useLoteSelector} from '../../storage/app.selectors';
+import {Guest, Invite} from '../../storage/invite.reducer';
 import {Lote} from '../../storage/lotes.reducer';
 
 const InviteScreen = () => {
   const lotes: Lote[] = useLoteSelector((state) => state.lotes);
+  const invites: Invite[] = useInviteSelector((invite) => invite.invites);
+  const guests: Guest[] = useInviteSelector((invite) => invite.guests);
   const navigation = useNavigation();
 
   useLayoutEffect(() => {
@@ -24,9 +29,50 @@ const InviteScreen = () => {
 
   return (
     <SafeAreaView style={{flexGrow: 1}}>
-      <EmptyPlaceholder />
+      <FlatList
+        keyExtractor={keyExtractor}
+        data={compose(invites, guests, lotes)}
+        contentContainerStyle={{
+          flexGrow: 1,
+        }}
+        extraData={compose(invites, guests, lotes)}
+        renderItem={renderItem}
+        ListEmptyComponent={EmptyPlaceholder}
+      />
     </SafeAreaView>
   );
 };
+
+const compose = (invites: Invite[], guests: Guest[], lotes: Lote[]) => {
+  let composed = [];
+  for (let i = 0; i < invites.length; i++) {
+    let lote: Lote = lotes.find((l) => l.lote_id == invites[i].lote_id);
+    let guestList: Guest[] = guests.filter(
+      (guest) => guest.invite_id == invites[i].id,
+    );
+    if (lote && guestList.length > 0) {
+      composed.push({
+        ...invites[i],
+        lote_name: lote.lote_name,
+        lote_nickname: lote.lote_nickname,
+        barrio_name: lote.barrio_name,
+        guestList,
+      });
+    }
+  }
+  return composed;
+};
+
+const keyExtractor = (invite, index) => invite.id;
+
+const renderItem = ({item}) => (
+  <ListItem
+    title={`${item.lote_nickname} en ${item.barrio_name}`}
+    subtitle={format(item.exp)}
+    badge={{value: item.guestList.length, textStyle: {fontSize: 12}}}
+    titleStyle={{fontSize: 20, paddingBottom: 5}}
+    bottomDivider
+  />
+);
 
 export default InviteScreen;

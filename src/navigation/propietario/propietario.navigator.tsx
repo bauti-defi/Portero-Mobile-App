@@ -4,6 +4,7 @@ import {useDispatch} from 'react-redux';
 import DrawerContent from '../../components/home.drawer.content';
 import {getAllLotes} from '../../requests/lotes.request';
 import {useSessionSelector} from '../../storage/app.selectors';
+import {getInvites} from '../../storage/invite.actions';
 import {LoteAction} from '../../storage/storage.actions';
 import UserQRScannerNavigator from '../qr.scanner.navigator';
 import InviteNavigator from './invite.navigator';
@@ -40,9 +41,11 @@ const fetchData = (token) => (dispatch) => {
 
   dispatch({type: LoteAction.START_LOADING, loading: true});
 
-  return getAllLotes(token).then((allLotes) => {
-    dispatch({type: LoteAction.FINISHED_LOADING, lotes: allLotes || []});
-  });
+  return getAllLotes(token)
+    .then((allLotes) => {
+      dispatch({type: LoteAction.FINISHED_LOADING, lotes: allLotes || []});
+    })
+    .then(dispatch(getInvites(token)));
 };
 
 export default PropietarioNavigator;

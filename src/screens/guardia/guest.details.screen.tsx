@@ -4,15 +4,15 @@ import {Button, Text} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const GuestDetailsScreen = ({navigation, route}) => {
-  const {g_doc, g_fn, g_ln, g_id} = route.params;
+  const {doc_id, fn, ln, id} = route.params;
   return (
     <View>
       <View style={styles.infoContainer}>
         <Text h1>
-          {g_fn} {g_ln}
+          {fn} {ln}
         </Text>
         <Text h4 style={styles.dniText}>
-          {g_doc}
+          {doc_id}
         </Text>
       </View>
       <ButtonView onAllow={null} onOk={null} />

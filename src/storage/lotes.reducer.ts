@@ -21,7 +21,7 @@ export type Lote = {
 
 const initialState: LoteState = {
   lotes: [],
-  loading: true,
+  loading: false,
 };
 
 const loteReducer: Reducer = (state = initialState, action) => {

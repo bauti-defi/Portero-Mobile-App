@@ -21,7 +21,7 @@ const initialState: UserState = {
   acc_type: null,
 };
 
-export const userReducer: Reducer = (state = initialState, action) => {
+const userReducer: Reducer = (state = initialState, action) => {
   switch (action.type) {
     case UserAction.LOG_IN:
       return {...state, ...action.data.user};

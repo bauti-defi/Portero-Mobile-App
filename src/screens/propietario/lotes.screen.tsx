@@ -5,7 +5,6 @@ import {useDispatch} from 'react-redux';
 import EmptyPlaceholder from '../../components/empty.placeholder';
 import {getAllLotes} from '../../requests/lotes.request';
 import {useLoteSelector, useSessionSelector} from '../../storage/app.selectors';
-import {Lote} from '../../storage/lotes.reducer';
 import {LoteAction} from '../../storage/storage.actions';
 
 const keyExtractor = (lote, index) => lote.lote_id;
@@ -21,8 +20,7 @@ const renderItem = ({item}) => (
 );
 
 function LotesScreen() {
-  const lotes: Lote[] = useLoteSelector((state) => state.lotes);
-  const loading: boolean = useLoteSelector((state) => state.loading);
+  const {lotes, loading} = useLoteSelector((state) => state);
   const token: string = useSessionSelector((session) => session.token);
   const dispatch = useDispatch();
 

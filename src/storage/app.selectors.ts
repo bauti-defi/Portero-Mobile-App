@@ -1,4 +1,5 @@
 import {TypedUseSelectorHook, useSelector} from 'react-redux';
+import {InviteState} from './invite.reducer';
 import {LoteState} from './lotes.reducer';
 import {RootState} from './root.reducer';
 import {SessionState} from './session.reducer';
@@ -15,3 +16,7 @@ export const useSessionSelector: TypedUseSelectorHook<SessionState> = (
 
 export const useLoteSelector: TypedUseSelectorHook<LoteState> = (selector) =>
   useRootSelector((state) => selector(state.lote));
+
+export const useInviteSelector: TypedUseSelectorHook<InviteState> = (
+  selector,
+) => useRootSelector((state) => selector(state.invite));
