@@ -9,48 +9,58 @@ const validator = new Validator();
 
 const today = new Date();
 
-const NameInput = ({navigation}) => {
+const PersonInput = ({navigation}) => {
   const [first_name, setFirstName] = useState('');
   const [firstNameMessage, setFirstNameMessage] = useState('');
   const [last_name, setLastName] = useState('');
   const [lastNameMessage, setLastNameMessage] = useState('');
-  const [showDatePicker, setShowDatePicker] = useState(false);
-  const [date, setDate] = useState(today);
-  const [dateStyle, setDateStyle] = useState({});
+  const [doc_id, setDoc] = useState('');
+  const [docMessage, setDocMessage] = useState('');
+  const [datePickerData, setDatePickerData] = useState({
+    show: false,
+    date: today,
+    style: {},
+  });
+
+  const refContainer = [];
+  const focusInput = (index: number) => refContainer[index].focus();
 
   const next = () => {
     if (validator.isEmpty(first_name)) {
       setFirstNameMessage('Nombre Vacio');
     } else if (validator.isEmpty(last_name)) {
       setLastNameMessage('Apellido Vacio');
-    } else if (!validDate(date)) {
-      setDateStyle({color: 'red'});
+    } else if (validator.isEmpty(doc_id)) {
+      setDocMessage('Documento Vacio');
+    } else if (!validDate(datePickerData.date)) {
+      setDatePickerData({...datePickerData, style: {color: 'red'}});
     } else {
-      navigation.push('dni', {
+      navigation.push('account', {
         payload: {
           first_name,
           last_name,
-          birth_date: date.toISOString(),
+          doc_id,
+          birth_date: datePickerData.date.toISOString(),
         },
       });
     }
   };
 
   const datePickerEvent = (e, date) => {
-    setDate(date);
     if (date && validDate(date)) {
-      setDateStyle({});
+      setDatePickerData({date, show: false, style: {}});
     } else {
-      setDateStyle({color: 'red'});
+      setDatePickerData({date, show: false, style: {color: 'red'}});
     }
-    setShowDatePicker(false);
   };
 
   const validDate = (date: Date) =>
     today.getFullYear() - date.getFullYear() >= 6;
 
   const dateButtonTitle = () =>
-    date !== today ? date.toDateString() : 'Fecha de Nacimiento';
+    datePickerData.date !== today
+      ? datePickerData.date.toDateString()
+      : 'Fecha de Nacimiento';
 
   return (
     <View style={styles.container}>
@@ -59,20 +69,38 @@ const NameInput = ({navigation}) => {
           placeholder=" Nombre Completo"
           autoCapitalize="words"
           onChangeText={setFirstName}
+          blurOnSubmit={false}
           errorMessage={firstNameMessage}
           containerStyle={styles.input}
+          onSubmitEditing={() => focusInput(1)}
+          ref={(input) => (refContainer[0] = input)}
         />
         <Input
           placeholder=" Apellido"
           autoCapitalize="words"
           onChangeText={setLastName}
+          blurOnSubmit={false}
           errorMessage={lastNameMessage}
           containerStyle={styles.input}
+          onSubmitEditing={() => focusInput(2)}
+          ref={(input) => (refContainer[1] = input)}
+        />
+        <Input
+          placeholder=" Numero de Documento"
+          autoCapitalize="none"
+          onChangeText={setDoc}
+          blurOnSubmit={false}
+          errorMessage={docMessage}
+          leftIcon={<Icon name="id-card" size={24} color="black" />}
+          onSubmitEditing={() =>
+            setDatePickerData({...datePickerData, show: true})
+          }
+          ref={(input) => (refContainer[2] = input)}
         />
       </View>
-      {showDatePicker ? (
+      {datePickerData.show ? (
         <RNDateTimePicker
-          value={date}
+          value={datePickerData.date}
           mode="date"
           display="spinner"
           onChange={datePickerEvent}
@@ -80,12 +108,11 @@ const NameInput = ({navigation}) => {
       ) : (
         <Button
           type="outline"
-          titleStyle={dateStyle}
+          titleStyle={datePickerData.style}
           title={dateButtonTitle()}
-          onPress={(e) => setShowDatePicker(true)}
+          onPress={(e) => setDatePickerData({...datePickerData, show: true})}
         />
       )}
-
       <Button
         type="outline"
         icon={<Icon name="arrow-right" size={24} color="black" />}
@@ -106,4 +133,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default NameInput;
+export default PersonInput;

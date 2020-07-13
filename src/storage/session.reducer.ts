@@ -1,5 +1,5 @@
 import {Reducer} from 'redux';
-import {APP_ACTION, UserAction} from './storage.actions';
+import {APP_ACTION, LoginAction} from './storage.actions';
 
 export interface SessionState {
   token: string;
@@ -13,14 +13,14 @@ const initialState: SessionState = {
 
 export const sessionReducer: Reducer = (state = initialState, action) => {
   switch (action.type) {
-    case UserAction.LOG_IN:
+    case LoginAction.LOG_IN:
       return {...state, token: action.data.token, loading_token: false};
     case APP_ACTION.LOAD:
       if (!!action.token) {
         return {...state, token: action.token, loading_token: false};
       }
       return initialState;
-    case UserAction.LOG_OUT:
+    case LoginAction.LOG_OUT:
       return initialState;
     default:
       return state;

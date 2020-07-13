@@ -13,7 +13,7 @@ export const createNewInvite = (token: string, inviteDTO: InviteDTO) => (
   return createInvite(token, inviteDTO)
     .then((response) => response.data)
     .then((invite) => dispatch({type: InviteAction.SHOW_INVITE, invite}))
-    .then(dispatch(getInvites(token))); //fetch invites
+    .then(dispatch(getInvites(token)));
 };
 
 export const getInvites = (token: string) => (dispatch) => {

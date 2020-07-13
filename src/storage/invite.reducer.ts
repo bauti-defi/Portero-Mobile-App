@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import {persistReducer} from 'redux-persist';
-import {InviteAction} from './storage.actions';
+import {InviteAction, LoginAction} from './storage.actions';
 
 export type Guest = {
   doc_id: string;
@@ -43,6 +43,8 @@ const inviteReducer = (state = initialState, action) => {
       return {...state, isSending: action.isSending, inviteToShare: null};
     case InviteAction.SHOW_INVITE:
       return {...state, inviteToShare: action.invite, isSending: false};
+    case LoginAction.LOG_OUT:
+      return initialState;
     default:
       return state;
   }

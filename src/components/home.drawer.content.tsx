@@ -6,14 +6,14 @@ import {
 import React from 'react';
 import {useDispatch} from 'react-redux';
 import {deleteCredentials} from '../secure.storage';
-import {UserAction} from '../storage/storage.actions';
+import {LoginAction} from '../storage/storage.actions';
 
 const DrawerContent = (props) => {
   const dispatch = useDispatch();
 
   const logOut = () => {
     deleteCredentials();
-    dispatch({type: UserAction.LOG_OUT});
+    dispatch({type: LoginAction.LOG_OUT});
   };
 
   return (

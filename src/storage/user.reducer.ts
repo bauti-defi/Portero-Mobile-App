@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import {Reducer} from 'redux';
 import {persistReducer} from 'redux-persist';
-import {UserAction} from './storage.actions';
+import {LoginAction} from './storage.actions';
 
 export interface UserState {
   email: string;
@@ -23,9 +23,9 @@ const initialState: UserState = {
 
 const userReducer: Reducer = (state = initialState, action) => {
   switch (action.type) {
-    case UserAction.LOG_IN:
+    case LoginAction.LOG_IN:
       return {...state, ...action.data.user};
-    case UserAction.LOG_OUT:
+    case LoginAction.LOG_OUT:
       return initialState;
     default:
       return state;

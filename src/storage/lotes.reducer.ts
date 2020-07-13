@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import {Reducer} from 'redux';
 import {persistReducer} from 'redux-persist';
-import {LoteAction, UserAction} from './storage.actions';
+import {LoginAction, LoteAction} from './storage.actions';
 
 export interface LoteState {
   lotes: Lote[];
@@ -35,7 +35,7 @@ const loteReducer: Reducer = (state = initialState, action) => {
     case LoteAction.START_LOADING:
       return {...state, loading: action.loading};
     case LoteAction.CLEAR:
-    case UserAction.LOG_OUT:
+    case LoginAction.LOG_OUT:
       return initialState;
     default:
       return state;
