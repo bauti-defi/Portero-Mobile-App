@@ -10,11 +10,11 @@ import {Button, Text} from 'react-native-elements';
 import Share from 'react-native-share';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useDispatch} from 'react-redux';
+import {createNewInvite} from '../../actions/invite.actions';
 import {
   useInviteSelector,
   useSessionSelector,
 } from '../../storage/app.selectors';
-import {createNewInvite} from '../../storage/invite.actions';
 
 const InviteFeedbackScreen = ({navigation, route}) => {
   const token: string = useSessionSelector((session) => session.token);

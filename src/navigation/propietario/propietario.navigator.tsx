@@ -1,14 +1,14 @@
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import React, {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
+import {getInvites} from '../../actions/invite.actions';
 import DrawerContent from '../../components/home.drawer.content';
 import {getAllLotes} from '../../requests/lotes.request';
 import {useSessionSelector} from '../../storage/app.selectors';
-import {getInvites} from '../../storage/invite.actions';
 import {LoteAction} from '../../storage/storage.actions';
-import UserQRScannerNavigator from '../qr.scanner.navigator';
 import InviteNavigator from './invite.navigator';
 import LotesNavigator from './lotes.navigator';
+import PropietarioQRScannerNavigator from './qr.scanner.navigator';
 
 const Drawer = createDrawerNavigator();
 
@@ -29,7 +29,7 @@ const PropietarioNavigator = () => {
       <Drawer.Screen name="Lotes" component={LotesNavigator} />
       <Drawer.Screen
         name="Escanear QR"
-        component={UserQRScannerNavigator}
+        component={PropietarioQRScannerNavigator}
         options={{unmountOnBlur: true}}
       />
     </Drawer.Navigator>

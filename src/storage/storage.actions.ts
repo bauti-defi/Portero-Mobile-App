@@ -19,6 +19,7 @@ export enum LoginAction {
   FAILED_LOGIN = 'failed_login',
   LOG_IN = 'log_in',
   LOG_OUT = 'log_out',
+  RESET = 'reset_login',
 }
 
 export enum RegistrationAction {

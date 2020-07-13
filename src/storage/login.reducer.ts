@@ -14,11 +14,11 @@ const loginReducer = (state = initialState, action) => {
   switch (action.type) {
     case LoginAction.ATTEMPTING_LOGIN:
       return {...state, attempting: true};
-    case LoginAction.LOG_IN:
-      return {...state, attempting: false};
     case LoginAction.FAILED_LOGIN:
       return {...state, attempting: false, errorMessage: action.message};
+    case LoginAction.LOG_IN:
     case LoginAction.LOG_OUT:
+    case LoginAction.RESET:
       return initialState;
     default:
       return state;

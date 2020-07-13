@@ -6,12 +6,12 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {useDispatch} from 'react-redux';
 import {failedLogInUser, logInUser} from '../../actions/login.actions';
 import {useLoginReducer} from '../../storage/app.selectors';
+import {LoginAction} from '../../storage/storage.actions';
 
 const validator = new Validator();
 
 const LoginScreen = ({navigation}) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [credentials, setCredentials] = useState({email: '', password: ''});
   const {attempting, errorMessage} = useLoginReducer((state) => state);
 
   const refContainer = [];
@@ -19,11 +19,21 @@ const LoginScreen = ({navigation}) => {
   const dispatch = useDispatch();
 
   const logIn = () => {
-    if (!validator.isEmail(email) || validator.isEmpty(password)) {
+    if (
+      !validator.isEmail(credentials.email) ||
+      validator.isEmpty(credentials.password)
+    ) {
       dispatch(failedLogInUser('Email o Contrasena invalidad'));
     } else {
-      dispatch(logInUser(email, password, email));
+      dispatch(
+        logInUser(credentials.email, credentials.password, credentials.email),
+      ); //Should be deviceID
     }
+  };
+
+  const reset = () => {
+    setCredentials({email: '', password: ''});
+    dispatch({type: LoginAction.RESET});
   };
 
   return (
@@ -32,7 +42,9 @@ const LoginScreen = ({navigation}) => {
         <Input
           placeholder=" Email"
           keyboardType="email-address"
-          onChangeText={setEmail}
+          onChangeText={(input) =>
+            setCredentials({...credentials, email: input})
+          }
           blurOnSubmit={false}
           autoCapitalize="none"
           leftIcon={<Icon name="envelope" size={24} color="black" />}
@@ -44,7 +56,9 @@ const LoginScreen = ({navigation}) => {
           placeholder=" Contrasena"
           autoCapitalize="none"
           secureTextEntry={true}
-          onChangeText={setPassword}
+          onChangeText={(input) =>
+            setCredentials({...credentials, password: input})
+          }
           errorMessage={errorMessage}
           blurOnSubmit={true}
           leftIcon={<Icon name="lock" size={24} color="black" />}

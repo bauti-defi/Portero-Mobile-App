@@ -2,37 +2,35 @@ import React, {useEffect, useState} from 'react';
 import {ActivityIndicator, SafeAreaView, StyleSheet, View} from 'react-native';
 import {Button, Text} from 'react-native-elements';
 import {useDispatch} from 'react-redux';
+import {fetchLotes} from '../../actions/lote.actions';
 import {registerPropietario} from '../../requests/lotes.request';
-import {LoteAction} from '../../storage/lotes.reducer';
+import {useSessionSelector} from '../../storage/app.selectors';
 
 const PropietarionRegistrationFeedbackScreen = ({navigation, route}) => {
-  const [registered, setRegistered] = useState(undefined);
+  const [response, setResponse] = useState({loading: true, registered: false});
+  const token: string = useSessionSelector((state) => state.token);
   const dispatch = useDispatch();
 
-  const reloadLotes = (loading: boolean) =>
-    dispatch({type: LoteAction.LOADING, loading});
-
   useEffect(() => {
-    registerPropietario(route.params)
+    registerPropietario(token, route.params)
       .then((response) => response.data)
       .then((success) => {
-        setRegistered(success);
-        reloadLotes(true);
+        setResponse({loading: false, registered: success});
+        dispatch(fetchLotes(token));
       })
       .catch((error) => {
         console.debug(error);
-        setRegistered(false);
-        reloadLotes(true);
+        setResponse({loading: false, registered: false});
       });
   }, []);
 
   return (
     <SafeAreaView style={styles.container}>
-      {typeof registered == 'undefined' ? (
+      {response.loading ? (
         <ActivityIndicator size={100} animating={true} />
       ) : (
         <RegistrationOutcome
-          success={registered}
+          success={response.registered}
           onPress={() => navigation.jumpTo('Lotes')}
         />
       )}

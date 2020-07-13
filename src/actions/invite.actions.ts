@@ -3,7 +3,7 @@ import {
   getAllInvites,
   InviteDTO,
 } from '../requests/invite.requests';
-import {InviteAction} from './storage.actions';
+import {InviteAction} from '../storage/storage.actions';
 
 export const createNewInvite = (token: string, inviteDTO: InviteDTO) => (
   dispatch,

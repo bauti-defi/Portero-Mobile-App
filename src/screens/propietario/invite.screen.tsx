@@ -27,15 +27,17 @@ const InviteScreen = () => {
     }
   });
 
+  const getData = () => compose(invites, guests, lotes).sort(sortByMostRecent);
+
   return (
     <SafeAreaView style={{flexGrow: 1}}>
       <FlatList
         keyExtractor={keyExtractor}
-        data={compose(invites, guests, lotes)}
+        data={getData()}
         contentContainerStyle={{
           flexGrow: 1,
         }}
-        extraData={compose(invites, guests, lotes)}
+        extraData={getData()}
         renderItem={renderItem}
         ListEmptyComponent={EmptyPlaceholder}
       />
@@ -53,6 +55,7 @@ const compose = (invites: Invite[], guests: Guest[], lotes: Lote[]) => {
     if (lote && guestList.length > 0) {
       composed.push({
         ...invites[i],
+        creation_date: new Date(invites[i].creation_date),
         lote_name: lote.lote_name,
         lote_nickname: lote.lote_nickname,
         barrio_name: lote.barrio_name,
@@ -62,6 +65,9 @@ const compose = (invites: Invite[], guests: Guest[], lotes: Lote[]) => {
   }
   return composed;
 };
+
+const sortByMostRecent = (a, b) =>
+  a.creation_date <= b.creation_date ? 1 : -1;
 
 const keyExtractor = (invite, index) => invite.id;
 

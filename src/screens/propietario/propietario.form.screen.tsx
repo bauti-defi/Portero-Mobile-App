@@ -34,6 +34,7 @@ const PropietarioFormScreen = ({navigation, route}) => {
       <Button
         type="outline"
         onPress={next}
+        containerStyle={styles.button}
         icon={<Icon name="arrow-right" size={24} color="black" />}
       />
     </SafeAreaView>
@@ -43,8 +44,11 @@ const PropietarioFormScreen = ({navigation, route}) => {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    padding: 10,
+    padding: 30,
     justifyContent: 'center',
+  },
+  button: {
+    marginHorizontal: 50,
   },
   inputContainer: {
     paddingBottom: 40,
