@@ -10,11 +10,11 @@ const UserNavigator = () => {
   return (
     <Drawer.Navigator
       lazy={true}
-      initialRouteName="Ayuda"
+      initialRouteName="Información"
       drawerContent={(props) => <DrawerContent {...props} />}>
-      <Drawer.Screen name="Ayuda" component={UserHomeScreen} />
+      <Drawer.Screen name="Información" component={UserHomeScreen} />
       <Drawer.Screen
-        name="Escanear QR"
+        name="Asociar"
         component={UserQRScannerNavigator}
         options={{unmountOnBlur: true}}
       />

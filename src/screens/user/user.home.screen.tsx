@@ -18,7 +18,7 @@ const UserHomeScreen = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text h4>Text here!</Text>
+      <Text h4>Consulte la guardia</Text>
     </SafeAreaView>
   );
 };
@@ -27,11 +27,11 @@ const UserHomeScreen = () => {
 //We need the header for the drawer button.
 const WrapperHomeScreen = () => {
   return (
-    <Stack.Navigator initialRouteName="home">
+    <Stack.Navigator initialRouteName="user_home">
       <Stack.Screen
-        name="home"
+        name="user_home"
         component={UserHomeScreen}
-        options={{headerTitle: 'Ayuda'}}
+        options={{headerTitle: 'Información'}}
       />
     </Stack.Navigator>
   );

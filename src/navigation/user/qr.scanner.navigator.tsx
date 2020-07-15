@@ -15,7 +15,7 @@ const UserQRScannerNavigator = () => {
       screenOptions={{header: (props) => null}}>
       <Stack.Screen
         name="Escanear QR"
-        component={ScannerScreen('Pedir en la Guardia')}
+        component={ScannerScreen('Solicitar codigo QR en la guardia')}
       />
       <Stack.Screen
         name="propietario/register"
@@ -54,7 +54,15 @@ const ScannerScreen = (message: string) => ({navigation}) => {
   );
 };
 
-const topConent = (message) => <Text h3>{message}</Text>;
+const topConent = (message) => (
+  <Text
+    h3
+    adjustsFontSizeToFit={true}
+    numberOfLines={2}
+    style={{textAlign: 'center', paddingBottom: 30}}>
+    {message}
+  </Text>
+);
 
 const bottomContent = ({goBack}) => (
   <Button type="clear" title="Cerrar" onPress={goBack} />

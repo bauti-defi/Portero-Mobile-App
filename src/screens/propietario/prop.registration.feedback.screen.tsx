@@ -4,7 +4,7 @@ import {Button, Text} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useDispatch} from 'react-redux';
 import {logOutUser} from '../../actions/login.actions';
-import {fetchLotes} from '../../actions/lote.actions';
+import {getAllLotes} from '../../actions/lote.actions';
 import {registerPropietario} from '../../requests/lotes.request';
 import {useSessionSelector, useUserSelector} from '../../storage/app.selectors';
 import {AccountType} from '../../storage/user.reducer';
@@ -21,7 +21,7 @@ const PropietarionRegistrationFeedbackScreen = ({navigation, route}) => {
       .then((success) => {
         setResponse({loading: false, registered: success});
         if (accountType == AccountType.PROPIETARIO) {
-          dispatch(fetchLotes(token));
+          dispatch(getAllLotes(token));
         }
       })
       .catch((error) => {
@@ -58,13 +58,17 @@ const SuccessScreen = ({onOk, onLogOut, accountType}) => {
       <Icon name="thumbs-up" size={90} color="green" />
       <Text
         h2
-        style={{marginBottom: 20}}
+        style={styles.text}
         adjustsFontSizeToFit={true}
         numberOfLines={1}>
         Asociación exitosa!
       </Text>
       {isPropietario && (
-        <Text h2 adjustsFontSizeToFit={true} numberOfLines={3}>
+        <Text
+          h2
+          adjustsFontSizeToFit={true}
+          numberOfLines={2}
+          style={styles.text}>
           Por favor ingrese nuevamente para que los cambios tomen efecto.
         </Text>
       )}
@@ -89,7 +93,7 @@ const FailureScreen = ({navigation, accountType}) => {
       <Icon name="exclamation-circle" size={90} color="black" />
       <Text
         h3
-        style={{marginBottom: 20}}
+        style={styles.text}
         adjustsFontSizeToFit={true}
         numberOfLines={1}>
         Ocurrio un error inesperado
@@ -111,6 +115,7 @@ const styles = StyleSheet.create({
     marginTop: '50%',
     alignItems: 'center',
   },
+  text: {marginBottom: 20, textAlign: 'center'},
 });
 
 export default PropietarionRegistrationFeedbackScreen;
