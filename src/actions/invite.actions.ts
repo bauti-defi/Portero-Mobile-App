@@ -3,7 +3,12 @@ import {
   getAllInvites,
   InviteDTO,
 } from '../requests/invite.requests';
-import {InviteAction} from '../storage/storage.actions';
+
+export enum InviteAction {
+  START_SENDING = 'start_sending',
+  SHOW_INVITE = 'show_invite',
+  FINISHED_LOADING_INVITES = 'finished_loading_invites',
+}
 
 export const createNewInvite = (token: string, inviteDTO: InviteDTO) => (
   dispatch,

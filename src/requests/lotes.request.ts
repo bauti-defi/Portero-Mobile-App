@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const getAllLotes = (token: string) =>
+export const fetchLotes = (token: string) =>
   axios
     .get('/propietario/lotes/all', {headers: {authorization: token}})
     .then((response) => response.data);

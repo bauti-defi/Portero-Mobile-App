@@ -2,18 +2,12 @@ import React, {useEffect, useState} from 'react';
 import {ActivityIndicator, SafeAreaView, View} from 'react-native';
 import {Button, Text} from 'react-native-elements';
 import {useDispatch} from 'react-redux';
+import {logOutUser} from '../../actions/login.actions';
 import {registerGuardia} from '../../requests/guardia.requests';
-import {deleteCookie} from '../../secure.storage';
-import {UserAction} from '../../storage/user.reducer';
 
 const GuardiaRegistrationFeedbackScreen = ({navigation, route}) => {
   const [registered, setRegistered] = useState(undefined);
   const dispatch = useDispatch();
-
-  const logOut = () => {
-    deleteCookie();
-    dispatch({type: UserAction.LOG_OUT});
-  };
 
   useEffect(() => {
     registerGuardia(route.params)
@@ -29,7 +23,7 @@ const GuardiaRegistrationFeedbackScreen = ({navigation, route}) => {
 
   const onPress = () => {
     if (registered) {
-      logOut();
+      dispatch(logOutUser());
     } else {
       navigation.popToTop();
       navigation.jumpTo('Invitaciones');
@@ -49,7 +43,7 @@ const GuardiaRegistrationFeedbackScreen = ({navigation, route}) => {
 
 const RegistrationOutcome = (props) => {
   let message = props.success
-    ? 'Associación exitosa! Por favor ingrese nuevamente para que los cambios tomen efecto.'
+    ? 'Asociación exitosa! Por favor ingrese nuevamente para que los cambios tomen efecto.'
     : 'No se pudo associar... :(';
   return (
     <View>

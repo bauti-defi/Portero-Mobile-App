@@ -1,12 +1,17 @@
-import {getAllLotes} from '../requests/lotes.request';
-import {LoteAction} from '../storage/storage.actions';
+import {fetchLotes} from '../requests/lotes.request';
 
-export const fetchLotes = (token: string) => (dispatch) => {
+export enum LoteAction {
+  FINISHED_LOADING = 'save_lotes',
+  CLEAR = 'clear_lotes',
+  START_LOADING = 'loading_lotes',
+}
+
+export const getAllLotes = (token: string) => (dispatch) => {
   console.debug('Loading lotes');
 
   dispatch({type: LoteAction.START_LOADING, loading: true});
 
-  return getAllLotes(token).then((allLotes) => {
+  return fetchLotes(token).then((allLotes) => {
     dispatch({type: LoteAction.FINISHED_LOADING, lotes: allLotes || []});
   });
 };

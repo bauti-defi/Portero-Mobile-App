@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import {persistReducer} from 'redux-persist';
-import {InviteAction, LoginAction} from './storage.actions';
+import {InviteAction} from '../actions/invite.actions';
+import {LoginAction} from '../actions/login.actions';
 
 export type Guest = {
   doc_id: string;

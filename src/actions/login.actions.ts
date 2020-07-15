@@ -1,6 +1,13 @@
 import {logIn} from '../requests/login.request';
-import {saveCredentials} from '../secure.storage';
-import {LoginAction} from '../storage/storage.actions';
+import {deleteCredentials, saveCredentials} from '../secure.storage';
+
+export enum LoginAction {
+  ATTEMPTING_LOGIN = 'attempting_login',
+  FAILED_LOGIN = 'failed_login',
+  LOG_IN = 'log_in',
+  LOG_OUT = 'log_out',
+  RESET = 'reset_login',
+}
 
 export const logInUser = (email: string, password: string, mid: string) => (
   dispatch,
@@ -11,7 +18,7 @@ export const logInUser = (email: string, password: string, mid: string) => (
     .then((response) => response.data)
     .then((data) => {
       dispatch({type: LoginAction.LOG_IN, data});
-      saveCredentials(data.user.email, data.token);
+      saveCredentials(data.user.email, data.token, data.exp);
     })
     .catch((error) => {
       console.debug(error);
@@ -24,3 +31,8 @@ export const failedLogInUser = (message: string) => (dispatch) =>
     type: LoginAction.FAILED_LOGIN,
     message,
   });
+
+export const logOutUser = () => (dispatch) => {
+  deleteCredentials();
+  dispatch({type: LoginAction.LOG_OUT});
+};

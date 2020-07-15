@@ -40,11 +40,11 @@ const SuccessScreen = ({onOk}) => {
         style={{marginBottom: 20}}
         adjustsFontSizeToFit={true}
         numberOfLines={1}>
-        Apertura de cuenta exitosa!
+        Se ha registrado exitosamente!
       </Text>
       <Button
         type="clear"
-        title="Ok"
+        title="Listo"
         onPress={onOk}
         titleStyle={{fontSize: 25}}
       />

@@ -1,7 +1,13 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import {Reducer} from 'redux';
 import {persistReducer} from 'redux-persist';
-import {LoginAction} from './storage.actions';
+import {LoginAction} from '../actions/login.actions';
+
+export enum AccountType {
+  PROPIETARIO = 3,
+  GUARDIA = 2,
+  USER = 1,
+}
 
 export interface UserState {
   email: string;
@@ -9,7 +15,7 @@ export interface UserState {
   ln: string;
   doc_id: string;
   birth: Date;
-  acc_type: number;
+  acc_type: AccountType;
 }
 
 const initialState: UserState = {

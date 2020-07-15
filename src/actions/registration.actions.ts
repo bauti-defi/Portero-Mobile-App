@@ -1,5 +1,10 @@
 import {register, RegisterDTO} from '../requests/register.request';
-import {RegistrationAction} from '../storage/storage.actions';
+
+export enum RegistrationAction {
+  ATTEMPTING_REGISTRATION = 'attempting_registration',
+  SUCCESSFUL_REGISTRATION = 'successful_registration',
+  FAILED_REGISTRATION = 'failed_registration',
+}
 
 export const registerUser = (dto: RegisterDTO) => (dispatch) => {
   dispatch({type: RegistrationAction.ATTEMPTING_REGISTRATION});

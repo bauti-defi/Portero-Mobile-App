@@ -25,7 +25,7 @@ const InviteScreen = () => {
         ),
       });
     }
-  });
+  }, [navigation]);
 
   const getData = () => compose(invites, guests, lotes).sort(sortByMostRecent);
 
