@@ -84,7 +84,7 @@ const SuccessScreen = ({onOk, onLogOut, accountType}) => {
 
 const FailureScreen = ({navigation, accountType}) => {
   const isPropietario = accountType == AccountType.PROPIETARIO;
-  const homePath = isPropietario ? 'Lotes' : 'Ayuda';
+  const homePath = isPropietario ? 'Lotes' : 'Información';
 
   const goToHome = () => navigation.navigate(homePath);
 
