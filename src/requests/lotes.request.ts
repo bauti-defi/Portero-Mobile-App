@@ -1,9 +1,20 @@
 import axios from 'axios';
 
-export const getAllLotes = () =>
-  axios.get('/propietario/lotes/all').then((response) => response.data);
+export const fetchLotes = (token: string) =>
+  axios
+    .get('/propietario/lotes/all', {headers: {authorization: token}})
+    .then((response) => response.data);
 
-export const registerPropietario = (register: RegisterDTO) =>
-  axios.post('/propietario/register', register);
+export const registerPropietario = (
+  token: string,
+  register: RegisterPropietarioDTO,
+) =>
+  axios.post('/propietario/register', register, {
+    headers: {authorization: token},
+  });
 
-type RegisterDTO = {message: string; nickname: string; id: string};
+export type RegisterPropietarioDTO = {
+  message: string;
+  nickname: string;
+  id: string;
+};

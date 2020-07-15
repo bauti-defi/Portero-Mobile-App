@@ -1,73 +1,92 @@
-import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, SafeAreaView, StyleSheet, View} from 'react-native';
+import React, {useEffect} from 'react';
+import {
+  ActivityIndicator,
+  SafeAreaView,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {Button, Text} from 'react-native-elements';
 import Share from 'react-native-share';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {createInvite} from '../../requests/invite.requests';
+import {useDispatch} from 'react-redux';
+import {createNewInvite} from '../../actions/invite.actions';
+import {
+  useInviteSelector,
+  useSessionSelector,
+} from '../../storage/app.selectors';
 
 const InviteFeedbackScreen = ({navigation, route}) => {
-  const [loading, setLoading] = useState(true);
-  const [invite, setInvite] = useState(null);
+  const token: string = useSessionSelector((session) => session.token);
+  const {isSending, inviteToShare} = useInviteSelector((invite) => invite);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    createInvite(route.params)
-      .then((response) => response.data)
-      .then((data) => {
-        setLoading(false);
-        setInvite(data);
-      })
-      .catch((error) => {
-        console.debug(error);
-        setLoading(false);
-      });
+    create();
   }, []);
 
   const next = () => navigation.popToTop();
 
+  const create = () => dispatch(createNewInvite(token, route.params));
+
   const share = () => {
-    Share.open(shareOptions(invite))
+    Share.open(shareOptions(inviteToShare))
       .then(next)
       .catch((error) => console.log(`Failed to share QR url: ${error}`));
   };
 
   return (
     <SafeAreaView style={styles.container}>
-      {loading ? (
-        <ActivityIndicator size="large" animating={true} />
-      ) : invite ? (
+      {inviteToShare ? (
         <ShareInviteScreen onShare={share} />
+      ) : isSending ? (
+        <ActivityIndicator size={100} animating={true} />
       ) : (
-        <FailureScreen onOk={next} />
+        <FailureScreen onRetry={create} />
       )}
     </SafeAreaView>
   );
 };
 
-const ShareInviteScreen = (props) => {
+const ShareInviteScreen = ({onShare}) => {
   return (
-    <View>
-      <Text h3 style={styles.textContainer}>
+    <View style={{alignItems: 'center'}}>
+      <Text
+        h2
+        style={{marginBottom: 20}}
+        adjustsFontSizeToFit={true}
+        numberOfLines={1}>
         Invitacion otorgada!
       </Text>
-      <Button
-        type="clear"
-        icon={<Icon name="share-alt" size={60} color="black" />}
-        onPress={props.onShare}
-      />
+      <TouchableOpacity onPress={onShare} style={{alignItems: 'center'}}>
+        <Icon name="whatsapp" size={70} color="green" />
+        <Text
+          h4
+          style={{color: 'green'}}
+          adjustsFontSizeToFit={true}
+          numberOfLines={1}>
+          Compartir con WhatsApp
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 };
 
-const FailureScreen = (props) => {
+const FailureScreen = ({onRetry}) => {
   return (
-    <View>
-      <Text h4 style={styles.textContainer}>
-        Ocurrio un error inesperado. Intente nuevamente
+    <View style={{alignItems: 'center'}}>
+      <Icon name="exclamation-circle" size={90} color="black" />
+      <Text
+        h3
+        style={{marginBottom: 20}}
+        adjustsFontSizeToFit={true}
+        numberOfLines={1}>
+        Ocurrio un error inesperado
       </Text>
       <Button
         type="clear"
-        title="Ok"
-        onPress={props.onOk}
+        title="Volver a Intentar"
+        onPress={onRetry}
         titleStyle={{fontSize: 25}}
       />
     </View>
@@ -86,11 +105,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     flexDirection: 'column',
     marginTop: '50%',
-    alignItems: 'center',
     padding: 15,
-  },
-  textContainer: {
-    marginBottom: 20,
   },
 });
 

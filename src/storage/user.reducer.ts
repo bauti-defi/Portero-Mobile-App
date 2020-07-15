@@ -1,44 +1,48 @@
-import axios from 'axios';
+import AsyncStorage from '@react-native-community/async-storage';
 import {Reducer} from 'redux';
+import {persistReducer} from 'redux-persist';
+import {LoginAction} from '../actions/login.actions';
 
-export type Cookie = {
-  token: string;
-  acc_id: string;
-  email: string;
-  session_id: string;
-  type: number;
-};
+export enum AccountType {
+  PROPIETARIO = 3,
+  GUARDIA = 2,
+  USER = 1,
+}
 
 export interface UserState {
-  cookie: Cookie;
+  email: string;
+  fn: string;
+  ln: string;
+  doc_id: string;
+  birth: Date;
+  acc_type: AccountType;
 }
 
 const initialState: UserState = {
-  cookie: {
-    token: null,
-    acc_id: null,
-    email: null,
-    session_id: null,
-    type: null,
-  },
+  email: null,
+  fn: null,
+  ln: null,
+  doc_id: null,
+  birth: null,
+  acc_type: null,
 };
 
 const userReducer: Reducer = (state = initialState, action) => {
   switch (action.type) {
-    case UserAction.STORE_COOKIE:
-      axios.defaults.headers.common['Authorization'] = action.cookie.token;
-      return {...state, cookie: action.cookie};
-    case UserAction.LOG_OUT:
-      axios.defaults.headers.common['Authorization'] = '';
+    case LoginAction.LOG_IN:
+      return {...state, ...action.data.user};
+    case LoginAction.LOG_OUT:
       return initialState;
     default:
       return state;
   }
 };
 
-export enum UserAction {
-  STORE_COOKIE = 'store_cookie',
-  LOG_OUT = 'log_out',
-}
+const persistConfig = {
+  key: 'user',
+  storage: AsyncStorage,
+};
 
-export default userReducer;
+const persistedUserReducer = persistReducer(persistConfig, userReducer);
+
+export default persistedUserReducer;

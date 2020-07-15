@@ -1,25 +1,37 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
+import AccountInput from '../../screens/user/account.input';
 import LoginScreen from '../../screens/user/login.screen';
-import RegistrtionScreen from '../../screens/user/registration/registration.screen';
+import PersonInput from '../../screens/user/person.input';
+import RegistrationFeedbackScreen from '../../screens/user/registration.feedback.screen';
 
 const Stack = createStackNavigator();
 
-function LoginNavigator() {
+const LoginNavigator = () => {
   return (
     <Stack.Navigator initialRouteName="login">
       <Stack.Screen
         name="login"
         component={LoginScreen}
-        options={{title: 'Ingresar'}}
+        options={{title: 'IngresoFacil'}}
       />
       <Stack.Screen
         name="register"
-        component={RegistrtionScreen}
-        options={{title: 'Registrar'}}
+        component={PersonInput}
+        options={{title: 'Registrar Cuenta'}}
+      />
+      <Stack.Screen
+        name="account"
+        component={AccountInput}
+        options={{title: 'Registrar Cuenta'}}
+      />
+      <Stack.Screen
+        name="registration feedback"
+        component={RegistrationFeedbackScreen}
+        options={{header: (props) => null}}
       />
     </Stack.Navigator>
   );
-}
+};
 
 export default LoginNavigator;

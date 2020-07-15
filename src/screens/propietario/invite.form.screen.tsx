@@ -19,7 +19,7 @@ type Guest = {
 const CreateInviteScreen = ({navigation}) => {
   const [selectedLote, setSelectedLote] = useState(null);
   const [guests, setGuests] = useState([]);
-  const [expDate, setExpDate] = useState(new Date());
+  const [exp, setExp] = useState(new Date());
   const lotes: Lote[] = useLoteSelector((state) => state.lotes);
 
   useLayoutEffect(() => {
@@ -37,12 +37,15 @@ const CreateInviteScreen = ({navigation}) => {
   });
 
   const canSend = () => {
-    return expDate > new Date() && !!selectedLote && guests.length > 0;
+    return exp > new Date() && !!selectedLote && guests.length > 0;
   };
 
-  const send = () => {
-    console.log('send invite');
-  };
+  const send = () =>
+    navigation.navigate('Creation Feedback', {
+      lote_id: selectedLote,
+      exp,
+      guests,
+    });
 
   const addGuest = (guest: Guest) => {
     setGuests([...guests, guest]);
@@ -64,11 +67,11 @@ const CreateInviteScreen = ({navigation}) => {
       <View style={styles.dateContainer}>
         <Text h3>Vence</Text>
         <DatePicker
-          date={expDate}
+          date={exp}
           minimumDate={new Date()}
           mode="datetime"
           locale={'es_AR'}
-          onDateChange={setExpDate}
+          onDateChange={setExp}
         />
       </View>
       <View style={{flex: 1}}>

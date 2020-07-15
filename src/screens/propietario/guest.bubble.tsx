@@ -19,13 +19,13 @@ const GuestBubble = ({guest, onRemove}) => {
 const styles = StyleSheet.create({
   bubbleContainer: {
     flexDirection: 'row',
+    paddingHorizontal: 6,
+    overflow: 'hidden',
     alignItems: 'center',
     justifyContent: 'center',
-    elevation: 2,
     margin: 5,
-    padding: 1,
-    borderRadius: 10,
-    backgroundColor: 'lightgray',
+    paddingVertical: 1,
+    borderRadius: 20,
     borderWidth: 1,
   },
   bubbleText: {

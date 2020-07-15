@@ -10,16 +10,16 @@ const GuestPendingTile = ({guest}) => {
     InviteContext,
   );
 
-  const approve = () => setApproved([...approved, guest.g_id]);
-  const reject = () => setRejected([...rejected, guest.g_id]);
+  const approve = () => setApproved([...approved, guest.id]);
+  const reject = () => setRejected([...rejected, guest.id]);
 
   const reset = () => {
-    setRejected([...rejected.filter((id) => id != guest.g_id)]);
-    setApproved([...approved.filter((id) => id != guest.g_id)]);
+    setRejected([...rejected.filter((id) => id != guest.id)]);
+    setApproved([...approved.filter((id) => id != guest.id)]);
   };
 
-  const isRejected = () => rejected.includes(guest.g_id);
-  const isApproved = () => approved.includes(guest.g_id);
+  const isRejected = () => rejected.includes(guest.id);
+  const isApproved = () => approved.includes(guest.id);
   const canReset = () => isRejected() || isApproved();
 
   const getTileColor = () =>
@@ -30,9 +30,9 @@ const GuestPendingTile = ({guest}) => {
       <View style={styles.guestTileContainer}>
         <View style={styles.guestInfoContainer}>
           <Text h2>
-            {guest.g_fn} {guest.g_ln}
+            {guest.fn} {guest.ln}
           </Text>
-          <Text h3>{guest.g_doc}</Text>
+          <Text h3>{guest.doc_id}</Text>
         </View>
       </View>
     );
@@ -48,9 +48,9 @@ const GuestPendingTile = ({guest}) => {
       ]}>
       <View style={styles.guestInfoContainer}>
         <Text h2>
-          {guest.g_fn} {guest.g_ln}
+          {guest.fn} {guest.ln}
         </Text>
-        <Text h3>{guest.g_doc}</Text>
+        <Text h3>{guest.doc_id}</Text>
       </View>
       <View style={styles.guestButtonContainer}>
         {canReset() ? (

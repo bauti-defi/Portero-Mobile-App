@@ -7,7 +7,7 @@ import InviteScreen from '../../screens/propietario/invite.screen';
 
 const Stack = createStackNavigator();
 
-const InviteNavigator = ({navigation}) => {
+const InviteNavigator = () => {
   return (
     <Stack.Navigator initialRouteName="Invitaciones">
       <Stack.Screen
@@ -21,7 +21,7 @@ const InviteNavigator = ({navigation}) => {
       <Stack.Screen
         name="Creation Feedback"
         component={InviteFeedbackScreen}
-        options={{title: '', headerLeft: null}}
+        options={{header: (props) => null}}
       />
     </Stack.Navigator>
   );

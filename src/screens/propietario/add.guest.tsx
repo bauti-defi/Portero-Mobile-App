@@ -13,19 +13,24 @@ const AddGuestCard = ({onAddGuest}) => {
   const [firstNameMessage, setFirstNameMessage] = useState('');
   const [last_name, setLastName] = useState('');
   const [lastNameMessage, setLastNameMessage] = useState('');
+  const [inputFocusIndex, setInputFocusIndex] = useState(0);
+
+  const refContainer = [];
+
+  const focusInput = (index: number) => refContainer[index].focus();
 
   const onAdd = () => {
-    if (validator.isEmpty(first_name)) {
+    if (validator.isEmpty(first_name.trim())) {
       setFirstNameMessage('Nombre Vacio');
-    } else if (validator.isEmpty(last_name)) {
+    } else if (validator.isEmpty(last_name.trim())) {
       setLastNameMessage('Apellido Vacio');
-    } else if (validator.isEmpty(doc_id)) {
+    } else if (validator.isEmpty(doc_id.trim())) {
       setDocMessage('Documento Vacio');
     } else {
       onAddGuest({
-        first_name,
-        last_name,
-        doc_id,
+        first_name: first_name.trim(),
+        last_name: last_name.trim(),
+        doc_id: doc_id.trim(),
       });
 
       reset();
@@ -50,7 +55,10 @@ const AddGuestCard = ({onAddGuest}) => {
         value={first_name}
         onFocus={() => setFirstNameMessage('')}
         errorMessage={firstNameMessage}
+        blurOnSubmit={false}
+        onSubmitEditing={() => focusInput(1)}
         containerStyle={styles.input}
+        ref={(input) => (refContainer[0] = input)}
       />
       <Input
         placeholder=" Apellido"
@@ -58,8 +66,11 @@ const AddGuestCard = ({onAddGuest}) => {
         value={last_name}
         onChangeText={setLastName}
         errorMessage={lastNameMessage}
+        onSubmitEditing={() => focusInput(2)}
         onFocus={() => setLastNameMessage('')}
+        blurOnSubmit={false}
         containerStyle={styles.input}
+        ref={(input) => (refContainer[1] = input)}
       />
       <Input
         placeholder=" Numero de Documento"
@@ -69,7 +80,10 @@ const AddGuestCard = ({onAddGuest}) => {
         errorMessage={docMessage}
         containerStyle={styles.input}
         onFocus={() => setDocMessage('')}
+        blurOnSubmit={true}
+        onSubmitEditing={onAdd}
         leftIcon={<Icon name="id-card" size={24} color="black" />}
+        ref={(input) => (refContainer[2] = input)}
       />
       <Button
         containerStyle={styles.addButtonContainer}

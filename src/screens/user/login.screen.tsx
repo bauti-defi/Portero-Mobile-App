@@ -4,35 +4,40 @@ import {StyleSheet, View} from 'react-native';
 import {Button, Input} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useDispatch} from 'react-redux';
-import {login} from '../../requests/login.request';
-import {saveCookie} from '../../secure.storage';
-import {UserAction} from '../../storage/user.reducer';
+import {
+  failedLogInUser,
+  LoginAction,
+  logInUser,
+} from '../../actions/login.actions';
+import {useLoginReducer} from '../../storage/app.selectors';
 
 const validator = new Validator();
 
-function LoginScreen({navigation}) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [message, setMessage] = useState('');
+const LoginScreen = ({navigation}) => {
+  const [credentials, setCredentials] = useState({email: '', password: ''});
+  const {attempting, errorMessage} = useLoginReducer((state) => state);
 
+  const refContainer = [];
+  const focusInput = (index: number) => refContainer[index].focus();
   const dispatch = useDispatch();
 
-  function logIn() {
-    if (!validator.isEmail(email) || validator.isEmpty(password)) {
-      setMessage('Email o Contrasena invalidad');
+  const logIn = () => {
+    if (
+      !validator.isEmail(credentials.email) ||
+      validator.isEmpty(credentials.password)
+    ) {
+      dispatch(failedLogInUser('Email o Contrasena invalidad'));
     } else {
-      login(email, password, email) //deviceId should be DeviceInfo.getMacAddressSync()
-        .then((response) => response.data)
-        .then((cookie) => {
-          dispatch({type: UserAction.STORE_COOKIE, cookie});
-          saveCookie(email, cookie);
-        })
-        .catch((error) => {
-          console.log(error);
-          setMessage(error);
-        });
+      dispatch(
+        logInUser(credentials.email, credentials.password, credentials.email),
+      ); //Should be deviceID
     }
-  }
+  };
+
+  const reset = () => {
+    setCredentials({email: '', password: ''});
+    dispatch({type: LoginAction.RESET});
+  };
 
   return (
     <View style={styles.container}>
@@ -40,32 +45,46 @@ function LoginScreen({navigation}) {
         <Input
           placeholder=" Email"
           keyboardType="email-address"
-          onChangeText={setEmail}
+          onChangeText={(input) =>
+            setCredentials({...credentials, email: input})
+          }
+          blurOnSubmit={false}
           autoCapitalize="none"
           leftIcon={<Icon name="envelope" size={24} color="black" />}
           containerStyle={styles.input}
+          onSubmitEditing={() => focusInput(1)}
+          ref={(input) => (refContainer[0] = input)}
         />
         <Input
           placeholder=" Contrasena"
           autoCapitalize="none"
           secureTextEntry={true}
-          onChangeText={setPassword}
-          errorMessage={message}
+          onChangeText={(input) =>
+            setCredentials({...credentials, password: input})
+          }
+          errorMessage={errorMessage}
+          blurOnSubmit={true}
           leftIcon={<Icon name="lock" size={24} color="black" />}
           containerStyle={styles.input}
+          onSubmitEditing={logIn}
+          ref={(input) => (refContainer[1] = input)}
         />
-      </View>
-      <View style={styles.buttonContainer}>
-        <Button title="Ingresar" type="clear" onPress={logIn} />
         <Button
-          title="Registrar"
+          title="Ingresar"
           type="clear"
-          onPress={() => navigation.navigate('register')}
+          titleStyle={{fontSize: 28}}
+          onPress={logIn}
+          loading={attempting}
         />
       </View>
+      <Button
+        title="Registrar"
+        type="clear"
+        onPress={() => navigation.navigate('register')}
+      />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -73,16 +92,11 @@ const styles = StyleSheet.create({
     padding: 10,
     justifyContent: 'space-around',
   },
-  buttonContainer: {
-    margin: 25,
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
   input: {
-    paddingBottom: 30,
+    paddingBottom: 40,
   },
   inputContainer: {
-    padding: 15,
+    marginHorizontal: 15,
     justifyContent: 'space-around',
   },
 });

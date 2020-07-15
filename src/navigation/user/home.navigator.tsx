@@ -1,28 +1,25 @@
 import React from 'react';
 import {useUserSelector} from '../../storage/app.selectors';
+import {AccountType} from '../../storage/user.reducer';
 import GuardiaNavigator from '../guardia/guardia.navigator';
 import PropietarioNavigator from '../propietario/propietario.navigator';
+import UserNavigator from './user.navigator';
 
-function HomeNavigator() {
-  const accountType: number = useUserSelector((state) => state.cookie.type);
+const HomeNavigator = () => {
+  const accountType: AccountType = useUserSelector((user) => user.acc_type);
 
   return getNavigator(accountType);
-}
+};
 
 const getNavigator = (type: number) => {
   switch (type) {
-    case Type.PROPIETARIO:
+    case AccountType.PROPIETARIO:
       return <PropietarioNavigator />;
-    case Type.GUARDIA:
+    case AccountType.GUARDIA:
       return <GuardiaNavigator />;
     default:
-      throw Error('Invalid account type.');
+      return <UserNavigator />;
   }
 };
-
-enum Type {
-  PROPIETARIO = 1,
-  GUARDIA = 2,
-}
 
 export default HomeNavigator;

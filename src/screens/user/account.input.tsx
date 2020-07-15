@@ -3,7 +3,6 @@ import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Button, Input} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {register} from '../../../requests/register.request';
 
 const validator = new Validator();
 
@@ -15,7 +14,9 @@ function AccountInput({route, navigation}) {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordMessage, setPasswordMessage] = useState('');
-  const [isLoading, setLoading] = useState(false);
+
+  const refContainer = [];
+  const focusInput = (index: number) => refContainer[index].focus();
 
   function onRegister() {
     if (!validator.isEmail(email)) {
@@ -25,21 +26,11 @@ function AccountInput({route, navigation}) {
     } else if (password !== confirmPassword) {
       setPasswordMessage('Contrasenas distintas');
     } else {
-      setLoading(true);
-      let body = {
+      navigation.navigate('registration feedback', {
         ...payload,
         email,
         password,
-      };
-      register(body)
-        .then(() => {
-          setLoading(false);
-          navigation.navigate('login');
-        })
-        .catch((error) => {
-          setLoading(false);
-          console.log(`Login error: ${error}`);
-        });
+      });
     }
   }
 
@@ -54,6 +45,9 @@ function AccountInput({route, navigation}) {
           errorMessage={emailMessage}
           leftIcon={<Icon name="envelope" size={24} color="black" />}
           containerStyle={styles.input}
+          blurOnSubmit={false}
+          onSubmitEditing={() => focusInput(1)}
+          ref={(input) => (refContainer[0] = input)}
         />
         <Input
           placeholder=" Contrasena"
@@ -62,6 +56,9 @@ function AccountInput({route, navigation}) {
           secureTextEntry={true}
           leftIcon={<Icon name="lock" size={24} color="black" />}
           containerStyle={styles.input}
+          blurOnSubmit={false}
+          onSubmitEditing={() => focusInput(2)}
+          ref={(input) => (refContainer[1] = input)}
         />
         <Input
           placeholder=" Repetir Contrasena"
@@ -71,14 +68,12 @@ function AccountInput({route, navigation}) {
           errorMessage={passwordMessage}
           leftIcon={<Icon name="lock" size={24} color="black" />}
           containerStyle={styles.input}
+          blurOnSubmit={true}
+          onSubmitEditing={onRegister}
+          ref={(input) => (refContainer[2] = input)}
         />
       </View>
-      <Button
-        type="outline"
-        title="Registrar"
-        onPress={onRegister}
-        loading={isLoading}
-      />
+      <Button type="outline" title="Registrar" onPress={onRegister} />
     </View>
   );
 }
