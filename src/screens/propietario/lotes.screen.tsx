@@ -2,9 +2,8 @@ import React from 'react';
 import {FlatList, SafeAreaView} from 'react-native';
 import {ListItem} from 'react-native-elements';
 import {useDispatch} from 'react-redux';
-import {LoteAction} from '../../actions/lote.actions';
+import {getAllLotes} from '../../actions/lote.actions';
 import EmptyPlaceholder from '../../components/empty.placeholder';
-import {getAllLotes} from '../../requests/lotes.request';
 import {useLoteSelector, useSessionSelector} from '../../storage/app.selectors';
 
 const keyExtractor = (lote, index) => lote.lote_id;
@@ -25,7 +24,7 @@ function LotesScreen() {
   const dispatch = useDispatch();
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={{flexGrow: 1}}>
       <FlatList
         keyExtractor={keyExtractor}
         data={lotes}
@@ -33,7 +32,7 @@ function LotesScreen() {
           flexGrow: 1,
         }}
         extraData={lotes}
-        onRefresh={() => dispatch(fetchLotes(token))}
+        onRefresh={() => dispatch(getAllLotes(token))}
         renderItem={renderItem}
         refreshing={loading}
         ListEmptyComponent={EmptyPlaceholder}
@@ -41,15 +40,5 @@ function LotesScreen() {
     </SafeAreaView>
   );
 }
-
-const fetchLotes = (token) => (dispatch) => {
-  console.debug('Loading lotes data');
-
-  dispatch({type: LoteAction.START_LOADING, loading: true});
-
-  return getAllLotes(token).then((allLotes) => {
-    dispatch({type: LoteAction.FINISHED_LOADING, lotes: allLotes || []});
-  });
-};
 
 export default LotesScreen;

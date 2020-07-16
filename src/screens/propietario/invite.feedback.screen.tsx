@@ -18,7 +18,7 @@ import {
 
 const InviteFeedbackScreen = ({navigation, route}) => {
   const token: string = useSessionSelector((session) => session.token);
-  const {isSending, inviteToShare} = useInviteSelector((invite) => invite);
+  const {isCreating, inviteToShare} = useInviteSelector((invite) => invite);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const InviteFeedbackScreen = ({navigation, route}) => {
     <SafeAreaView style={styles.container}>
       {inviteToShare ? (
         <ShareInviteScreen onShare={share} />
-      ) : isSending ? (
+      ) : isCreating ? (
         <ActivityIndicator size={100} animating={true} />
       ) : (
         <FailureScreen onRetry={create} />
@@ -110,6 +110,6 @@ const styles = StyleSheet.create({
 });
 
 const inviteToURL = (invite) =>
-  `192.168.0.88:3000/qr?i=${invite.id}&m=${invite.message}`;
+  `Muestre en Guardia\n192.168.0.88:3000/qr?i=${invite.id}&m=${invite.message}`;
 
 export default InviteFeedbackScreen;

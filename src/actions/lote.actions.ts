@@ -7,8 +7,6 @@ export enum LoteAction {
 }
 
 export const getAllLotes = (token: string) => (dispatch) => {
-  console.debug('Loading lotes');
-
   dispatch({type: LoteAction.START_LOADING, loading: true});
 
   return fetchLotes(token).then((allLotes) => {

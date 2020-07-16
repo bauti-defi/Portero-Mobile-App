@@ -2,17 +2,24 @@ import {useNavigation} from '@react-navigation/native';
 import React, {useLayoutEffect} from 'react';
 import {FlatList, SafeAreaView} from 'react-native';
 import {ListItem} from 'react-native-elements';
+import {useDispatch} from 'react-redux';
+import {getInvites} from '../../actions/invite.actions';
 import CreateButton from '../../components/create.button';
 import EmptyPlaceholder from '../../components/empty.placeholder';
 import {format} from '../../date.formatter';
-import {useInviteSelector, useLoteSelector} from '../../storage/app.selectors';
+import {
+  useInviteSelector,
+  useLoteSelector,
+  useSessionSelector,
+} from '../../storage/app.selectors';
 import {Guest, Invite} from '../../storage/invite.reducer';
 import {Lote} from '../../storage/lotes.reducer';
 
 const InviteScreen = () => {
   const lotes: Lote[] = useLoteSelector((state) => state.lotes);
-  const invites: Invite[] = useInviteSelector((invite) => invite.invites);
-  const guests: Guest[] = useInviteSelector((invite) => invite.guests);
+  const {invites, guests, isLoading} = useInviteSelector((state) => state);
+  const token: string = useSessionSelector((session) => session.token);
+  const dispatch = useDispatch();
   const navigation = useNavigation();
 
   useLayoutEffect(() => {
@@ -25,7 +32,7 @@ const InviteScreen = () => {
         ),
       });
     }
-  }, [navigation]);
+  }, [lotes]);
 
   const getData = () => compose(invites, guests, lotes).sort(sortByMostRecent);
 
@@ -37,6 +44,8 @@ const InviteScreen = () => {
         contentContainerStyle={{
           flexGrow: 1,
         }}
+        refreshing={isLoading}
+        onRefresh={() => dispatch(getInvites(token))}
         extraData={getData()}
         renderItem={renderItem}
         ListEmptyComponent={EmptyPlaceholder}

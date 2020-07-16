@@ -25,25 +25,36 @@ export type Invite = {
 export interface InviteState {
   invites: Invite[];
   guests: Guest[];
+  isLoading: boolean;
   inviteToShare: string;
-  isSending: boolean;
+  isCreating: boolean;
 }
 
 const initialState: InviteState = {
   invites: [],
   guests: [],
+  isLoading: false,
   inviteToShare: null,
-  isSending: false,
+  isCreating: false,
 };
+
+//const removeDuplicates = (array:any[], key:string) =>
 
 const inviteReducer = (state = initialState, action) => {
   switch (action.type) {
     case InviteAction.FINISHED_LOADING_INVITES:
-      return {...state, guests: action.guests, invites: action.invites};
-    case InviteAction.START_SENDING:
-      return {...state, isSending: action.isSending, inviteToShare: null};
+      return {
+        ...state,
+        guests: action.guests,
+        invites: action.invites,
+        isLoading: false,
+      };
+    case InviteAction.CREATE_INVITE:
+      return {...state, isCreating: action.isCreating, inviteToShare: null};
     case InviteAction.SHOW_INVITE:
-      return {...state, inviteToShare: action.invite, isSending: false};
+      return {...state, inviteToShare: action.invite, isCreating: false};
+    case InviteAction.START_LOADING_INVITES:
+      return {...state, isLoading: true};
     case LoginAction.LOG_OUT:
       return initialState;
     default:
