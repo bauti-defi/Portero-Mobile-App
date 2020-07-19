@@ -45,4 +45,4 @@ const persistConfig = {
 
 const persistedUserReducer = persistReducer(persistConfig, userReducer);
 
-export default persistedUserReducer;
+export default userReducer;

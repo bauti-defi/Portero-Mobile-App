@@ -11,20 +11,18 @@ export enum InviteAction {
   START_LOADING_INVITES = 'start_loading_invites',
 }
 
-export const createNewInvite = (token: string, inviteDTO: InviteDTO) => (
-  dispatch,
-) => {
+export const createNewInvite = (inviteDTO: InviteDTO) => (dispatch) => {
   dispatch({type: InviteAction.CREATE_INVITE, isCreating: true});
 
-  return createInvite(token, inviteDTO)
+  return createInvite(inviteDTO)
     .then((response) => response.data)
     .then((invite) => dispatch({type: InviteAction.SHOW_INVITE, invite}))
-    .then(() => dispatch(getInvites(token)));
+    .then(() => dispatch(getInvites()));
 };
 
-export const getInvites = (token: string) => (dispatch) => {
+export const getInvites = () => (dispatch) => {
   dispatch({type: InviteAction.START_LOADING_INVITES});
-  return getAllInvites(token)
+  return getAllInvites()
     .then((response) => response.data)
     .then((inviteData) =>
       dispatch({type: InviteAction.FINISHED_LOADING_INVITES, ...inviteData}),

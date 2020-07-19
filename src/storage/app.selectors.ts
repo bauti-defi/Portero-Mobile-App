@@ -3,11 +3,10 @@ import {InviteState} from './invite.reducer';
 import {LoginState} from './login.reducer';
 import {LoteState} from './lotes.reducer';
 import {RegistrationState} from './registration.reducer';
-import {RootState} from './root.reducer';
 import {SessionState} from './session.reducer';
 import {UserState} from './user.reducer';
 
-export const useRootSelector: TypedUseSelectorHook<RootState> = useSelector;
+export const useRootSelector: TypedUseSelectorHook<any> = useSelector;
 
 export const useUserSelector: TypedUseSelectorHook<UserState> = (selector) =>
   useRootSelector((state) => selector(state.user));

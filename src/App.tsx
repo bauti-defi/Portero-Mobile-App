@@ -1,5 +1,7 @@
 import axios from 'axios';
 import React from 'react';
+import {View} from 'react-native';
+import {Input} from 'react-native-elements';
 import 'react-native-gesture-handler';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
@@ -20,4 +22,12 @@ const App = () => {
   );
 };
 
-export default App;
+const Test = () => {
+  return (
+    <View>
+      <Input></Input>
+    </View>
+  );
+};
+
+export default Test;

@@ -1,9 +1,10 @@
+import axios from 'axios';
 import {Reducer} from 'redux';
-import {AppAction} from '../actions/app.actions';
 import {LoginAction} from '../actions/login.actions';
 
 export enum SessionAction {
-  LOADED_SESSION = 'loaded_session',
+  LOADING_SESSION = 'loading_session',
+  SESSION_LOADED = 'session_loaded',
   NO_SESSION_FOUND = 'no_session_found',
 }
 
@@ -22,15 +23,17 @@ const initialState: SessionState = {
 export const sessionReducer: Reducer = (state = initialState, action) => {
   switch (action.type) {
     case LoginAction.LOG_IN:
+      axios.defaults.headers.common['Authorization'] = action.data.token;
       return {
         ...state,
         token: action.data.token,
         exp: action.data.exp,
         loadingToken: false,
       };
-    case AppAction.START_LOADING:
+    case SessionAction.LOADING_SESSION:
       return {...state, loadingToken: true};
-    case SessionAction.LOADED_SESSION:
+    case SessionAction.SESSION_LOADED:
+      axios.defaults.headers.common['Authorization'] = action.token;
       return {
         ...state,
         token: action.token,
@@ -39,6 +42,7 @@ export const sessionReducer: Reducer = (state = initialState, action) => {
       };
     case SessionAction.NO_SESSION_FOUND:
     case LoginAction.LOG_OUT:
+      axios.defaults.headers.common['Authorization'] = '';
       return {...initialState, loadingToken: false};
     default:
       return state;

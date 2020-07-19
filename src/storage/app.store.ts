@@ -1,12 +1,7 @@
-import {applyMiddleware, createStore} from 'redux';
-import {composeWithDevTools} from 'redux-devtools-extension';
+import {createStore} from 'redux-dynamic-modules';
+import {getThunkExtension} from 'redux-dynamic-modules-thunk';
 import {persistStore} from 'redux-persist';
-import thunk from 'redux-thunk';
-import rootReducer from './root.reducer';
 
-export const store = createStore(
-  rootReducer,
-  composeWithDevTools(applyMiddleware(thunk)),
-);
+export const store = createStore({extensions: [getThunkExtension()]});
 
 export const persistor = persistStore(store);

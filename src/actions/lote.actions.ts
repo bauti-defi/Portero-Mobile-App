@@ -6,10 +6,10 @@ export enum LoteAction {
   START_LOADING = 'loading_lotes',
 }
 
-export const getAllLotes = (token: string) => (dispatch) => {
+export const getAllLotes = () => (dispatch) => {
   dispatch({type: LoteAction.START_LOADING, loading: true});
 
-  return fetchLotes(token).then((allLotes) => {
+  return fetchLotes().then((allLotes) => {
     dispatch({type: LoteAction.FINISHED_LOADING, lotes: allLotes || []});
   });
 };

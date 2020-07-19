@@ -9,6 +9,7 @@ const Stack = createStackNavigator();
 
 const LoginNavigator = () => {
   return (
+    //<DynamicModuleLoader modules={[LoginModule]}>
     <Stack.Navigator initialRouteName="login">
       <Stack.Screen
         name="login"
@@ -31,6 +32,7 @@ const LoginNavigator = () => {
         options={{header: (props) => null}}
       />
     </Stack.Navigator>
+    //</DynamicModuleLoader>
   );
 };
 

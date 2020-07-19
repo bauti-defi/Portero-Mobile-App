@@ -3,6 +3,7 @@ import {SessionAction} from '../storage/session.reducer';
 import {logOutUser} from './login.actions';
 
 export const loadSession = () => (dispatch) => {
+  dispatch({type: SessionAction.LOADING_SESSION});
   //console.debug('Fetching credentials from keychain...');
   return getCredentials().then((credentials) => {
     if (!!credentials.password) {
@@ -22,7 +23,7 @@ const validateSession = (jsonSession) => (dispatch) => {
   }
   //console.debug('Session loaded.');
   return dispatch({
-    type: SessionAction.LOADED_SESSION,
+    type: SessionAction.SESSION_LOADED,
     token: session.token,
     exp: session.exp,
   });
