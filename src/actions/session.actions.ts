@@ -1,5 +1,5 @@
 import {getCredentials} from '../secure.storage';
-import {SessionAction} from '../storage/session.reducer';
+import {SessionAction} from '../storage/session.module';
 import {logOutUser} from './login.actions';
 
 export const loadSession = () => (dispatch) => {

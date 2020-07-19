@@ -1,11 +1,12 @@
 import {createStore} from 'redux-dynamic-modules';
 import {getThunkExtension} from 'redux-dynamic-modules-thunk';
-import {persistStore} from 'redux-persist';
-import RootModule from './root.module';
+import SessionModule from './session.module';
+import UserModule from './user.module';
 
 export const store = createStore(
   {extensions: [getThunkExtension()]},
-  RootModule,
+  SessionModule,
+  UserModule,
 );
 
-export const persistor = persistStore(store);
+//export const persistor = persistStore(store);

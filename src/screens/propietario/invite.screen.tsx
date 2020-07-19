@@ -10,15 +10,15 @@ import {format} from '../../date.formatter';
 import {
   useInviteSelector,
   useLoteSelector,
-  useSessionSelector,
+  useUserSelector,
 } from '../../storage/app.selectors';
-import {Guest, Invite} from '../../storage/invite.reducer';
-import {Lote} from '../../storage/lotes.reducer';
+import {Guest, Invite} from '../../storage/invite.module';
+import {Lote} from '../../storage/lote.module';
 
 const InviteScreen = () => {
   const lotes: Lote[] = useLoteSelector((state) => state.lotes);
   const {invites, guests, isLoading} = useInviteSelector((state) => state);
-  const token: string = useSessionSelector((session) => session.token);
+  const user = useUserSelector((state) => state);
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
@@ -45,7 +45,7 @@ const InviteScreen = () => {
           flexGrow: 1,
         }}
         refreshing={isLoading}
-        onRefresh={() => dispatch(getInvites(token))}
+        onRefresh={() => dispatch(getInvites())}
         extraData={getData()}
         renderItem={renderItem}
         ListEmptyComponent={EmptyPlaceholder}

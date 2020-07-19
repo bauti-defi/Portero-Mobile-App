@@ -110,4 +110,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default GuestPendingTile;
+export default React.memo(GuestPendingTile);

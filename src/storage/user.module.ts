@@ -45,4 +45,12 @@ const persistConfig = {
 
 const persistedUserReducer = persistReducer(persistConfig, userReducer);
 
-export default persistedUserReducer;
+const UserModule = {
+  initialState,
+  id: 'user_module',
+  reducerMap: {
+    user: userReducer,
+  },
+};
+
+export default UserModule;

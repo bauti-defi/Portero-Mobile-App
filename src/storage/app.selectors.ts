@@ -1,10 +1,10 @@
 import {TypedUseSelectorHook, useSelector} from 'react-redux';
-import {InviteState} from './invite.reducer';
+import {InviteState} from './invite.module';
 import {LoginState} from './login.reducer';
-import {LoteState} from './lotes.reducer';
+import {LoteState} from './lote.module';
 import {RegistrationState} from './registration.reducer';
-import {SessionState} from './session.reducer';
-import {UserState} from './user.reducer';
+import {SessionState} from './session.module';
+import {UserState} from './user.module';
 
 export const useRootSelector: TypedUseSelectorHook<any> = useSelector;
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import {useUserSelector} from '../../storage/app.selectors';
-import {AccountType} from '../../storage/user.reducer';
+import {AccountType} from '../../storage/user.module';
 import GuardiaNavigator from '../guardia/guardia.navigator';
 import PropietarioNavigator from '../propietario/propietario.navigator';
 import UserNavigator from './user.navigator';

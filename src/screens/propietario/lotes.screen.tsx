@@ -4,7 +4,7 @@ import {ListItem} from 'react-native-elements';
 import {useDispatch} from 'react-redux';
 import {getAllLotes} from '../../actions/lote.actions';
 import EmptyPlaceholder from '../../components/empty.placeholder';
-import {useLoteSelector, useSessionSelector} from '../../storage/app.selectors';
+import {useLoteSelector} from '../../storage/app.selectors';
 
 const keyExtractor = (lote, index) => lote.lote_id;
 
@@ -20,7 +20,6 @@ const renderItem = ({item}) => (
 
 function LotesScreen() {
   const {lotes, loading} = useLoteSelector((state) => state);
-  const token: string = useSessionSelector((session) => session.token);
   const dispatch = useDispatch();
 
   return (
@@ -32,7 +31,7 @@ function LotesScreen() {
           flexGrow: 1,
         }}
         extraData={lotes}
-        onRefresh={() => dispatch(getAllLotes(token))}
+        onRefresh={() => dispatch(getAllLotes())}
         renderItem={renderItem}
         refreshing={loading}
         ListEmptyComponent={EmptyPlaceholder}

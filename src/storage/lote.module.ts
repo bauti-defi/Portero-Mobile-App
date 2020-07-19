@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {Reducer} from 'redux';
 import {persistReducer} from 'redux-persist';
 import {LoginAction} from '../actions/login.actions';
-import {LoteAction} from '../actions/lote.actions';
+import {getAllLotes, LoteAction} from '../actions/lote.actions';
 
 export interface LoteState {
   lotes: Lote[];
@@ -50,4 +50,12 @@ const persistConfig = {
 
 const persistedLoteReducer = persistReducer(persistConfig, loteReducer);
 
-export default persistedLoteReducer;
+const LoteModule = {
+  id: 'lote_module',
+  reducerMap: {
+    lote: loteReducer,
+  },
+  initialActions: [getAllLotes()],
+};
+
+export default LoteModule;

@@ -11,13 +11,9 @@ import Share from 'react-native-share';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useDispatch} from 'react-redux';
 import {createNewInvite} from '../../actions/invite.actions';
-import {
-  useInviteSelector,
-  useSessionSelector,
-} from '../../storage/app.selectors';
+import {useInviteSelector} from '../../storage/app.selectors';
 
 const InviteFeedbackScreen = ({navigation, route}) => {
-  const token: string = useSessionSelector((session) => session.token);
   const {isCreating, inviteToShare} = useInviteSelector((invite) => invite);
   const dispatch = useDispatch();
 
@@ -27,7 +23,7 @@ const InviteFeedbackScreen = ({navigation, route}) => {
 
   const next = () => navigation.popToTop();
 
-  const create = () => dispatch(createNewInvite(token, route.params));
+  const create = () => dispatch(createNewInvite(route.params));
 
   const share = () => {
     Share.open(shareOptions(inviteToShare))

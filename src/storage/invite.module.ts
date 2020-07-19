@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import {persistReducer} from 'redux-persist';
-import {InviteAction} from '../actions/invite.actions';
+import {getInvites, InviteAction} from '../actions/invite.actions';
 import {LoginAction} from '../actions/login.actions';
 
 export type Guest = {
@@ -69,4 +69,12 @@ const persistConfig = {
 
 const persistedInviteReducer = persistReducer(persistConfig, inviteReducer);
 
-export default persistedInviteReducer;
+const InviteModule = {
+  id: 'invite_module',
+  reducerMap: {
+    invite: inviteReducer,
+  },
+  initialActions: [getInvites()],
+};
+
+export default InviteModule;

@@ -12,7 +12,7 @@ const UserHomeScreen = () => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerLeft: (props) => <DrawerButton />,
+      headerLeft: (props) => <DrawerButton navigation={navigation} />,
     });
   }, [navigation]);
 

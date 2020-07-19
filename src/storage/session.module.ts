@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {Reducer} from 'redux';
 import {LoginAction} from '../actions/login.actions';
+import {loadSession} from '../actions/session.actions';
 
 export enum SessionAction {
   LOADING_SESSION = 'loading_session',
@@ -49,4 +50,13 @@ export const sessionReducer: Reducer = (state = initialState, action) => {
   }
 };
 
-export default sessionReducer;
+const SessionModule = {
+  initialState,
+  id: 'session_module',
+  reducerMap: {
+    session: sessionReducer,
+  },
+  initialActions: [loadSession()],
+};
+
+export default SessionModule;

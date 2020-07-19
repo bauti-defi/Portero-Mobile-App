@@ -1,11 +1,11 @@
 import React, {useLayoutEffect, useState} from 'react';
-import {SafeAreaView, StyleSheet, View} from 'react-native';
+import {SafeAreaView, StyleSheet, View, YellowBox} from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import {Text} from 'react-native-elements';
 import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useLoteSelector} from '../../storage/app.selectors';
-import {Lote} from '../../storage/lotes.reducer';
+import {Lote} from '../../storage/lote.module';
 import AddGuestCard from './add.guest';
 import GuestBubble from './guest.bubble';
 import LoteSelector from './lote.selector';
@@ -15,6 +15,10 @@ type Guest = {
   last_name: string;
   doc_id: string;
 };
+
+YellowBox.ignoreWarnings([
+  'Non-serializable values were found in the navigation state',
+]);
 
 const CreateInviteScreen = ({navigation}) => {
   const [selectedLote, setSelectedLote] = useState(null);

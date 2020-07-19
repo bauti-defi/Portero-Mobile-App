@@ -1,9 +1,8 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useLayoutEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {Text} from 'react-native-elements';
-import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import {Button, Text} from 'react-native-elements';
+import {ScrollView} from 'react-native-gesture-handler';
 import {format} from '../../date.formatter';
 import {inviteResponse} from '../../requests/invite.requests';
 import GuestInsideTile from './guest.inside';
@@ -30,23 +29,14 @@ const InviteInfo = ({invite, guests}) => {
     l_code,
   } = invite;
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      title: l_name,
-      headerRight: canSend()
-        ? (props) => <SendInviteReponseButton onSend={send} />
-        : null,
-    });
-  }, [approved, rejected]);
-
   const canSend = () => approved.length > 0 || rejected.length > 0;
 
   const send = () => {
-    inviteResponse(id, approved as [], rejected as []);
+    if (canSend) {
+      inviteResponse(id, approved as [], rejected as []);
+    }
     navigation.navigate('Actividad');
   };
-
-  console.log(new Date(exp) < new Date());
 
   return (
     <InviteContext.Provider
@@ -57,13 +47,14 @@ const InviteInfo = ({invite, guests}) => {
         setRejected,
         expired: isExpired(exp),
       }}>
+      <Button title="Confirmar" onPress={send} />
       <ScrollView style={styles.screenContainer}>
         <View style={styles.infoContainer}>
           <Warning exp={exp} />
-          <Text h1>
+          <Text h1 style={{textAlign: 'center'}}>
             {p_fn} {p_ln}
           </Text>
-          <Text h4>
+          <Text h4 style={{textAlign: 'center'}}>
             {l_street} {l_num}, {l_code}
           </Text>
         </View>
@@ -103,14 +94,6 @@ const Warning = ({exp}) => {
     );
   }
   return null;
-};
-
-const SendInviteReponseButton = ({onSend}) => {
-  return (
-    <TouchableOpacity onPress={onSend} style={{paddingRight: 10}}>
-      <Icon name="paper-plane" size={30} color="black" />
-    </TouchableOpacity>
-  );
 };
 
 const styles = StyleSheet.create({

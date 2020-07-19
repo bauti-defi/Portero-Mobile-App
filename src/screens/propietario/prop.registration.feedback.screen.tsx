@@ -6,22 +6,21 @@ import {useDispatch} from 'react-redux';
 import {logOutUser} from '../../actions/login.actions';
 import {getAllLotes} from '../../actions/lote.actions';
 import {registerPropietario} from '../../requests/lotes.request';
-import {useSessionSelector, useUserSelector} from '../../storage/app.selectors';
-import {AccountType} from '../../storage/user.reducer';
+import {useUserSelector} from '../../storage/app.selectors';
+import {AccountType} from '../../storage/user.module';
 
 const PropietarionRegistrationFeedbackScreen = ({navigation, route}) => {
   const [response, setResponse] = useState({loading: true, registered: false});
-  const token: string = useSessionSelector((state) => state.token);
   const accountType: AccountType = useUserSelector((user) => user.acc_type);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    registerPropietario(token, route.params)
+    registerPropietario(route.params)
       .then((response) => response.data)
       .then((success) => {
         setResponse({loading: false, registered: success});
         if (accountType == AccountType.PROPIETARIO) {
-          dispatch(getAllLotes(token));
+          dispatch(getAllLotes());
         }
       })
       .catch((error) => {

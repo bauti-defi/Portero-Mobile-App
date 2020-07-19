@@ -2,7 +2,8 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import React from 'react';
 import {DynamicModuleLoader} from 'redux-dynamic-modules';
 import DrawerContent from '../../components/home.drawer.content';
-import PropietarioModule from '../../storage/propietario.module';
+import InviteModule from '../../storage/invite.module';
+import LoteModule from '../../storage/lote.module';
 import InviteNavigator from './invite.navigator';
 import LotesNavigator from './lotes.navigator';
 import PropietarioQRScannerNavigator from './qr.scanner.navigator';
@@ -11,7 +12,7 @@ const Drawer = createDrawerNavigator();
 
 const PropietarioNavigator = () => {
   return (
-    <DynamicModuleLoader modules={[PropietarioModule]}>
+    <DynamicModuleLoader modules={[LoteModule, InviteModule]}>
       <Drawer.Navigator
         lazy={true}
         drawerContent={(props) => <DrawerContent {...props} />}

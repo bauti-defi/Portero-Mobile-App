@@ -14,7 +14,6 @@ const InviteValidationScreen = ({navigation, route}) => {
     validateInvite(route.params.message, route.params.id)
       .then((response) => response.data)
       .then((invite) => {
-        console.log(invite);
         setInvite(invite);
         setLoading(false);
       })
