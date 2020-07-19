@@ -1,11 +1,8 @@
-import {useNavigation} from '@react-navigation/native';
 import React from 'react';
 import {Button} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const DrawerButton = () => {
-  const navigation = useNavigation();
-
+const DrawerButton = ({navigation}) => {
   return (
     <Button
       type="clear"

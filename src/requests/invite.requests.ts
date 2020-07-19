@@ -4,7 +4,11 @@ export const createInvite = (token: string, inviteDTO: InviteDTO) =>
   axios.post('/invite/create', inviteDTO, {headers: {authorization: token}});
 
 export const validateInvite = (token: string, message: string, id: string) =>
-  axios.post('/invite/validate', {message, id}, {headers: {}});
+  axios.post(
+    '/invite/validate',
+    {message, id},
+    {headers: {authorization: token}},
+  );
 
 export const getAllInvites = (token: string) =>
   axios.get('/invite/get/all', {headers: {authorization: token}});
