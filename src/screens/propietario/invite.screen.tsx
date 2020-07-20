@@ -7,18 +7,13 @@ import {getInvites} from '../../actions/invite.actions';
 import CreateButton from '../../components/create.button';
 import EmptyPlaceholder from '../../components/empty.placeholder';
 import {format} from '../../date.formatter';
-import {
-  useInviteSelector,
-  useLoteSelector,
-  useUserSelector,
-} from '../../storage/app.selectors';
+import {useInviteSelector, useLoteSelector} from '../../storage/app.selectors';
 import {Guest, Invite} from '../../storage/invite.module';
 import {Lote} from '../../storage/lote.module';
 
 const InviteScreen = () => {
   const lotes: Lote[] = useLoteSelector((state) => state.lotes);
   const {invites, guests, isLoading} = useInviteSelector((state) => state);
-  const user = useUserSelector((state) => state);
   const dispatch = useDispatch();
   const navigation = useNavigation();
 

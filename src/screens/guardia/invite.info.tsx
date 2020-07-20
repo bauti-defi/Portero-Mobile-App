@@ -29,10 +29,8 @@ const InviteInfo = ({invite, guests}) => {
     l_code,
   } = invite;
 
-  const canSend = () => approved.length > 0 || rejected.length > 0;
-
-  const send = () => {
-    if (canSend) {
+  const confirm = () => {
+    if (approved.length > 0 || rejected.length > 0) {
       inviteResponse(id, approved as [], rejected as []);
     }
     navigation.navigate('Actividad');
@@ -47,10 +45,9 @@ const InviteInfo = ({invite, guests}) => {
         setRejected,
         expired: isExpired(exp),
       }}>
-      <Button title="Confirmar" onPress={send} />
-      <ScrollView style={styles.screenContainer}>
+      <Button title="Confirmar" onPress={confirm} />
+      <ScrollView contentContainerStyle={styles.screenContainer}>
         <View style={styles.infoContainer}>
-          <Warning exp={exp} />
           <Text h1 style={{textAlign: 'center'}}>
             {p_fn} {p_ln}
           </Text>
@@ -58,6 +55,7 @@ const InviteInfo = ({invite, guests}) => {
             {l_street} {l_num}, {l_code}
           </Text>
         </View>
+        {isExpired(exp) && <Warning exp={exp} />}
         <View style={styles.listContainer}>
           {guests.map((guest) => {
             if (isPending(guest)) {
@@ -73,7 +71,7 @@ const InviteInfo = ({invite, guests}) => {
   );
 };
 
-const isExpired = (exp) => new Date(exp) < new Date(); //<
+const isExpired = (exp) => new Date(exp) < new Date();
 
 const wasRejected = (guest) => guest.rejected != null;
 const hasExited = (guest) => guest.exited != null;
@@ -85,30 +83,24 @@ const isPending = (guest) =>
   !wasRejected(guest) && !isInside(guest) && !hasExited(guest);
 
 const Warning = ({exp}) => {
-  if (isExpired(exp)) {
-    var dateString = format(exp);
-    return (
-      <Text h3 style={{color: 'red'}}>
-        Vencio: {dateString}
-      </Text>
-    );
-  }
-  return null;
+  var dateString = format(exp);
+  return (
+    <Text h3 style={{color: 'red', textAlign: 'center'}}>
+      Vencio: {dateString}
+    </Text>
+  );
 };
 
 const styles = StyleSheet.create({
   screenContainer: {
-    height: '100%',
+    paddingBottom: 60,
+    flexGrow: 1,
   },
   listContainer: {
     margin: 10,
-    flex: 3,
   },
   infoContainer: {
     margin: 25,
-    flex: 1,
-    alignItems: 'center',
-    flexDirection: 'column',
     paddingBottom: 15,
     borderBottomWidth: 2,
   },

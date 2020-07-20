@@ -29,10 +29,12 @@ const GuestPendingTile = ({guest}) => {
     return (
       <View style={styles.guestTileContainer}>
         <View style={styles.guestInfoContainer}>
-          <Text h2>
+          <Text h2 numberOfLines={1} adjustsFontSizeToFit={true}>
             {guest.fn} {guest.ln}
           </Text>
-          <Text h3>{guest.doc_id}</Text>
+          <Text h3 numberOfLines={1} adjustsFontSizeToFit={true}>
+            {guest.doc_id}
+          </Text>
         </View>
       </View>
     );
@@ -47,10 +49,12 @@ const GuestPendingTile = ({guest}) => {
         },
       ]}>
       <View style={styles.guestInfoContainer}>
-        <Text h2>
+        <Text h2 numberOfLines={2} adjustsFontSizeToFit={true}>
           {guest.fn} {guest.ln}
         </Text>
-        <Text h3>{guest.doc_id}</Text>
+        <Text h3 numberOfLines={1} adjustsFontSizeToFit={true}>
+          {guest.doc_id}
+        </Text>
       </View>
       <View style={styles.guestButtonContainer}>
         {canReset() ? (
