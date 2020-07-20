@@ -1,5 +1,6 @@
 import {logIn} from '../requests/login.request';
 import {deleteCredentials, saveCredentials} from '../secure.storage';
+import {persistor} from '../storage/app.store';
 
 export enum LoginAction {
   ATTEMPTING_LOGIN = 'attempting_login',
@@ -34,5 +35,6 @@ export const failedLogInUser = (message: string) => (dispatch) =>
 
 export const logOutUser = () => (dispatch) => {
   deleteCredentials();
+  persistor.purge();
   dispatch({type: LoginAction.LOG_OUT});
 };

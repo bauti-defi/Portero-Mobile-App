@@ -6,7 +6,7 @@ import HomeNavigator from './home.navigator';
 import LoginNavigator from './login.navigator';
 
 const AppNavigator = () => {
-  const {email} = useUserSelector((user) => user);
+  const user = useUserSelector((user) => user);
   const session = useSessionSelector((session) => session);
 
   if (session!.loadingToken) {
@@ -15,7 +15,7 @@ const AppNavigator = () => {
 
   return (
     <NavigationContainer>
-      {session.token && !!email ? <HomeNavigator /> : <LoginNavigator />}
+      {session.token && !!user.email ? <HomeNavigator /> : <LoginNavigator />}
     </NavigationContainer>
   );
 };

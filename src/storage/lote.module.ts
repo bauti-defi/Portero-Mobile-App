@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-community/async-storage';
-import {Reducer} from 'redux';
+import {AnyAction, Reducer} from 'redux';
 import {persistReducer} from 'redux-persist';
 import {LoginAction} from '../actions/login.actions';
 import {getAllLotes, LoteAction} from '../actions/lote.actions';
@@ -25,7 +25,10 @@ const initialState: LoteState = {
   loading: false,
 };
 
-const loteReducer: Reducer = (state = initialState, action) => {
+const loteReducer: Reducer<LoteState, AnyAction> = (
+  state = initialState,
+  action,
+) => {
   switch (action.type) {
     case LoteAction.FINISHED_LOADING:
       return {

@@ -46,10 +46,9 @@ const persistConfig = {
 const persistedUserReducer = persistReducer(persistConfig, userReducer);
 
 const UserModule = {
-  initialState,
   id: 'user_module',
   reducerMap: {
-    user: userReducer,
+    user: persistedUserReducer,
   },
 };
 

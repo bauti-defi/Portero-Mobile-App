@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-community/async-storage';
+import {AnyAction, Reducer} from 'redux';
 import {persistReducer} from 'redux-persist';
 import {getInvites, InviteAction} from '../actions/invite.actions';
 import {LoginAction} from '../actions/login.actions';
@@ -40,7 +41,10 @@ const initialState: InviteState = {
 
 //const removeDuplicates = (array:any[], key:string) =>
 
-const inviteReducer = (state = initialState, action) => {
+const inviteReducer: Reducer<InviteState, AnyAction> = (
+  state = initialState,
+  action,
+) => {
   switch (action.type) {
     case InviteAction.FINISHED_LOADING_INVITES:
       return {
