@@ -4,11 +4,8 @@ import {StyleSheet, View} from 'react-native';
 import {Button, Input} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useDispatch} from 'react-redux';
-import {
-  failedLogInUser,
-  LoginAction,
-  logInUser,
-} from '../../actions/login.actions';
+import LoginAction from '../../actions/login.actions';
+import {failedLogInUser, logInUser} from '../../events/login.events';
 import {useLoginReducer} from '../../storage/app.selectors';
 
 const validator = new Validator();

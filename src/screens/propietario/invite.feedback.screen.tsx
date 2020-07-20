@@ -10,7 +10,7 @@ import {Button, Text} from 'react-native-elements';
 import Share from 'react-native-share';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useDispatch} from 'react-redux';
-import {createNewInvite} from '../../actions/invite.actions';
+import {createNewInvite} from '../../events/invite.events';
 import {useInviteSelector} from '../../storage/app.selectors';
 
 const InviteFeedbackScreen = ({navigation, route}) => {

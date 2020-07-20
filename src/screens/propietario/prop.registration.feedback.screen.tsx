@@ -3,8 +3,8 @@ import {ActivityIndicator, SafeAreaView, StyleSheet, View} from 'react-native';
 import {Button, Text} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useDispatch} from 'react-redux';
-import {logOutUser} from '../../actions/login.actions';
-import {getAllLotes} from '../../actions/lote.actions';
+import {logOutUser} from '../../events/login.events';
+import {getAllLotes} from '../../events/lote.events';
 import {registerPropietario} from '../../requests/lotes.request';
 import {useUserSelector} from '../../storage/app.selectors';
 import {AccountType} from '../../storage/user.module';
@@ -36,7 +36,7 @@ const PropietarionRegistrationFeedbackScreen = ({navigation, route}) => {
       ) : response.registered ? (
         <SuccessScreen
           onOk={() => navigation.jumpTo('Lotes')}
-          onLogOut={() => dispatch(logOutUser)}
+          onLogOut={() => dispatch(logOutUser())}
           accountType={accountType}
         />
       ) : (

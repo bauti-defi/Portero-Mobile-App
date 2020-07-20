@@ -1,8 +1,9 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import {AnyAction, Reducer} from 'redux';
 import {persistReducer} from 'redux-persist';
-import {LoginAction} from '../actions/login.actions';
-import {getAllLotes, LoteAction} from '../actions/lote.actions';
+import LoginAction from '../actions/login.actions';
+import LoteAction from '../actions/lote.actions';
+import {getAllLotes} from '../events/lote.events';
 
 export interface LoteState {
   lotes: Lote[];

@@ -5,7 +5,7 @@ import {
 } from '@react-navigation/drawer';
 import React from 'react';
 import {useDispatch} from 'react-redux';
-import {logOutUser} from '../actions/login.actions';
+import {logOutUser} from '../events/login.events';
 
 const DrawerContent = (props) => {
   const dispatch = useDispatch();

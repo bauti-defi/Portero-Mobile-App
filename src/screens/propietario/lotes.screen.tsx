@@ -2,8 +2,8 @@ import React from 'react';
 import {FlatList, SafeAreaView} from 'react-native';
 import {ListItem} from 'react-native-elements';
 import {useDispatch} from 'react-redux';
-import {getAllLotes} from '../../actions/lote.actions';
 import EmptyPlaceholder from '../../components/empty.placeholder';
+import {getAllLotes} from '../../events/lote.events';
 import {useLoteSelector} from '../../storage/app.selectors';
 
 const keyExtractor = (lote, index) => lote.lote_id;

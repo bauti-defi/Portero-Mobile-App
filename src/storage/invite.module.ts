@@ -1,8 +1,9 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import {AnyAction, Reducer} from 'redux';
 import {persistReducer} from 'redux-persist';
-import {getInvites, InviteAction} from '../actions/invite.actions';
-import {LoginAction} from '../actions/login.actions';
+import InviteAction from '../actions/invite.actions';
+import LoginAction from '../actions/login.actions';
+import {getInvites} from '../events/invite.events';
 
 export type Guest = {
   doc_id: string;
@@ -38,8 +39,6 @@ const initialState: InviteState = {
   inviteToShare: null,
   isCreating: false,
 };
-
-//const removeDuplicates = (array:any[], key:string) =>
 
 const inviteReducer: Reducer<InviteState, AnyAction> = (
   state = initialState,

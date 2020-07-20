@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import {Reducer} from 'redux';
 import {persistReducer} from 'redux-persist';
-import {LoginAction} from '../actions/login.actions';
+import LoginAction from '../actions/login.actions';
 
 export enum AccountType {
   PROPIETARIO = 3,
@@ -45,11 +45,4 @@ const persistConfig = {
 
 const persistedUserReducer = persistReducer(persistConfig, userReducer);
 
-const UserModule = {
-  id: 'user_module',
-  reducerMap: {
-    user: persistedUserReducer,
-  },
-};
-
-export default UserModule;
+export default userReducer;
