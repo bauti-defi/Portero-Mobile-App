@@ -3,7 +3,7 @@ import {ActivityIndicator, SafeAreaView, StyleSheet, View} from 'react-native';
 import {Button, Text} from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {useDispatch} from 'react-redux';
-import {logOutUser} from '../../actions/login.actions';
+import {logOutUser} from '../../events/login.events';
 import {registerGuardia} from '../../requests/guardia.requests';
 import {useUserSelector} from '../../storage/app.selectors';
 import {AccountType} from '../../storage/user.module';
