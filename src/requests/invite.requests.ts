@@ -12,8 +12,9 @@ export const inviteResponse = (
   inviteId: string,
   approved: [],
   rejected: [],
+  exited: [],
 ) => {
-  axios.post('/invite/auth/guests', {inviteId, approved, rejected});
+  axios.post('/invite/auth/guests', {inviteId, approved, rejected, exited});
 };
 
 export type InviteDTO = {

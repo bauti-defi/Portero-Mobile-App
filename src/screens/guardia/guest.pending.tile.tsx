@@ -89,7 +89,7 @@ const ApproveButton = ({onApprove}) => {
 const RejectButton = ({onReject}) => {
   return (
     <TouchableOpacity onPress={onReject} style={{marginRight: 15}}>
-      <Icon name="times" size={50} color="red" />
+      <Icon name="ban" size={50} color="red" />
     </TouchableOpacity>
   );
 };
@@ -103,6 +103,7 @@ const styles = StyleSheet.create({
   },
   guestButtonContainer: {
     flex: 1,
+    paddingRight: 10,
     flexDirection: 'row',
     alignItems: 'center',
   },

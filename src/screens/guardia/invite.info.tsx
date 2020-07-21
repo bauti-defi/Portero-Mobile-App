@@ -5,8 +5,10 @@ import {Button, Text} from 'react-native-elements';
 import {ScrollView} from 'react-native-gesture-handler';
 import {format} from '../../date.formatter';
 import {inviteResponse} from '../../requests/invite.requests';
-import GuestInsideTile from './guest.inside';
+import GuestExitedTile from './guest.exited.tile';
+import GuestInsideTile from './guest.inside.tile';
 import GuestPendingTile from './guest.pending.tile';
+import GuestRejectedTile from './guest.rejected.tile';
 
 export const InviteContext = React.createContext(null);
 
@@ -14,6 +16,7 @@ const InviteInfo = ({invite, guests}) => {
   const navigation = useNavigation();
   const [approved, setApproved] = useState([]);
   const [rejected, setRejected] = useState([]);
+  const [exited, setExited] = useState([]);
 
   const {
     creation_date,
@@ -30,8 +33,8 @@ const InviteInfo = ({invite, guests}) => {
   } = invite;
 
   const confirm = () => {
-    if (approved.length > 0 || rejected.length > 0) {
-      inviteResponse(id, approved as [], rejected as []);
+    if (approved.length > 0 || rejected.length > 0 || exited.length > 0) {
+      inviteResponse(id, approved as [], rejected as [], exited as []);
     }
     navigation.navigate('Actividad');
   };
@@ -43,6 +46,8 @@ const InviteInfo = ({invite, guests}) => {
         setApproved,
         rejected,
         setRejected,
+        exited,
+        setExited,
         expired: isExpired(exp),
       }}>
       <Button title="Confirmar" onPress={confirm} />
@@ -58,12 +63,14 @@ const InviteInfo = ({invite, guests}) => {
         {isExpired(exp) && <Warning exp={exp} />}
         <View style={styles.listContainer}>
           {guests.map((guest) => {
-            if (isPending(guest)) {
-              return <GuestPendingTile guest={guest} key={guest.id} />;
-            } else if (isInside(guest)) {
+            if (isInside(guest)) {
               return <GuestInsideTile guest={guest} key={guest.id} />;
+            } else if (hasExited(guest)) {
+              return <GuestExitedTile guest={guest} key={guest.id} />;
+            } else if (wasRejected(guest)) {
+              return <GuestRejectedTile guest={guest} key={guest.id} />;
             }
-            return null;
+            return <GuestPendingTile guest={guest} key={guest.id} />;
           })}
         </View>
       </ScrollView>
@@ -78,9 +85,6 @@ const hasExited = (guest) => guest.exited != null;
 
 const isInside = (guest) =>
   guest.entered != null && !hasExited(guest) && !wasRejected(guest);
-
-const isPending = (guest) =>
-  !wasRejected(guest) && !isInside(guest) && !hasExited(guest);
 
 const Warning = ({exp}) => {
   var dateString = format(exp);
