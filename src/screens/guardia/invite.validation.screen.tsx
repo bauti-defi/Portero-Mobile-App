@@ -2,11 +2,9 @@ import React, {useEffect, useState} from 'react';
 import {ActivityIndicator, SafeAreaView, View} from 'react-native';
 import {Button, Text} from 'react-native-elements';
 import {validateInvite} from '../../requests/invite.requests';
-import {useSessionSelector} from '../../storage/app.selectors';
 import InviteInfo from './invite.info';
 
 const InviteValidationScreen = ({navigation, route}) => {
-  const token: string = useSessionSelector((session) => session.token);
   const [loading, setLoading] = useState(true);
   const [invite, setInvite] = useState(null);
 

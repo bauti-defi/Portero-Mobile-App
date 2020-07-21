@@ -1,3 +1,4 @@
+import axios from 'axios';
 import LoginAction from '../actions/login.actions';
 import {logIn} from '../requests/login.request';
 import {deleteCredentials, saveCredentials} from '../secure.storage';
@@ -27,5 +28,6 @@ export const failedLogInUser = (message: string) => (dispatch) =>
 
 export const logOutUser = () => (dispatch) => {
   deleteCredentials();
+  axios.defaults.headers.common['Authorization'] = '';
   dispatch({type: LoginAction.LOG_OUT});
 };
