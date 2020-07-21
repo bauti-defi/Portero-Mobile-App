@@ -48,12 +48,18 @@ const SuccessScreen = () => {
     <View style={{alignItems: 'center'}}>
       <Icon name="thumbs-up" size={90} color="green" />
       <Text
+        h3
+        style={styles.text}
+        adjustsFontSizeToFit={true}
+        numberOfLines={1}>
+        Asociación exitosa!
+      </Text>
+      <Text
         h2
         style={styles.text}
         adjustsFontSizeToFit={true}
-        numberOfLines={3}>
-        Asociación exitosa! Por favor ingrese nuevamente para que los cambios
-        tomen efecto.
+        numberOfLines={1}>
+        Ingrese nuevamente para que los cambios tomen efecto.
       </Text>
       <Button
         type="clear"
