@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import SectionedMultiSelect from 'react-native-sectioned-multi-select';
-import {Lote} from 'src/storage/lotes.reducer';
+import {Lote} from 'src/storage/lote.module';
 
 const LoteSelector = ({lotes, setSelectedLote}) => {
   const [selectedItems, setSelectedItems] = useState([]);

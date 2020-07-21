@@ -1,8 +1,14 @@
-import {applyMiddleware, createStore} from 'redux';
-import {persistStore} from 'redux-persist';
-import thunk from 'redux-thunk';
-import rootReducer from './root.reducer';
+import {createStore} from 'redux-dynamic-modules';
+import {getThunkExtension} from 'redux-dynamic-modules-thunk';
+import LoadAppModule from './load.app.module';
 
-export const store = createStore(rootReducer, applyMiddleware(thunk));
+export const store = createStore(
+  {
+    extensions: [getThunkExtension()],
+  },
+  //@ts-ignore
+  LoadAppModule,
+);
 
-export const persistor = persistStore(store);
+//@ts-ignore
+//const persistor = persistStore(store);

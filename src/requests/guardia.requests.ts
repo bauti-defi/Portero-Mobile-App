@@ -1,11 +1,6 @@
 import axios from 'axios';
 
-export const registerGuardia = (
-  token: string,
-  registerDTO: RegisterGuardiaDTO,
-) =>
-  axios.post('/guardia/register', registerDTO, {
-    headers: {Authorization: token},
-  });
+export const registerGuardia = (registerDTO: RegisterGuardiaDTO) =>
+  axios.post('/guardia/register', registerDTO);
 
 export type RegisterGuardiaDTO = {message: string; id: string};

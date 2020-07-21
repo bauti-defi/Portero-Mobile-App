@@ -12,7 +12,7 @@ export const registerUser = (dto: RegisterDTO) => (dispatch) => {
   return register(dto)
     .then(dispatch({type: RegistrationAction.SUCCESSFUL_REGISTRATION}))
     .catch((error) => {
-      console.debug(`Login error: ${error}`);
+      //console.debug(`Registration error: ${error}`);
       dispatch({type: RegistrationAction.FAILED_REGISTRATION});
     });
 };

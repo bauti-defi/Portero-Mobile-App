@@ -1,4 +1,4 @@
-import {createStackNavigator, HeaderBackButton} from '@react-navigation/stack';
+import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
 import {Button} from 'react-native-elements';
 import QRCodeScanner from 'react-native-qrcode-scanner';
@@ -13,14 +13,7 @@ const GuardiaQRScannerNavigator = ({navigation}) => {
       <Stack.Screen
         name="invite"
         component={InviteValidationScreen}
-        options={{
-          title: 'Invitacion',
-          headerLeft: (props) => (
-            <HeaderBackButton
-              onPress={() => navigation.navigate('Actividad')}
-            />
-          ),
-        }}
+        options={{header: (props) => null}}
       />
     </Stack.Navigator>
   );

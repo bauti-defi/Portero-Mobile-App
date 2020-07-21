@@ -1,13 +1,14 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useLayoutEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {Text} from 'react-native-elements';
-import {ScrollView, TouchableOpacity} from 'react-native-gesture-handler';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import {Button, Text} from 'react-native-elements';
+import {ScrollView} from 'react-native-gesture-handler';
 import {format} from '../../date.formatter';
 import {inviteResponse} from '../../requests/invite.requests';
-import GuestInsideTile from './guest.inside';
+import GuestExitedTile from './guest.exited.tile';
+import GuestInsideTile from './guest.inside.tile';
 import GuestPendingTile from './guest.pending.tile';
+import GuestRejectedTile from './guest.rejected.tile';
 
 export const InviteContext = React.createContext(null);
 
@@ -15,6 +16,7 @@ const InviteInfo = ({invite, guests}) => {
   const navigation = useNavigation();
   const [approved, setApproved] = useState([]);
   const [rejected, setRejected] = useState([]);
+  const [exited, setExited] = useState([]);
 
   const {
     creation_date,
@@ -30,23 +32,12 @@ const InviteInfo = ({invite, guests}) => {
     l_code,
   } = invite;
 
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      title: l_name,
-      headerRight: canSend()
-        ? (props) => <SendInviteReponseButton onSend={send} />
-        : null,
-    });
-  }, [approved, rejected]);
-
-  const canSend = () => approved.length > 0 || rejected.length > 0;
-
-  const send = () => {
-    inviteResponse(id, approved as [], rejected as []);
+  const confirm = () => {
+    if (approved.length > 0 || rejected.length > 0 || exited.length > 0) {
+      inviteResponse(id, approved as [], rejected as [], exited as []);
+    }
     navigation.navigate('Actividad');
   };
-
-  console.log(new Date(exp) < new Date());
 
   return (
     <InviteContext.Provider
@@ -55,26 +46,31 @@ const InviteInfo = ({invite, guests}) => {
         setApproved,
         rejected,
         setRejected,
+        exited,
+        setExited,
         expired: isExpired(exp),
       }}>
-      <ScrollView style={styles.screenContainer}>
+      <Button title="Confirmar" onPress={confirm} />
+      <ScrollView contentContainerStyle={styles.screenContainer}>
         <View style={styles.infoContainer}>
-          <Warning exp={exp} />
-          <Text h1>
+          <Text h1 style={{textAlign: 'center'}}>
             {p_fn} {p_ln}
           </Text>
-          <Text h4>
+          <Text h4 style={{textAlign: 'center'}}>
             {l_street} {l_num}, {l_code}
           </Text>
         </View>
+        {isExpired(exp) && <Warning exp={exp} />}
         <View style={styles.listContainer}>
           {guests.map((guest) => {
-            if (isPending(guest)) {
-              return <GuestPendingTile guest={guest} key={guest.id} />;
-            } else if (isInside(guest)) {
+            if (isInside(guest)) {
               return <GuestInsideTile guest={guest} key={guest.id} />;
+            } else if (hasExited(guest)) {
+              return <GuestExitedTile guest={guest} key={guest.id} />;
+            } else if (wasRejected(guest)) {
+              return <GuestRejectedTile guest={guest} key={guest.id} />;
             }
-            return null;
+            return <GuestPendingTile guest={guest} key={guest.id} />;
           })}
         </View>
       </ScrollView>
@@ -82,7 +78,7 @@ const InviteInfo = ({invite, guests}) => {
   );
 };
 
-const isExpired = (exp) => new Date(exp) < new Date(); //<
+const isExpired = (exp) => new Date(exp) < new Date();
 
 const wasRejected = (guest) => guest.rejected != null;
 const hasExited = (guest) => guest.exited != null;
@@ -90,42 +86,25 @@ const hasExited = (guest) => guest.exited != null;
 const isInside = (guest) =>
   guest.entered != null && !hasExited(guest) && !wasRejected(guest);
 
-const isPending = (guest) =>
-  !wasRejected(guest) && !isInside(guest) && !hasExited(guest);
-
 const Warning = ({exp}) => {
-  if (isExpired(exp)) {
-    var dateString = format(exp);
-    return (
-      <Text h3 style={{color: 'red'}}>
-        Vencio: {dateString}
-      </Text>
-    );
-  }
-  return null;
-};
-
-const SendInviteReponseButton = ({onSend}) => {
+  var dateString = format(exp);
   return (
-    <TouchableOpacity onPress={onSend} style={{paddingRight: 10}}>
-      <Icon name="paper-plane" size={30} color="black" />
-    </TouchableOpacity>
+    <Text h3 style={{color: 'red', textAlign: 'center'}}>
+      Vencio: {dateString}
+    </Text>
   );
 };
 
 const styles = StyleSheet.create({
   screenContainer: {
-    height: '100%',
+    paddingBottom: 60,
+    flexGrow: 1,
   },
   listContainer: {
     margin: 10,
-    flex: 3,
   },
   infoContainer: {
     margin: 25,
-    flex: 1,
-    alignItems: 'center',
-    flexDirection: 'column',
     paddingBottom: 15,
     borderBottomWidth: 2,
   },

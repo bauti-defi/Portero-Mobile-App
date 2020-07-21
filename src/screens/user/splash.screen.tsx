@@ -2,14 +2,14 @@ import React from 'react';
 import {ActivityIndicator, StyleSheet, View} from 'react-native';
 import {Text} from 'react-native-elements';
 
-function SplashScreen() {
+const SplashScreen = () => {
   return (
     <View style={styles.container}>
       <Text h4>Cargando</Text>
       <ActivityIndicator size={100} animating={true} />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

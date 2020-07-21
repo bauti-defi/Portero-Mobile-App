@@ -1,4 +1,4 @@
-import {LoginAction} from '../actions/login.actions';
+import LoginAction from '../actions/login.actions';
 
 export interface LoginState {
   attempting: boolean;

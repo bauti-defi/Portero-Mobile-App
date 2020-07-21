@@ -1,20 +1,20 @@
 import axios from 'axios';
 
-export const createInvite = (token: string, inviteDTO: InviteDTO) =>
-  axios.post('/invite/create', inviteDTO, {headers: {authorization: token}});
+export const createInvite = (inviteDTO: InviteDTO) =>
+  axios.post('/invite/create', inviteDTO);
 
 export const validateInvite = (message: string, id: string) =>
   axios.post('/invite/validate', {message, id});
 
-export const getAllInvites = (token: string) =>
-  axios.get('/invite/get/all', {headers: {authorization: token}});
+export const getAllInvites = () => axios.get('/invite/get/all');
 
 export const inviteResponse = (
   inviteId: string,
   approved: [],
   rejected: [],
+  exited: [],
 ) => {
-  axios.post('/invite/auth/guests', {inviteId, approved, rejected});
+  axios.post('/invite/auth/guests', {inviteId, approved, rejected, exited});
 };
 
 export type InviteDTO = {

@@ -1,7 +1,8 @@
 import AsyncStorage from '@react-native-community/async-storage';
+import axios from 'axios';
 import {Reducer} from 'redux';
 import {persistReducer} from 'redux-persist';
-import {LoginAction} from '../actions/login.actions';
+import LoginAction from '../actions/login.actions';
 
 export enum AccountType {
   PROPIETARIO = 3,
@@ -30,6 +31,7 @@ const initialState: UserState = {
 const userReducer: Reducer = (state = initialState, action) => {
   switch (action.type) {
     case LoginAction.LOG_IN:
+      axios.defaults.headers.common['Authorization'] = action.data.token;
       return {...state, ...action.data.user};
     case LoginAction.LOG_OUT:
       return initialState;
@@ -45,4 +47,4 @@ const persistConfig = {
 
 const persistedUserReducer = persistReducer(persistConfig, userReducer);
 
-export default persistedUserReducer;
+export default userReducer;

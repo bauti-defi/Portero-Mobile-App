@@ -1,4 +1,4 @@
-import {LoginAction} from '../actions/login.actions';
+import LoginAction from '../actions/login.actions';
 import {RegistrationAction} from '../actions/registration.actions';
 
 export interface RegistrationState {

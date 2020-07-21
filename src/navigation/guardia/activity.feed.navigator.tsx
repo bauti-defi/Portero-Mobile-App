@@ -12,7 +12,7 @@ const ActivityFeedNavigator = ({navigation}) => {
         name="Actividad"
         component={GuardiaActivityScreen}
         options={{
-          headerLeft: (props) => <DrawerButton />,
+          headerLeft: (props) => <DrawerButton navigation={navigation} />,
         }}
       />
     </Stack.Navigator>

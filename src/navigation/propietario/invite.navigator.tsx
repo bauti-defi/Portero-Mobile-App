@@ -7,14 +7,14 @@ import InviteScreen from '../../screens/propietario/invite.screen';
 
 const Stack = createStackNavigator();
 
-const InviteNavigator = () => {
+const InviteNavigator = ({navigation}) => {
   return (
     <Stack.Navigator initialRouteName="Invitaciones">
       <Stack.Screen
         name="Invitaciones"
         component={InviteScreen}
         options={{
-          headerLeft: (props) => <DrawerButton />,
+          headerLeft: (props) => <DrawerButton navigation={navigation} />,
         }}
       />
       <Stack.Screen name="Crear Invitacion" component={CreateInviteScreen} />

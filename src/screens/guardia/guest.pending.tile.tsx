@@ -29,10 +29,12 @@ const GuestPendingTile = ({guest}) => {
     return (
       <View style={styles.guestTileContainer}>
         <View style={styles.guestInfoContainer}>
-          <Text h2>
+          <Text h2 numberOfLines={1} adjustsFontSizeToFit={true}>
             {guest.fn} {guest.ln}
           </Text>
-          <Text h3>{guest.doc_id}</Text>
+          <Text h3 numberOfLines={1} adjustsFontSizeToFit={true}>
+            {guest.doc_id}
+          </Text>
         </View>
       </View>
     );
@@ -47,10 +49,12 @@ const GuestPendingTile = ({guest}) => {
         },
       ]}>
       <View style={styles.guestInfoContainer}>
-        <Text h2>
+        <Text h2 numberOfLines={2} adjustsFontSizeToFit={true}>
           {guest.fn} {guest.ln}
         </Text>
-        <Text h3>{guest.doc_id}</Text>
+        <Text h3 numberOfLines={1} adjustsFontSizeToFit={true}>
+          {guest.doc_id}
+        </Text>
       </View>
       <View style={styles.guestButtonContainer}>
         {canReset() ? (
@@ -85,7 +89,7 @@ const ApproveButton = ({onApprove}) => {
 const RejectButton = ({onReject}) => {
   return (
     <TouchableOpacity onPress={onReject} style={{marginRight: 15}}>
-      <Icon name="times" size={50} color="red" />
+      <Icon name="ban" size={50} color="red" />
     </TouchableOpacity>
   );
 };
@@ -99,6 +103,7 @@ const styles = StyleSheet.create({
   },
   guestButtonContainer: {
     flex: 1,
+    paddingRight: 10,
     flexDirection: 'row',
     alignItems: 'center',
   },
@@ -110,4 +115,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default GuestPendingTile;
+export default React.memo(GuestPendingTile);
